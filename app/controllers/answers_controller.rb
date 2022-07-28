@@ -1,7 +1,7 @@
 class AnswersController < ApplicationController
-  before_action :set_question, only: %i[list create]
+  before_action :set_question, only: %i[index create]
 
-  def list
+  def index
     @answers = @question.answers
   end
 

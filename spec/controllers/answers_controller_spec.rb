@@ -4,16 +4,16 @@ RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answers) { create_list(:answer, 10, question: question) }
 
-  describe 'GET #list' do
-    before { get :list, params: { question_id: question } }
+  describe 'GET #index' do
+    before { get :index, params: { question_id: question } }
 
     it 'poputates an array of answers of the question' do
       answers_array = question.answers
       expect(assigns(:answers)).to match_array(answers_array)
     end
 
-    it 'renders list view' do
-      expect(response).to render_template :list
+    it 'renders index view' do
+      expect(response).to render_template :index
     end
   end
 
