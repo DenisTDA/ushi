@@ -16,11 +16,11 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'GET #new' do
-    before {get :new}
+    before { get :new }
 
     it 'assigns a new question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
-    end  
+    end
 
     it 'renders new view' do
       expect(response).to render_template :new
@@ -30,7 +30,9 @@ RSpec.describe QuestionsController, type: :controller do
   describe 'POST #create' do
     context 'with valid attributes' do
       it 'saves a new question in the database' do
-        expect { post :create, params: { question: attributes_for(:question) } }.to change(Question, :count).by(1)
+        expect do
+          post :create, params: { question: attributes_for(:question) }
+        end.to change(Question, :count).by(1)
       end
 
       it 'rederect to show view' do
@@ -41,7 +43,9 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with invalid attributes' do
       it 'does not save question in database' do
-        expect { post :create, params: { question: attributes_for(:question, :invalid) } }.not_to change(Question, :count)
+        expect do
+          post :create, params: { question: attributes_for(:question, :invalid) }
+        end.not_to change(Question, :count)
       end
 
       it 'render new view' do
