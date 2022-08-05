@@ -13,9 +13,9 @@ class AnswersController < ApplicationController
     @answer = @question.answers.build(answer_params)
 
     if @answer.save
-      redirect_to @answer
+      redirect_to @question, notice: 'Answer successfully created'
     else
-      render :new
+      redirect_to @question, alert: "Answer's body can't be be blank"
     end
   end
 

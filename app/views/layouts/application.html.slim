@@ -9,5 +9,5 @@ html
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
 
   body
-    p= flash[:notice]
+    p= flash[:notice] || flash[:alert]
     = yield
