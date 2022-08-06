@@ -4,7 +4,7 @@ p= @question.title
 p= @question.body
 ul
 = render partial: '/answers/answer', collection: @question.answers
-= form_with model: [@question, @answer], locale: true do |form|
+= form_with model: [@question, @answer], local: true do |form|
   = render 'shared/errors', resource: @answer
   = form.label :body 
   = form.text_area :body, rows: 6, cols: 60
