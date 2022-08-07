@@ -12,6 +12,7 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.build(answer_params)
+    current_user.replies << @answer
 
     if @answer.save
       redirect_to @question, notice: 'Answer successfully created'

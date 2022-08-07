@@ -32,7 +32,7 @@ RSpec.describe QuestionsController, type: :controller do
 
   describe 'POST #create' do
     before { login(user) }
-    
+
     context 'with valid attributes' do
       it 'saves a new question in the database' do
         expect do

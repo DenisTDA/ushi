@@ -8,7 +8,6 @@ feature 'User can create answer', "
   given(:question) { create(:question) }
   given(:user) { create(:user) }
 
-  
   describe 'Authenticated user' do
     background do
       sign_in(user)

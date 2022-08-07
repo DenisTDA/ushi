@@ -33,7 +33,7 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'POST #create' do
     before { login(user) }
-    
+
     context 'with valid attributes' do
       let(:answer_attr) { attributes_for(:answer) }
 
