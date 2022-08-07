@@ -5,7 +5,7 @@ feature 'User can create answer', "
   As a user I'd like to able to write
   a answer on the question
 " do
-  given!(:question) { create(:question) }
+  given(:question) { create(:question) }
   background { visit question_path(question.id) }
 
   scenario 'User create an answer on the question' do

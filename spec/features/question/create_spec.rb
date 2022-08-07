@@ -5,6 +5,7 @@ feature 'User can create question', "
   As a user
   I'd like to able to ask question
 " do
+
   background do
     visit questions_path
     click_on 'Ask question'
