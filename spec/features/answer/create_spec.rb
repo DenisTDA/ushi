@@ -6,19 +6,27 @@ feature 'User can create answer', "
   a answer on the question
 " do
   given(:question) { create(:question) }
-  background { visit question_path(question.id) }
+  given(:user) { create(:user) }
 
-  scenario 'User create an answer on the question' do
-    fill_in 'Body', with: 'Answer text text text'
-    click_on 'Answer'
+  
+  describe 'Authenticated user' do
+    background do
+      sign_in(user)
 
-    expect(page).to have_content 'Answer successfully created'
-    expect(page).to have_content 'Answer text text text'
-  end
+      visit question_path(question.id)
+      click_on 'Answer'
+    end
 
-  scenario 'User create an answer with errors' do
-    click_on 'Answer'
+    scenario 'create an answer on the question' do
+      fill_in 'Body', with: 'Answer text text text'
+      click_on 'Answer'
 
-    expect(page).to have_content "Answer's body can't be be blank"
+      expect(page).to have_content 'Answer successfully created'
+      expect(page).to have_content 'Answer text text text'
+    end
+
+    scenario 'create an answer with errors' do
+      expect(page).to have_content "Answer's body can't be be blank"
+    end
   end
 end
