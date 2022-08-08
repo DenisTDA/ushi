@@ -1,4 +1,5 @@
 class AnswersController < ApplicationController
+  before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[index create]
 
   def index
@@ -11,11 +12,12 @@ class AnswersController < ApplicationController
 
   def create
     @answer = @question.answers.build(answer_params)
+    current_user.replies << @answer
 
     if @answer.save
-      redirect_to @answer
+      redirect_to @question, notice: 'Answer successfully created'
     else
-      render :new
+      redirect_to @question, alert: "Answer's body can't be be blank"
     end
   end
 
