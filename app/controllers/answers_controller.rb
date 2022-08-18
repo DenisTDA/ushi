@@ -11,17 +11,18 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.build(answer_params)
+    @answer = @question.answers.create(answer_params)
     current_user.replies << @answer
 
-    if @answer.save
-      redirect_to @question, notice: 'Answer successfully created'
-    else
-      redirect_to @question, alert: "Answer's body can't be be blank"
-    end
   end
 
   def show; end
+
+  def update
+    @answer = Answer.find(params[:id])
+    @answer.update(answer_params)
+    @question = @answer.question    
+  end
 
   private
 

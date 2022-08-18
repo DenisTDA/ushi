@@ -1,4 +1,15 @@
-= question.title 
+= form_with model: question, local: false do |form|
+  =form.label :title
+  =form.text_field :title
+  =form.label :body 
+  =form.text_area :body
+  =form.submit  
+
+
+= question.title
+
 = link_to 'View', question_path(question)
-= link_to 'Delete', question_path(question), method: 'delete', data: { confirm: 'Are you sure?' }
+- if @user
+  = link_to 'Edit', edit_question_path(question)
+  = link_to 'Delete', question_path(question), method: 'delete', data: { confirm: 'Are you sure?' }
 br

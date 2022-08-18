@@ -6,3 +6,4 @@ module FeatureHelpers
     click_on 'Log in'
   end
 end
+  

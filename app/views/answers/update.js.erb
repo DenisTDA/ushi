@@ -1,0 +1,6 @@
+$('.answer-errors').html("<%= render 'shared/errors', resource: @answer %> ");
+<% if !@answer.errors.present? %>
+  $("#edit-answer-<%= @answer.id %>").children('textarea').html('');
+  $("#edit-answer-<%= @answer.id %>").addClass('hidden');
+  $("#answer-body-<%= @answer.id %>").html('<%= j render @answer %>');
+<% end %>

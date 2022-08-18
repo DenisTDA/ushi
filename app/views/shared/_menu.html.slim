@@ -1,3 +1,7 @@
 div class='menu-box'
-  div class='menu'
-    = link_to  "Log out", destroy_user_session_path, method: :delete
+  nav class="navbar navbar-expand-lg navbar-dark bg-dark"
+    div class="container-fluid"
+      div class="collapse navbar-collapse" id="navbarNavAltMarkup"
+        div class="navbar-nav"
+          = link_to  "Entry", new_user_session_path, class: 'nav-link'
+          = link_to  "Log out", destroy_user_session_path, class: 'nav-link', method: :delete
