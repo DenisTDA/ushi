@@ -31,7 +31,8 @@ feature 'User can edit answer', "
     
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
-#        expect(page).to_not have_selector 'textarea'
+#        expect(page).to have_css('.tp1', visible: :hidden) 
+#        expect(page).to_not have_selector '.tp1', visible: true
       end
     end
     

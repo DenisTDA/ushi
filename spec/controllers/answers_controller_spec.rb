@@ -79,7 +79,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'renders update view' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
-        expect(response).to render_template :update 
+        expect(response).to render_template :update
       end
     end
 

@@ -7,7 +7,7 @@ feature 'User can edit question', "
 " do
   given(:user) { create(:user) }
 
-  scenario 'Unauthenticated user asks a question' do
+  scenario 'Unauthenticated user asks a question', js: true do
     visit questions_path    
 
     expect(page).not_to have_content 'Edit'
@@ -23,13 +23,14 @@ feature 'User can edit question', "
       click_on 'Edit'
     end
 
-    scenario 'edit a question' do
-      fill_in 'Title', with: 'Test question'
-      fill_in 'Body', with: 'text text text'
+    scenario 'edit the question' do
+      fill_in 'Title', with: 'Edited title question'
+      fill_in 'Body question', with: 'Test body question'
+      save_and_open_page
       click_on 'Save'
 
-      expect(page).to have_content 'Question successfully updated'
-      expect(page).to have_content 'Test question'
+#      expect(page).to_not have_content question.body 
+      expect(page).to have_content 'Edited title question'
     end
 
     scenario 'try to save updated question with errors' 

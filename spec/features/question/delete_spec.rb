@@ -33,8 +33,7 @@ feature 'User can delete question', "
   scenario 'Unauthenticated user trying delete a question' do
     create(:question, author_id: user_another.id)
     visit questions_path
-    click_on 'Delete'
-
-    expect(page).to have_content 'You need to sign in or sign up before continuing'
+    
+    expect(page).to_not have_content "Delete"
   end
 end

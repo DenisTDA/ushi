@@ -4,9 +4,8 @@ span id="answer-body-#{answer.id}"
 - if user_signed_in?
   p= link_to 'Edit','', class: 'edit-answer-link', data: { answer_id: answer.id } 
 
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+  = form_with model: answer, class: 'hidden tp1', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
     = f.label :body, 'Your answer'
     = f.text_area :body
     = f.submit 'Save'
- 
- 
+  
