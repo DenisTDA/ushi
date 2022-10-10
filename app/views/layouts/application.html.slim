@@ -5,16 +5,21 @@ html
     meta name=name="viewport" content="width=device-width,initial-scale=1"
     = csrf_meta_tags
     = csp_meta_tag
-    = stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
   
   body 
     div.container
       = render 'shared/menu'
     .conteniar   
-    p class="notice" 
-      = notice 
-    p class="alert" 
-      = alert 
- 
-    = yield
+    .conteniar-lg.col-md-8.mx-auto
+      = show_flash(:alert) 
+      = show_flash(:danger)
+      = show_flash(:warning)
+      
+      = yield
+
+      = show_flash(:notice)
+      = show_flash(:success)
+      .flash

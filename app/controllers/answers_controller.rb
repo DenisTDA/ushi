@@ -3,17 +3,18 @@ class AnswersController < ApplicationController
   before_action :set_question, only: %i[index create]
 
   def index
+    @user = current_user    
     @answers = @question.answers
   end
 
   def new
+    @user = current_user
     @answer = Answer.new
   end
 
   def create
     @answer = @question.answers.create(answer_params)
     current_user.replies << @answer
-
   end
 
   def show; end
@@ -21,7 +22,12 @@ class AnswersController < ApplicationController
   def update
     @answer = Answer.find(params[:id])
     @answer.update(answer_params)
-    @question = @answer.question    
+    @question = @answer.question   
+  end
+
+  def destroy
+    @answer = Answer.find(params[:id])    
+    @answer.destroy
   end
 
   private

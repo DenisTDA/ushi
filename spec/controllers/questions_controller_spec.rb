@@ -59,4 +59,22 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #destroy' do
+    before { login(user) }
+
+    context "existing user's question" do
+      let!(:question) { create(:question, author_id: user.id) }
+      it 'removes question from list' do
+        expect do
+          patch :destroy, params: { id: question }, format: :js
+        end.to change(Question, :count).by(-1)
+      end
+
+      it 'empty render for deleted question' do
+        patch :destroy, params: { id: question }, format: :js
+        expect(response).to render_template nil
+      end 
+    end
+  end
 end

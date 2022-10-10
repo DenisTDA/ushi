@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe AnswersController, type: :controller do
   let(:question) { create(:question) }
   let(:answers) { create_list(:answer, 10, question: question) }
-  let(:user) { create(:user) }
+  let!(:user) { create(:user) }
 
   describe 'GET #index' do
     before { get :index, params: { question_id: question } }
@@ -94,6 +94,24 @@ RSpec.describe AnswersController, type: :controller do
         patch :update, params: { id: answer, answer: attributes_for(:answer, :invalid) }, format: :js
         expect(response).to render_template :update 
       end
+    end
+  end
+
+  describe 'DELETE #destroy' do
+    before { login(user) }
+
+    context "existing user's answer" do
+      let!(:answer) { create(:answer, author_id: user.id) }
+      it 'removes answer from list' do
+        expect do
+          post :destroy, params: {id: answer}, format: :js
+        end.to change(Answer, :count).by(-1)
+      end
+
+      it 'empty render for deleted answer' do
+        patch :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template nil
+      end 
     end
   end
 end

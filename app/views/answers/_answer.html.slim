@@ -1,11 +1,14 @@
-span id="answer-body-#{answer.id}"
+span id="answer-block-#{answer.id}"
+  span id="answer-errors-#{answer.id}"
   = answer.body
 
-- if user_signed_in?
-  p= link_to 'Edit','', class: 'edit-answer-link', data: { answer_id: answer.id } 
-
-  = form_with model: answer, class: 'hidden tp1', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
     = f.label :body, 'Your answer'
     = f.text_area :body
     = f.submit 'Save'
+
   
+  - if user_signed_in? && current_user.author?(answer.author_id)
+    nav class='nav'
+      = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: answer.id } 
+      = link_to "Delete", answer_path(answer), class: 'delete-answer-link nav-link', method: 'delete', data: { answer_id: answer.id }

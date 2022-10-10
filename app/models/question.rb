@@ -5,7 +5,4 @@ class Question < ApplicationRecord
 
   validates :title, :body, presence: true
 
-  def own?(user)
-    user.id.eql?(author_id)
-  end
 end

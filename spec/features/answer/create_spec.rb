@@ -5,7 +5,7 @@ feature 'User can create answer', "
   As a user I'd like to able to write
   a answer on the question
 " do
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
   given!(:question) { create(:question) }
 
   describe 'Authenticated user', js: true do
@@ -13,7 +13,6 @@ feature 'User can create answer', "
       sign_in(user)
   
       visit question_path(question.id)
-      click_on 'Answer'
     end
   
     scenario 'create an answer on the question' do
@@ -27,6 +26,8 @@ feature 'User can create answer', "
     end
 
     scenario 'create an answer with errors' do
+      click_on 'Answer'
+
       expect(page).to have_content "Body can't be blank"
     end
   end
