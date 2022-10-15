@@ -4,4 +4,9 @@ class Answer < ApplicationRecord
 
   validates :body, :question_id, presence: true
 
+  scope :sort_by_best, -> { order(selected: :desc) }
+
+  def is_best?
+    self.selected
+  end
 end
