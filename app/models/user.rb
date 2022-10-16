@@ -11,6 +11,6 @@ class User < ApplicationRecord
   has_many :problems, class_name: 'Question', foreign_key: :author_id
 
   def author?(author_id)
-    self.id.eql?(author_id)
+    id.eql?(author_id)
   end
 end

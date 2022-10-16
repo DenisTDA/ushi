@@ -11,18 +11,18 @@ feature 'User can edit answer', "
 
   scenario 'Anauthenticated user tries edit any answer', js: true do
     visit question_path(question)
- 
+
     expect(page).to_not have_link 'Edit'
   end
 
   describe 'Authenticated user', js: true do
     background do
       sign_in(user)
-  
+
       visit question_path(question)
       click_on 'Edit'
     end
-  
+
     scenario 'edit his answer on the question', js: true do
       within '.answers' do
         fill_in 'Your answer', with: 'edited answer'
@@ -33,14 +33,14 @@ feature 'User can edit answer', "
         expect(page).to_not have_selector 'textarea'
       end
     end
-    
+
     scenario 'edit his answer with errors' do
       within '.answers' do
         fill_in 'Your answer', with: ''
         click_on 'Save'
       end
 
-        expect(page).to have_content "Body can't be blank"
+      expect(page).to have_content "Body can't be blank"
     end
   end
 end

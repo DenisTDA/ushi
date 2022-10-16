@@ -14,27 +14,27 @@ feature 'User can delete question', "
     end
 
     scenario 'deletes own question' do
-      create(:question, title: 'Title for delete', author_id: user.id)
+      create(:question, title: 'Title for delete', author: user)
       visit questions_path
-      click_on 'Delete' 
+      click_on 'Delete'
       accept_confirm
-      
+
       expect(page).to have_content 'Question successfully deleted'
       expect(page).to_not have_content 'Title for delete'
     end
 
     scenario 'deletes someone question' do
-      create(:question, author_id: user_another.id)
+      create(:question, author: user_another)
       visit questions_path
 
-      expect(page).to_not have_content "Delete"
+      expect(page).to_not have_content 'Delete'
     end
   end
 
   scenario 'Unauthenticated user trying delete a question', js: true do
-    create(:question, author_id: user_another.id)
+    create(:question, author: user_another)
     visit questions_path
-    
-    expect(page).to_not have_content "Delete"
+
+    expect(page).to_not have_content 'Delete'
   end
 end

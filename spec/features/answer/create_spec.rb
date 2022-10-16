@@ -11,17 +11,17 @@ feature 'User can create answer', "
   describe 'Authenticated user', js: true do
     background do
       sign_in(user)
-  
-      visit question_path(question.id)
+
+      visit question_path(question)
     end
-  
+
     scenario 'create an answer on the question' do
       fill_in 'Your answer', with: 'Answer text text text'
       click_on 'Answer'
 
       expect(current_path).to eq question_path(question)
       within '.answers' do
-        expect(page).to have_content 'Answer text text text'       
+        expect(page).to have_content 'Answer text text text'
       end
     end
 

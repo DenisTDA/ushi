@@ -3,6 +3,8 @@ Rails.application.routes.draw do
   root 'questions#index'
 
   resources :questions do
-    resources :answers, shallow: true
+    resources :answers, shallow: true do
+      patch :select, on: :member
+    end
   end
 end

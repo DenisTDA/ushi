@@ -8,10 +8,10 @@ feature 'User can observe the question with answers', '
   describe 'Any user', js: true do
     given(:question) { create(:question) }
     given!(:answers) { create_list(:answer, 5, question_id: question.id) }
-    given!(:answer_best) { create(:answer, body: 'The Best Answer', selected: true, question_id: question.id) }
+    given!(:answer_best) { create(:answer, body: 'The Best Answer', selected: true, question: question) }
 
-    background do 
-      visit questions_path 
+    background do
+      visit questions_path
       click_on 'View'
     end
 
@@ -26,13 +26,17 @@ feature 'User can observe the question with answers', '
       elem = find(:id, /answer-block-\d{1,}/, match: :first)
       expect(elem).to match(find_by_id("answer-block-#{answer_best.id}"))
     end
+
+    scenario "can't select the best answer, because hi is't the author of the question" do
+      expect(page).to_not have_content 'Mark as the best'
+    end
   end
 
-  describe 'Authenticated user - author', js: true do
-    given(:user) { create(:user) }    
-    given(:question) { create(:question, author_id: user.id) }
-    given!(:answers) { create_list(:answer, 5, question_id: question.id) }
-    given!(:answer_best) { create(:answer, selected: true, question_id: question.id) }
+  describe 'Authenticated user - author of the question', js: true do
+    given(:user) { create(:user) }
+    given(:question) { create(:question, author: user) }
+    given!(:answers) { create_list(:answer, 5, question: question) }
+    given!(:answer_best) { create(:answer, selected: true, question: question) }
 
     background do
       sign_in(user)
@@ -40,18 +44,14 @@ feature 'User can observe the question with answers', '
       click_on 'View'
     end
 
-    scenario 'see the link to choose the best answer' do
-      expect(page).to have_content 'Mark as the best answer'
-    end
-
     scenario "can't select the best answer again" do
       elem = find_by_id("answer-block-#{answer_best.id}")
-      save_and_open_page
-      expect(elem).to_not have_content 'Mark as the best answer'
+
+      expect(elem).to_not have_content 'Mark as the best'
     end
 
     scenario 'see the link to choose the best answer' do
-      expect(page).to have_content 'Mark as the best answer'
+      expect(find_all(:link, 'Mark as the best').count).to match 5
     end
   end
 end

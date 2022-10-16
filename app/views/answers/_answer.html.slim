@@ -7,10 +7,9 @@ span id="answer-block-#{answer.id}"
     = f.text_area :body
     = f.submit 'Save'
 
-  
-  - if user_signed_in? && current_user.author?(answer.author_id)
-    nav class='nav'
-      = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: answer.id } 
-      = link_to "Delete", answer_path(answer), class: 'delete-answer-link nav-link', method: 'delete', data: { answer_id: answer.id }
-  - if user_signed_in? && current_user.author?(@question.author_id) && !answer.is_best?
-      = link_to 'Mark as the best answer', select_answer_path(@question), class: 'mark-answer-link nav-link', data: { answer_id: answer.id } 
+  nav class='nav'
+    - if user_signed_in? && current_user.author?(answer.author_id)
+        = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: answer.id } 
+        = link_to "Delete", answer_path(answer), class: 'delete-answer-link nav-link', method: 'delete', data: { answer_id: answer.id }
+    - if user_signed_in? && current_user.author?(@question.author_id) && !answer.is_best?
+        = link_to 'Mark as the best', select_answer_path(answer), class: 'select-answer-link nav-link', method: 'patch', data: { answer_id: answer.id } 
