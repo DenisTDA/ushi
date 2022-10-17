@@ -14,6 +14,6 @@ span id="question-block-#{question.id}"
 
   nav class='nav'
     = link_to 'View', question_path(question), class: 'nav-link'
-    - if user_signed_in? && @user.author?(question.author_id)
+    - if user_signed_in? && current_user.author?(question)
       = link_to 'Edit', '', class: 'edit-question-link nav-link', data: { question_id: question.id }  
       = link_to "Delete", question_path(question), class: 'delete-question-link nav-link', method: 'delete', data: { question_id: question.id }

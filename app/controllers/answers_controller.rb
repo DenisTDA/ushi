@@ -4,40 +4,47 @@ class AnswersController < ApplicationController
   before_action :set_question, only: %i[index create]
 
   def index
-    @user = current_user
     @answers = @question.answers
   end
 
   def new
-    @user = current_user
     @answer = Answer.new
   end
 
   def create
     @answer = @question.answers.create(answer_params)
     current_user.replies << @answer
+    @answer.save
   end
 
   def show; end
 
   def update
-    @answer.update(answer_params)
-    @question = @answer.question
+    if current_user.author?(@answer)
+      @answer.update(answer_params)
+      @question = @answer.question
+    else
+      flash[:alert] = "It's not your answer!"
+    end
   end
 
   def select
     @question = @answer.question
-    if current_user.author?(@question.author_id)
+    if current_user.author?(@question)
       @answer.select_best
       flash[:notice] = 'New best answer is selected'
     else
-      flash[:alert] = "It's not your question!"
+      flash[:alert] = "It's not your answer!"
     end
     redirect_to @question
   end
 
   def destroy
-    @answer.destroy
+    if current_user.author?(@answer)
+      @answer.destroy
+    else
+      flash[:alert] = "It's not your answer!"
+    end
   end
 
   private

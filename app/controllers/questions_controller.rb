@@ -22,7 +22,9 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    @question.update(question_params)
+    if current_user.author?(@question)
+      @question.update(question_params)
+    end
   end
 
   def show
@@ -31,7 +33,9 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy
+    if current_user.author?(@question)
+      @question.destroy
+    end
   end
 
   private

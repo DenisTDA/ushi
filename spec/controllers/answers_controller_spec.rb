@@ -66,7 +66,7 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'PATCH #update' do
-    let!(:answer) { create(:answer, question: question) }
+    let!(:answer) { create(:answer, question: question, author: user) }
 
     before { login(user) }
 
@@ -134,10 +134,10 @@ RSpec.describe AnswersController, type: :controller do
   end
 
   describe 'DELETE #destroy' do
+    let!(:answer) { create(:answer, author: user) }
     before { login(user) }
 
-    context "existing user's answer" do
-      let!(:answer) { create(:answer, author_id: user.id) }
+    context "author tries delete existing answer" do
       it 'removes answer from list' do
         expect do
           post :destroy, params: { id: answer }, format: :js
@@ -147,6 +147,17 @@ RSpec.describe AnswersController, type: :controller do
       it 'empty render for deleted answer' do
         patch :destroy, params: { id: answer }, format: :js
         expect(response).to render_template nil
+      end
+    end
+
+    context "another usere tries to delete answer" do
+      let!(:guest) { create(:user) }
+      before { login(guest) }
+
+      it 'removes answer from list' do
+        expect do
+          post :destroy, params: { id: answer }, format: :js
+        end.to_not change(Answer, :count)
       end
     end
   end
