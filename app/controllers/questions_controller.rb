@@ -1,6 +1,7 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy]
+  before_action :set_question, only: %i[show destroy update]
+  before_action :set_user, only: %i[index destroy update show]
 
   def index
     @questions = Question.all
@@ -20,24 +21,31 @@ class QuestionsController < ApplicationController
     end
   end
 
+  def update
+    if current_user.author?(@question)
+      @question.update(question_params)
+    end
+  end
+
   def show
+    @answers = @question.answers.sort_by_best
     @answer = Answer.new
   end
 
   def destroy
-    if @question.own?(current_user)
+    if current_user.author?(@question)
       @question.destroy
-      flash[:notice] = 'Question successfully deleted'
-    else
-      flash[:notice] = "Question can't be deleted"
     end
-    redirect_to action: :index
   end
 
   private
 
   def set_question
     @question = Question.find(params[:id])
+  end
+
+  def set_user
+    @user = current_user
   end
 
   def question_params

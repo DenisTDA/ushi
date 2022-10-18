@@ -5,6 +5,7 @@ require File.expand_path('../config/environment', __dir__)
 # Prevent database truncation if the environment is production
 abort('The Rails environment is running in production mode!') if Rails.env.production?
 require 'rspec/rails'
+require 'selenium-webdriver'
 # Add additional requires below this line. Rails is not loaded until this point!
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
@@ -35,6 +36,20 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, type: :controller
   config.include ControllerHelpers, type: :controller
   config.include FeatureHelpers, type: :feature
+
+  #  Capybara.javascript_driver = :selenium_chrome
+
+  #  client = Selenium::WebDriver::Remote::Http::Default.new
+  #  client.read_timeout = 60 # seconds
+  #  driver = Selenium::WebDriver.for :firefox, http_client: client
+
+  options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+  options.headless!
+  driver = Selenium::WebDriver.for :firefox, options: options
+
+  #  options = Selenium::WebDriver::Chrome::Options.new(args: ['-headless'])
+  #  driver = Selenium::WebDriver.for :chrome, options: options
+
   # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
   config.fixture_path = "#{::Rails.root}/spec/fixtures"
 

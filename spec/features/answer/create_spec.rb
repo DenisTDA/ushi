@@ -5,27 +5,30 @@ feature 'User can create answer', "
   As a user I'd like to able to write
   a answer on the question
 " do
-  given(:question) { create(:question) }
-  given(:user) { create(:user) }
+  given!(:user) { create(:user) }
+  given!(:question) { create(:question) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user', js: true do
     background do
       sign_in(user)
 
-      visit question_path(question.id)
-      click_on 'Answer'
+      visit question_path(question)
     end
 
     scenario 'create an answer on the question' do
-      fill_in 'Body', with: 'Answer text text text'
+      fill_in 'Your answer', with: 'Answer text text text'
       click_on 'Answer'
 
-      expect(page).to have_content 'Answer successfully created'
-      expect(page).to have_content 'Answer text text text'
+      expect(current_path).to eq question_path(question)
+      within '.answers' do
+        expect(page).to have_content 'Answer text text text'
+      end
     end
 
     scenario 'create an answer with errors' do
-      expect(page).to have_content "Answer's body can't be be blank"
+      click_on 'Answer'
+
+      expect(page).to have_content "Body can't be blank"
     end
   end
 end

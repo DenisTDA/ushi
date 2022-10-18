@@ -8,33 +8,33 @@ feature 'User can delete question', "
   given!(:user) { create(:user) }
   given!(:user_another) { create(:user) }
 
-  describe 'Authenticated user' do
+  describe 'Authenticated user-author', js: true do
     background do
       sign_in(user)
     end
 
     scenario 'deletes own question' do
-      create(:question, author_id: user.id)
+      create(:question, title: 'Title for delete', author: user)
       visit questions_path
       click_on 'Delete'
+      accept_confirm
 
       expect(page).to have_content 'Question successfully deleted'
+      expect(page).to_not have_content 'Title for delete'
     end
 
     scenario 'deletes someone question' do
-      create(:question, author_id: user_another.id)
+      create(:question, author: user_another)
       visit questions_path
-      click_on 'Delete'
 
-      expect(page).to have_content "Question can't be deleted"
+      expect(page).to_not have_content 'Delete'
     end
   end
 
-  scenario 'Unauthenticated user trying delete a question' do
-    create(:question, author_id: user_another.id)
+  scenario 'Unauthenticated user trying delete a question', js: true do
+    create(:question, author: user_another)
     visit questions_path
-    click_on 'Delete'
 
-    expect(page).to have_content 'You need to sign in or sign up before continuing'
+    expect(page).to_not have_content 'Delete'
   end
 end

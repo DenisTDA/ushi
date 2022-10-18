@@ -7,12 +7,19 @@ html
     = csp_meta_tag
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+    = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  
+  body 
+    div.container
+      = render 'shared/menu'
+    .conteniar   
+    .conteniar-lg.col-md-8.mx-auto
+      = show_flash(:alert) 
+      = show_flash(:danger)
+      = show_flash(:warning)
+      
+      = yield
 
-  body
-    = render 'shared/menu'
-    p class="notice" 
-      = notice 
-    p class="alert" 
-      = alert 
-    p= flash[:notice] || flash[:alert]
-    = yield
+      = show_flash(:notice)
+      = show_flash(:success)
+      .flash

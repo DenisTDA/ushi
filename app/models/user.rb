@@ -9,4 +9,8 @@ class User < ApplicationRecord
 
   has_many :replies, class_name: 'Answer', foreign_key: :author_id
   has_many :problems, class_name: 'Question', foreign_key: :author_id
+
+  def author?(item)
+    id.eql?(item.author_id)
+  end
 end
