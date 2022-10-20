@@ -30,5 +30,11 @@ feature 'User can create answer', "
 
       expect(page).to have_content "Body can't be blank"
     end
+
+    scenario 'create an answer on the question with attached file' #do
+#      fill_in 'Your answer', with: 'Answer text with attachement'
+ #     click_on 'Answer'
+
+#    end
   end
 end

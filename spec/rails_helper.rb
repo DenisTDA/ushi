@@ -42,10 +42,17 @@ RSpec.configure do |config|
   #  client = Selenium::WebDriver::Remote::Http::Default.new
   #  client.read_timeout = 60 # seconds
   #  driver = Selenium::WebDriver.for :firefox, http_client: client
+  Capybara.register_driver :firefox_headless do |app|
+    options = ::Selenium::WebDriver::Firefox::Options.new
+    options.args << '--headless'
+  
+    Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
+  end
+  Capybara.javascript_driver = :firefox_headless
 
-  options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
-  options.headless!
-  driver = Selenium::WebDriver.for :firefox, options: options
+ # options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+ # options.headless!
+ # driver = Selenium::WebDriver.for :firefox, options: options
 
   #  options = Selenium::WebDriver::Chrome::Options.new(args: ['-headless'])
   #  driver = Selenium::WebDriver.for :chrome, options: options

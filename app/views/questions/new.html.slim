@@ -1,8 +1,20 @@
-= render "shared/errors", resource: @question
+div class="new-form"
+  = render "shared/errors", resource: @question
+  div class="mb-5"
+    =form_with model: @question, local: true do |f|
+      p class="form-label"
+        = f.label :title
+      p class="form-control"
+        = f.text_field :title
+ 
+      p class="form-label"      
+        = f.label :body
+      p class="form-control"
+        = f.text_area :body
+ 
+      p class="form-label"      
+        = f.label :file
+      p class="form-control"
+        = f.file_field :file
 
-=form_with model: @question, local: true do |f|
-  = f.label :title
-  = f.text_field :title
-  = f.label :body
-  = f.text_area :body
-  = f.submit 'Publish'
+      = f.submit 'Publish'
