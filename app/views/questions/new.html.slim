@@ -13,8 +13,8 @@ div class="new-form"
         = f.text_area :body
  
       p class="form-label"      
-        = f.label :file
+        = f.label :files
       p class="form-control"
-        = f.file_field :file
+        = f.file_field :files, multiple: true
 
       = f.submit 'Publish'
