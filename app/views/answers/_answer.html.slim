@@ -1,11 +1,19 @@
 span id="answer-block-#{answer.id}"
   span id="answer-errors-#{answer.id}"
   -if answer.selected
-    div class="bg-success" 
+    div class="bg-success"
       br= "Best answer"
-      = answer.body 
+      b= answer.body
+      - if answer.files.attached? 
+        - answer.files.each do |file|
+          p= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+
   -else
     = answer.body
+    - if answer.files.attached? 
+      - answer.files.each do |file|
+        p= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
     = f.label :body, 'Your answer'
     = f.text_area :body

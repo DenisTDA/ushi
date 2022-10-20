@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.build(answer_params)
     current_user.replies << @answer
     @answer.save
   end
@@ -54,10 +54,10 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:id, :body, :question_id)
+    params.require(:answer).permit(:id, :body, :question_id, files: [])
   end
 
   def set_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.with_attached_files.find(params[:id])
   end
 end
