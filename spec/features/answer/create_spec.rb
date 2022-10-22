@@ -33,7 +33,7 @@ feature 'User can create answer', "
 
     scenario 'create an answer on the question with attached file' do
       fill_in 'Your answer', with: 'Answer text with attachement'
-      attach_file  'Files', ["#{ Rails.root}/spec/rails_helper.rb", "#{ Rails.root}/spec/spec_helper.rb"]
+      attach_file 'Files', ["#{Rails.root}/spec/rails_helper.rb", "#{Rails.root}/spec/spec_helper.rb"]
       click_on 'Answer'
 
       expect(page).to have_link 'rails_helper.rb'
@@ -48,5 +48,4 @@ feature 'User can create answer', "
 
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
-
 end

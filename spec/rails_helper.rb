@@ -45,14 +45,14 @@ RSpec.configure do |config|
   Capybara.register_driver :firefox_headless do |app|
     options = ::Selenium::WebDriver::Firefox::Options.new
     options.args << '--headless'
-  
+
     Capybara::Selenium::Driver.new(app, browser: :firefox, options: options)
   end
   Capybara.javascript_driver = :firefox_headless
 
- # options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
- # options.headless!
- # driver = Selenium::WebDriver.for :firefox, options: options
+  # options = Selenium::WebDriver::Firefox::Options.new(args: ['-headless'])
+  # options.headless!
+  # driver = Selenium::WebDriver.for :firefox, options: options
 
   #  options = Selenium::WebDriver::Chrome::Options.new(args: ['-headless'])
   #  driver = Selenium::WebDriver.for :chrome, options: options

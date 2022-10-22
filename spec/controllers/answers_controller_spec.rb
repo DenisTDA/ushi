@@ -67,14 +67,26 @@ RSpec.describe AnswersController, type: :controller do
 
   describe 'PATCH #update' do
     let!(:answer) { create(:answer, question: question, author: user) }
+    let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
+    let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
 
     before { login(user) }
+    before { answer.files.attach(file1) }
 
     context 'with valid attributes' do
       it 'changes answer attributes' do
+        answer.files.attach(file2)
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         answer.reload
         expect(answer.body).to eq 'new body'
+        expect(answer.files.attached?).to be_truthy
+      end
+
+      it 'add file to attachment' do
+        expect do
+          answer.files.attach(file2)
+          patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        end.to change(answer.files, :count).by(1)
       end
 
       it 'renders update view' do
@@ -137,7 +149,7 @@ RSpec.describe AnswersController, type: :controller do
     let!(:answer) { create(:answer, author: user) }
     before { login(user) }
 
-    context "author tries delete existing answer" do
+    context 'author tries delete existing answer' do
       it 'removes answer from list' do
         expect do
           post :destroy, params: { id: answer }, format: :js
@@ -150,7 +162,7 @@ RSpec.describe AnswersController, type: :controller do
       end
     end
 
-    context "another usere tries to delete answer" do
+    context 'another usere tries to delete answer' do
       let!(:guest) { create(:user) }
       before { login(guest) }
 

@@ -60,6 +60,52 @@ RSpec.describe QuestionsController, type: :controller do
     end
   end
 
+  describe 'PATCH #update' do
+    let!(:question) { create(:question, author: user) }
+    let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
+    let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
+
+    before { login(user) }
+    before { question.files.attach(file1) }
+
+    context 'with valid attributes' do
+      it 'changes question attributes' do
+        question.files.attach(file2)
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        question.reload
+
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+        expect(question.files.attached?).to be_truthy
+      end
+
+      it 'add file to attachment' do
+        expect do
+          question.files.attach(file2)
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        end.to change(question.files, :count).by(1)
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+
+    context 'with invalid attributes' do
+      it 'das not change question attributes' do
+        expect do
+          patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        end.to_not(change(question, :body) && change(question, :title))
+      end
+
+      it 'renders update view' do
+        patch :update, params: { id: question, question: attributes_for(:question, :invalid) }, format: :js
+        expect(response).to render_template :update
+      end
+    end
+  end
+
   describe 'DELETE #destroy' do
     before { login(user) }
 

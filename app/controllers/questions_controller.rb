@@ -23,7 +23,10 @@ class QuestionsController < ApplicationController
 
   def update
     if current_user.author?(@question)
-      @question.update(question_params)
+      @question.files.attach(question_params[:files]) if question_params[:files]
+      @question.update(title: question_params[:title])
+      @question.update(body: question_params[:body])
+      @question.save
     end
   end
 
@@ -33,9 +36,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author?(@question)
-      @question.destroy
-    end
+    @question.destroy if current_user.author?(@question)
   end
 
   private

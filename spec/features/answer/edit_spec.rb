@@ -8,6 +8,7 @@ feature 'User can edit answer', "
   given!(:user) { create(:user) }
   given!(:question) { create(:question) }
   given!(:answer) { create(:answer, question: question, author: user) }
+  given!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
 
   scenario 'Anauthenticated user tries edit any answer', js: true do
     visit question_path(question)
@@ -15,9 +16,10 @@ feature 'User can edit answer', "
     expect(page).to_not have_link 'Edit'
   end
 
-  describe 'Authenticated user', js: true do
+  describe 'Authenticated user is author', js: true do
     background do
       sign_in(user)
+      answer.files.attach(file1)
 
       visit question_path(question)
       click_on 'Edit'
@@ -31,6 +33,16 @@ feature 'User can edit answer', "
         expect(page).to_not have_content answer.body
         expect(page).to have_content 'edited answer'
         expect(page).to_not have_selector 'textarea'
+      end
+    end
+
+    scenario 'add files', js: true do
+      within '.answers' do
+        attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
+        click_on 'Save'
+
+        expect(page).to have_link 'rails_helper.rb'
+        expect(page).to have_link 'spec_helper.rb'
       end
     end
 

@@ -21,7 +21,9 @@ class AnswersController < ApplicationController
 
   def update
     if current_user.author?(@answer)
-      @answer.update(answer_params)
+      @answer.files.attach(answer_params[:files]) if answer_params[:files]
+      @answer.update(body: answer_params[:body])
+      @answer.save
       @question = @answer.question
     else
       flash[:alert] = "It's not your answer!"

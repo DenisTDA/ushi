@@ -1,13 +1,18 @@
 span id="question-block-#{question.id}"
   span id="question-errors-#{question.id}"
     = render 'shared/errors', resource: @question
-
-  = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |form|
-    =form.label :title, 'Title'
-    =form.text_field :title
-    =form.label :body, 'Body question' 
-    =form.text_area :body
-    =form.submit 'Save'  
+  div.form-edit.bg-warning.p-1
+    = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |form|
+      div.input-group.mb-3
+        =form.label :title, 'Title', class: 'form-label'
+        =form.text_field :title, class: "form-control"
+      div.input-group.mb-3  
+        =form.label :body, 'Body question', class: 'form-label' 
+        =form.text_area :body, class: "form-control"
+      div.input-group.mb-3
+        =form.label :files, class: 'form-label'
+        =form.file_field :files, multiple: true, class: "form-control"
+      =form.submit 'Save', class: 'btn btn-secondary'  
 
   span id="question-title-#{question.id}"
     = question.title

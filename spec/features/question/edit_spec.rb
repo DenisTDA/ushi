@@ -15,9 +15,11 @@ feature 'User can edit question', "
 
   describe 'Authenticated user - author', js: true do
     given!(:question) { create(:question, author: user) }
+    given!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
 
     background do
       sign_in(user)
+      question.files.attach(file1)
 
       visit questions_path
       click_on 'Edit'
@@ -40,6 +42,15 @@ feature 'User can edit question', "
 
       expect(page).to have_content "Title can't be blank"
       expect(page).to have_content "Body can't be blank"
+    end
+
+    scenario 'add files' do
+      attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
+      click_on 'Save'
+
+      visit question_path(question)
+      expect(page).to have_link 'rails_helper.rb'
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
