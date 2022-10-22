@@ -1,0 +1,3 @@
+<% if !@question.errors.present? %>
+  $("#question-block-<%= @question.id %>").remove()
+<% end %>

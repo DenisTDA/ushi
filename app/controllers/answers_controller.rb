@@ -21,9 +21,8 @@ class AnswersController < ApplicationController
 
   def update
     if current_user.author?(@answer)
-      @answer.files.attach(answer_params[:files]) if answer_params[:files]
       @answer.update(body: answer_params[:body])
-      @answer.save
+      @answer.files.attach(answer_params[:files]) if answer_params[:files]
       @question = @answer.question
     else
       flash[:alert] = "It's not your answer!"
@@ -42,11 +41,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.destroy
-    else
-      flash[:alert] = "It's not your answer!"
-    end
+    @answer.destroy if current_user.author?(@answer)
   end
 
   private

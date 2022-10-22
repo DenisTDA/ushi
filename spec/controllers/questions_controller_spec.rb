@@ -86,6 +86,12 @@ RSpec.describe QuestionsController, type: :controller do
         end.to change(question.files, :count).by(1)
       end
 
+      it "don't add file to attachment" do
+        expect do
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        end.to_not change(question.files, :count)
+      end
+
       it 'renders update view' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         expect(response).to render_template :update
@@ -113,13 +119,13 @@ RSpec.describe QuestionsController, type: :controller do
       let!(:question) { create(:question, author: user) }
       it 'removes question from list' do
         expect do
-          patch :destroy, params: { id: question }, format: :js
+          delete :destroy, params: { id: question }, format: :js
         end.to change(Question, :count).by(-1)
       end
 
       it 'empty render for deleted question' do
-        patch :destroy, params: { id: question }, format: :js
-        expect(response).to render_template nil
+        delete :destroy, params: { id: question }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

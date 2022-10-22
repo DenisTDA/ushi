@@ -1,21 +1,25 @@
 p= @question.title
 p= @question.body
 - if @question.files.attached?
-  - @question.files.each do |file|
-    span= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-    br= link_to  "Delete file", root_path
+  ul
+    - @question.files.each do |file|
+      div.hstack.gap-3
+        li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+        = link_to  "unattach", root_path
+      
 
 .answer-errors
   = render 'shared/errors', resource: @answer
 .container-xl.answers.bg-light
   = render partial: '/answers/answer', collection: @answers
 
-.container-xl.bg-secondary
-  = form_with model: [@question, @answer], class: 'new-answer', local: false do |form|
-    = form.label :body, 'Your answer' 
-    = form.text_area :body, rows: 6, cols: 80
-    
-    = form.label :files
-    = form.file_field :files, multiple: true
+.container-xl.bg-secondary style="--bs-bg-opacity: .25"
+  = form_with model: [@question, @answer], class: 'new-answer pb-2 mb-4', local: false do |form|
+    div.pt-1.mt-2
+      = form.label :body, 'Your answer', class: "form-label"
+      = form.text_area :body, rows: 6, cols: 120
+    div.p-1.m-2
+      = form.label :files, class: "form-label" 
+      = form.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
 
-    p= form.submit 'Answer'
+    p= form.submit 'Answer', class: 'btn btn-light'

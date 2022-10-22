@@ -89,6 +89,12 @@ RSpec.describe AnswersController, type: :controller do
         end.to change(answer.files, :count).by(1)
       end
 
+      it "don't add file to attachment" do
+        expect do
+          patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        end.to_not change(answer.files, :count)
+      end
+
       it 'renders update view' do
         patch :update, params: { id: answer, answer: { body: 'new body' } }, format: :js
         expect(response).to render_template :update
@@ -152,13 +158,13 @@ RSpec.describe AnswersController, type: :controller do
     context 'author tries delete existing answer' do
       it 'removes answer from list' do
         expect do
-          post :destroy, params: { id: answer }, format: :js
+          delete :destroy, params: { id: answer }, format: :js
         end.to change(Answer, :count).by(-1)
       end
 
-      it 'empty render for deleted answer' do
-        patch :destroy, params: { id: answer }, format: :js
-        expect(response).to render_template nil
+      it 'render for deleted answer' do
+        delete :destroy, params: { id: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -168,7 +174,7 @@ RSpec.describe AnswersController, type: :controller do
 
       it 'removes answer from list' do
         expect do
-          post :destroy, params: { id: answer }, format: :js
+          delete :destroy, params: { id: answer }, format: :js
         end.to_not change(Answer, :count)
       end
     end

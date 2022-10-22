@@ -1,31 +1,37 @@
 span id="answer-block-#{answer.id}"
   span id="answer-errors-#{answer.id}"
   -if answer.selected
-    div class="bg-success"
+    div class="bg-success" style="--bs-bg-opacity: .25"
       br= "Best answer"
       b= answer.body
       - if answer.files.attached? 
-        - answer.files.each do |file|
-          p= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+        ul
+          - answer.files.each do |file|
+            div.hstack.gap-3
+              li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+              = link_to  "unattach", ''
 
   -else
     = answer.body
     - if answer.files.attached? 
-      - answer.files.each do |file|
-        p= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+      ul
+        - answer.files.each do |file|
+          div.hstack.gap-3
+            li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
+            = link_to  "unattach", ''
 
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
     div
       = f.label :body, 'Your answer'
-      = f.text_area :body
-    div 
+      p= f.text_area :body
+    div
       = f.label :files
-      = f.file_field :files, multiple: true
+      p= f.file_field :files, multiple: true
     = f.submit 'Save'
 
   nav class='nav'
     - if user_signed_in? && current_user.author?(answer)
         = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: answer.id } 
-        = link_to "Delete", answer_path(answer), class: 'delete-answer-link nav-link', method: 'delete', data: { answer_id: answer.id }
+        = link_to "Delete", answer, method: 'delete', remote: true, class: 'delete-answer-link nav-link', data: { answer_id: answer.id }
     - if user_signed_in? && current_user.author?(@question) && !answer.is_best?
         = link_to 'Mark as the best', select_answer_path(answer), class: 'select-answer-link nav-link', method: 'patch', data: { answer_id: answer.id } 
