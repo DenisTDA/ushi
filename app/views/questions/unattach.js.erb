@@ -1,0 +1,5 @@
+<% if !@question.errors.present? %>
+  $("#file-block-<%= @file.id %>").remove()
+  $(".flash").html("")
+  $(".flash").html("<div class='alert alert-info' role='alert'>File was unattach successfully</div>")
+<% end %>

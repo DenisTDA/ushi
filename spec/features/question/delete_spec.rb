@@ -19,7 +19,7 @@ feature 'User can delete question', "
       click_on 'Delete'
       accept_confirm
 
-      expect(page).to have_content 'Question successfully deleted'
+      expect(page).to have_content 'Question was delete successfully'
       expect(page).to_not have_content 'Title for delete'
     end
 

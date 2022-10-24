@@ -3,10 +3,10 @@ p= @question.body
 - if @question.files.attached?
   ul
     - @question.files.each do |file|
-      div.hstack.gap-3
+      div.hstack.gap-3.attachment id="file-block-#{ file.id }"
         li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-        = link_to  "unattach", root_path
-      
+        -if current_user.author?(@question)
+          = link_to  "unattach", unattach_question_path(file_id: file.signed_id), id: "q-file-#{ file.id }", method: :delete, remote: true 
 
 .answer-errors
   = render 'shared/errors', resource: @answer

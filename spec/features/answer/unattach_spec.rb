@@ -8,6 +8,7 @@ feature 'User can unattach file from question', "
   given(:user) { create(:user) }
   given!(:user_another) { create(:user) }
   given(:question) { create(:question, author: user) }
+  given(:answer) { create(:answer, author: user, question: question) }
   given(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
   given(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
 
@@ -15,13 +16,12 @@ feature 'User can unattach file from question', "
   describe 'Authenticated user-author', js: true do
     background do
       sign_in(user)
-      question.files.attach(file1)
-      question.files.attach(file2)
+      answer.files.attach(file1, file2)
       visit question_path(question)
     end
 
     scenario 'can unattach the file' do
-      find_by_id("q-file-#{ question.files[0].id }").click
+      find_by_id("a-file-#{ answer.files[0].id }").click
 
       expect(page).to_not have_link 'rails_helper.rb'
       expect(page).to have_link "spec_helper.rb"
@@ -31,8 +31,7 @@ feature 'User can unattach file from question', "
   describe 'Unauthenticated user', js: true do
     background do
       sign_in(user_another)
-      question.files.attach(file1)
-      question.files.attach(file2)
+      answer.files.attach(file1, file2)
       visit question_path(question)
     end
 

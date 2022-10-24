@@ -1,3 +1,5 @@
 <% if !@question.errors.present? %>
   $("#question-block-<%= @question.id %>").remove()
+  $(".flash").html("")
+  $(".flash").html("<div class='alert alert-info' role='alert'>Question was delete successfully</div>")
 <% end %>

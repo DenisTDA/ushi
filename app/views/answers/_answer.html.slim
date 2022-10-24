@@ -7,18 +7,20 @@ span id="answer-block-#{answer.id}"
       - if answer.files.attached? 
         ul
           - answer.files.each do |file|
-            div.hstack.gap-3
+            div.hstack.gap-3 id="answer-file-block-#{ file.id }"
               li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-              = link_to  "unattach", ''
+              -if current_user.author?(answer)
+                =link_to  "unattach", unattach_answer_path(file_id: file.signed_id, id: answer.id), id: "a-file-#{ file.id }", method: :delete, remote: true 
 
   -else
     = answer.body
     - if answer.files.attached? 
       ul
         - answer.files.each do |file|
-          div.hstack.gap-3
+          div.hstack.gap-3 id="answer-file-block-#{ file.id }"
             li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-            = link_to  "unattach", ''
+            -if current_user.author?(answer)
+              =link_to  "unattach", unattach_answer_path(file_id: file.signed_id, id: answer.id), id: "a-file-#{ file.id }", method: :delete, remote: true 
 
   = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
     div

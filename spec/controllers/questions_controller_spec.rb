@@ -129,4 +129,26 @@ RSpec.describe QuestionsController, type: :controller do
       end
     end
   end
+
+  describe 'DELETE #unattach' do
+    let!(:question) { create(:question, author: user) }
+    let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
+    let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
+    
+    before { login(user) }
+    before { question.files.attach(file1, file2) }
+
+    context "file as the attachment to question" do
+      it 'removes file from list' do
+        expect do
+          delete :unattach, params: { id: question, file_id: question.files[0] }, format: :js
+        end.to change(question.files, :count).by(-1)
+      end
+
+      it 'render for deleted file of the question' do
+        delete :unattach, params: { id: question, file_id: question.files[0] }, format: :js
+        expect(response).to render_template :unattach
+      end
+    end
+  end
 end

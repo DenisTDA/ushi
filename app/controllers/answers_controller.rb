@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_answer, only: %i[update select destroy]
+  before_action :set_answer, only: %i[update select destroy unattach]
   before_action :set_question, only: %i[index create]
 
   def index
@@ -42,6 +42,12 @@ class AnswersController < ApplicationController
 
   def destroy
     @answer.destroy if current_user.author?(@answer)
+  end
+
+  def unattach
+    set_answer
+    @file = ActiveStorage::Blob.find_signed(params[:file_id])
+    @answer.files.find_by_id(@file).purge_later
   end
 
   private
