@@ -11,7 +11,6 @@ feature 'User can unattach file from question', "
   given(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
   given(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
 
-
   describe 'Authenticated user-author', js: true do
     background do
       sign_in(user)
@@ -21,10 +20,10 @@ feature 'User can unattach file from question', "
     end
 
     scenario 'can unattach the file' do
-      find_by_id("q-file-#{ question.files[0].id }").click
+      find_by_id("q-file-#{question.files[0].id}").click
 
       expect(page).to_not have_link 'rails_helper.rb'
-      expect(page).to have_link "spec_helper.rb"
+      expect(page).to have_link 'spec_helper.rb'
     end
   end
 
@@ -37,7 +36,7 @@ feature 'User can unattach file from question', "
     end
 
     scenario "don't see link to unattach the file" do
-      expect(page).to_not have_content 'unattach' 
+      expect(page).to_not have_content 'unattach'
     end
   end
 end

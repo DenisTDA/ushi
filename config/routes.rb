@@ -5,8 +5,10 @@ Rails.application.routes.draw do
   resources :questions do
     resources :answers, shallow: true do
       patch :select, on: :member
-      delete :unattach, on: :member
     end
+  end
+
+  resource :attachment, only: [:unattach] do
     delete :unattach, on: :member
   end
 end

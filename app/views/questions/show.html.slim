@@ -6,7 +6,7 @@ p= @question.body
       div.hstack.gap-3.attachment id="file-block-#{ file.id }"
         li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
         -if current_user.author?(@question)
-          = link_to  "unattach", unattach_question_path(file_id: file.signed_id), id: "q-file-#{ file.id }", method: :delete, remote: true 
+          = link_to  "unattach", unattach_attachment_path(id: file, holder: @question), id: "q-file-#{ file.id }", method: :delete, remote: true 
 
 .answer-errors
   = render 'shared/errors', resource: @answer
