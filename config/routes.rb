@@ -7,4 +7,8 @@ Rails.application.routes.draw do
       patch :select, on: :member
     end
   end
+
+  resource :attachment, only: [:unattach] do
+    delete :unattach, on: :member
+  end
 end

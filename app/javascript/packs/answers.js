@@ -10,8 +10,8 @@ $(document).on('turbolinks:load', function() {
     if (confirm('Are you shure?')){
       const answerId = $(this).data('answerId')
       $('#answer-block-' + answerId).remove()
+      $('.flash').html('')
       $('.flash').html("<div class='alert alert-info' role='alert'>Answer successfully deleted </div>")
     }
   })
-
 })

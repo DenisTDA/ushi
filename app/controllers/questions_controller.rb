@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy update]
+  before_action :set_question, only: %i[show destroy update unattach]
   before_action :set_user, only: %i[index destroy update show]
 
   def index
@@ -23,7 +23,8 @@ class QuestionsController < ApplicationController
 
   def update
     if current_user.author?(@question)
-      @question.update(question_params)
+      @question.update(title: question_params[:title], body: question_params[:body])
+      @question.files.attach(question_params[:files]) if question_params[:files]
     end
   end
 
@@ -33,15 +34,19 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    if current_user.author?(@question)
-      @question.destroy
-    end
+    @question.destroy if current_user.author?(@question)
+  end
+
+  def unattach
+    set_question
+    @file = ActiveStorage::Blob.find_signed(params[:file_id])
+    @question.files.find_by_id(@file).purge_later
   end
 
   private
 
   def set_question
-    @question = Question.find(params[:id])
+    @question = Question.with_attached_files.find(params[:id])
   end
 
   def set_user
@@ -49,6 +54,6 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body)
+    params.require(:question).permit(:title, :body, files: [])
   end
 end

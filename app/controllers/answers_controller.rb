@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_answer, only: %i[update select destroy]
+  before_action :set_answer, only: %i[update select destroy unattach]
   before_action :set_question, only: %i[index create]
 
   def index
@@ -12,7 +12,7 @@ class AnswersController < ApplicationController
   end
 
   def create
-    @answer = @question.answers.create(answer_params)
+    @answer = @question.answers.build(answer_params)
     current_user.replies << @answer
     @answer.save
   end
@@ -21,7 +21,8 @@ class AnswersController < ApplicationController
 
   def update
     if current_user.author?(@answer)
-      @answer.update(answer_params)
+      @answer.update(body: answer_params[:body])
+      @answer.files.attach(answer_params[:files]) if answer_params[:files]
       @question = @answer.question
     else
       flash[:alert] = "It's not your answer!"
@@ -40,11 +41,13 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    if current_user.author?(@answer)
-      @answer.destroy
-    else
-      flash[:alert] = "It's not your answer!"
-    end
+    @answer.destroy if current_user.author?(@answer)
+  end
+
+  def unattach
+    set_answer
+    @file = ActiveStorage::Blob.find_signed(params[:file_id])
+    @answer.files.find_by_id(@file).purge_later
   end
 
   private
@@ -54,10 +57,10 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:id, :body, :question_id)
+    params.require(:answer).permit(:id, :body, :question_id, files: [])
   end
 
   def set_answer
-    @answer = Answer.find(params[:id])
+    @answer = Answer.with_attached_files.find(params[:id])
   end
 end
