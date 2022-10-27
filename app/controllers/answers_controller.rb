@@ -44,12 +44,6 @@ class AnswersController < ApplicationController
     @answer.destroy if current_user.author?(@answer)
   end
 
-  def unattach
-    set_answer
-    @file = ActiveStorage::Blob.find_signed(params[:file_id])
-    @answer.files.find_by_id(@file).purge_later
-  end
-
   private
 
   def set_question

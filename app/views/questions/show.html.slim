@@ -1,12 +1,14 @@
-p= @question.title
-p= @question.body
+h1.fw-light.fst-italic Question
+div.p-1.m-1.fw-bold = @question.title
+div.p-1.m-1= @question.body
+h1.fw-light.fst-italic Answers
 - if @question.files.attached?
   ul
     - @question.files.each do |file|
       div.hstack.gap-3.attachment id="file-block-#{ file.id }"
         li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
         -if current_user.author?(@question)
-          = link_to  "unattach", unattach_attachment_path(id: file, holder: @question), id: "q-file-#{ file.id }", method: :delete, remote: true 
+          = link_to  "unattach", attachment_path(id: file, holder: @question), id: "q-file-#{ file.id }", data: { confirm: "Are you shure?" }, method: :delete, remote: true 
 
 .answer-errors
   = render 'shared/errors', resource: @answer
@@ -20,6 +22,6 @@ p= @question.body
       = form.text_area :body, rows: 6, cols: 120
     div.p-1.m-2
       = form.label :files, class: "form-label" 
-      = form.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
+      = form.file_field :files, multiple: true, class: "form-control form-control-sm m-2 answer-files"
 
     p= form.submit 'Answer', class: 'btn btn-light'

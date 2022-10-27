@@ -10,8 +10,7 @@ span id="answer-block-#{answer.id}"
             div.hstack.gap-3 id="file-block-#{ file.id }"
               li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
               -if current_user.author?(answer)
-                =link_to  "unattach", unattach_attachment_path(id: file, holder: answer), id: "a-file-#{ file.id }", method: :delete, remote: true 
-
+                =link_to  "unattach", attachment_path(id: file, holder: answer), id: "a-file-#{ file.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
   -else
     = answer.body
     - if answer.files.attached? 
@@ -20,20 +19,21 @@ span id="answer-block-#{answer.id}"
           div.hstack.gap-3 id="file-block-#{ file.id }"
             li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
             -if current_user.author?(answer)
-              =link_to  "unattach", unattach_attachment_path(id: file, holder: answer), id: "a-file-#{ file.id }", method: :delete, remote: true 
-
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-    div
-      = f.label :body, 'Your answer'
-      p= f.text_area :body
-    div
-      = f.label :files
-      p= f.file_field :files, multiple: true
-    = f.submit 'Save'
+              =link_to  "unattach", attachment_path(id: file, holder: answer), id: "a-file-#{ file.id }", data: { confirm: "Are you Shure?" }, method: :delete, method: :delete, remote: true 
+  
+  .container-xl.bg-secondary style="--bs-bg-opacity: .15"
+    = form_with model: answer, class: 'hidden pb-2 mb-4', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+      div
+        = f.label :body, 'Your answer', class: "form-label"
+        p= f.text_area :body, rows: 6, cols: 120, class: "form-control form-control-sm m-2"
+      div
+        = f.label :files, class: "form-label"
+        p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
+      p= f.submit 'Save', class: 'btn btn-light'
 
   nav class='nav'
     - if user_signed_in? && current_user.author?(answer)
         = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: answer.id } 
-        = link_to "Delete", answer, method: 'delete', remote: true, class: 'delete-answer-link nav-link', data: { answer_id: answer.id }
+        = link_to "Delete", answer, method: 'delete', remote: true, class: 'delete-answer-link nav-link', data: { answer_id: answer.id, confirm: "Are you shure?" }
     - if user_signed_in? && current_user.author?(@question) && !answer.is_best?
         = link_to 'Mark as the best', select_answer_path(answer), class: 'select-answer-link nav-link', method: 'patch', data: { answer_id: answer.id } 
