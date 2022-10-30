@@ -7,10 +7,13 @@ RSpec.describe Answer, type: :model do
   let!(:answer_best) { create(:answer, question: question, selected: true) }
 
   it { should belong_to :question }
+  it { should have_many(:links).dependent(:destroy) }
 
   it { should validate_presence_of :body }
   it { should validate_presence_of :question_id }
   it { should allow_value(true, false).for(:selected) }
+
+  it { should accept_nested_attributes_for(:links) }
 
   it 'select the best answer' do
     answer.select_best

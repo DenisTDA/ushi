@@ -20,7 +20,7 @@ feature 'User can delete answer', "
       click_on 'Delete'
       accept_confirm
 
-      expect(page).to have_content 'Answer successfully deleted'
+      expect(page).to have_content 'Answer was deleted successfully'
       expect(page).to_not have_content 'Body for delete'
     end
 

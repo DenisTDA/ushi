@@ -1,4 +1,6 @@
 $('.flash').html('')
+$('.link_name').prop('value', null)
+$('.link_url').prop('value', null)
 $('.answer-errors').html("<%= j render 'shared/errors', resource: @answer %> ")
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>')

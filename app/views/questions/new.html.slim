@@ -17,4 +17,11 @@ div class="new-form"
       p class="form-control"
         = f.file_field :files, multiple: true
 
-      = f.submit 'Publish'
+      div class="links"
+        =f.fields_for :links do |link| 
+          =render 'shared/link_fields', f: link
+      = link_to_add_association 'add link', f, :links, 
+        class: 'btn btn-primary btm-3 m-2', partial: 'shared/link_fields', 
+        data: { association_insertion_node: '.links', association_insertion_method: :append } 
+
+      p= f.submit 'Publish', class: 'btn btn-success m-2'

@@ -14,12 +14,14 @@ html
       = render 'shared/menu'
     .conteniar   
     .conteniar-lg.col-md-8.mx-auto
-      = show_flash(:alert) 
-      = show_flash(:danger)
-      = show_flash(:warning)
+      .flash-alert
+        = show_flash(:alert) 
+        = show_flash(:danger)
+        = show_flash(:warning)
       
       = yield
 
-      = show_flash(:notice)
-      = show_flash(:success)
       .flash
+        = show_flash(:notice)
+        = show_flash(:success)
+

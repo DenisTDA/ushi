@@ -21,6 +21,7 @@ feature 'User can unattach file from question', "
 
     scenario 'can unattach the file' do
       find_by_id("a-file-#{answer.files[0].id}").click
+      accept_alert
 
       expect(page).to_not have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'

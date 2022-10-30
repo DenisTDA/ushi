@@ -9,6 +9,7 @@ class AnswersController < ApplicationController
 
   def new
     @answer = Answer.new
+    @answer.links.new
   end
 
   def create
@@ -51,7 +52,8 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:id, :body, :question_id, files: [])
+    params.require(:answer).permit(:id, :body, :question_id, files: [],
+                                                             links_attributes: %i[name url])
   end
 
   def set_answer

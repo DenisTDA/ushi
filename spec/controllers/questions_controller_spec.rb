@@ -21,8 +21,12 @@ RSpec.describe QuestionsController, type: :controller do
     before { login(user) }
     before { get :new }
 
-    it 'assigns a new question to @question' do
+    it 'assigns a new Question to @question' do
       expect(assigns(:question)).to be_a_new(Question)
+    end
+
+    it 'assigns a new Link for @question' do
+      expect(assigns(:question).links.first).to be_a_new(Link)
     end
 
     it 'renders new view' do
@@ -117,10 +121,17 @@ RSpec.describe QuestionsController, type: :controller do
 
     context "existing user's question" do
       let!(:question) { create(:question, author: user) }
+      let!(:link) { create(:link, linkable: question) }
+
       it 'removes question from list' do
         expect do
           delete :destroy, params: { id: question }, format: :js
         end.to change(Question, :count).by(-1)
+      end
+
+      it 'delete link of the @question from Link' do
+        delete :destroy, params: { id: question }, format: :js
+        expect(assigns(:question).links).to be_empty
       end
 
       it 'empty render for deleted question' do

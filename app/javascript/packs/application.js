@@ -10,6 +10,7 @@ import "stylesheets/application"
 import "bootstrap"
 
 require("jquery")
+require("@nathanvda/cocoon")
 require("@popperjs/core")
 
 require("./answers")

@@ -9,6 +9,7 @@ class QuestionsController < ApplicationController
 
   def new
     @question = Question.new
+    @question.links.new
   end
 
   def create
@@ -31,6 +32,7 @@ class QuestionsController < ApplicationController
   def show
     @answers = @question.answers.sort_by_best
     @answer = Answer.new
+    @answer.links.new
   end
 
   def destroy
@@ -48,6 +50,7 @@ class QuestionsController < ApplicationController
   end
 
   def question_params
-    params.require(:question).permit(:title, :body, files: [])
+    params.require(:question).permit(:title, :body, files: [],
+                                                    links_attributes: %i[id name url _destroy])
   end
 end
