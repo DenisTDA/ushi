@@ -1,6 +1,8 @@
 $('.flash').html('')
-$('.link_name').prop('value', null)
-$('.link_url').prop('value', null)
+$('.new-answer').find('input').each(function() {
+  $(this).val('');
+})
+
 $('.answer-errors').html("<%= j render 'shared/errors', resource: @answer %> ")
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>')
