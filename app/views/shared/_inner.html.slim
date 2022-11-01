@@ -5,7 +5,10 @@ b= @inner.body
   ul
     - @inner.links.each do |link|
       div.hstack.gap-3
-        li= link_to link.name, link.url, rel: 'nofollow noopener', target: '_blank'
+        - if link.gist?
+          script src="#{link.url}.js"
+        - else
+          li= link_to link.name, link.url, rel: 'nofollow noopener', target: '_blank'
 
 - if @inner.files.attached? 
   .fw-bold.fst-italic File
@@ -14,4 +17,4 @@ b= @inner.body
       div.hstack.gap-3 id="file-block-#{ file.id }"
         li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
         -if current_user.author?(@inner)
-          =link_to  "unattach", attachment_path(id: file, holder: @inner), id: "a-file-#{ file.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
+          =link_to  "unattach", attachment_path(id: file, holder: @inner), id: "d-file-#{ file.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 

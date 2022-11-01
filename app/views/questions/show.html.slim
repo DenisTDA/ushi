@@ -1,33 +1,21 @@
-h1.fw-light.fst-italic Question
-div.p-1.m-1.fw-bold = @question.title
-div.p-1.m-1= @question.body
+-@inner = @question 
+.question-block
+  h1.fw-light.fst-italic Question
+  div.p-1.m-1.fw-bold = @question.title
+  =render 'shared/inner'
 
--if !@question.links.empty?
-  div.fw-bold.fst-italic.links Links
-  ul
-    - @question.links.each do |link|
-      div.hstack.gap-3.link
-        li= link_to link.name, link.url, rel: 'nofollow noopener', target: '_blank'
-
-h1.fw-light.fst-italic Answers
-- if @question.files.attached?
-  ul
-    - @question.files.each do |file|
-      div.hstack.gap-3.attachment id="file-block-#{ file.id }"
-        li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-        -if current_user.author?(@question)
-          = link_to  "unattach", attachment_path(id: file, holder: @question), id: "q-file-#{ file.id }", data: { confirm: "Are you shure?" }, method: :delete, remote: true 
-
+-if !@question.answers.empty?
+  h1.fw-light.fst-italic Answers
 .answer-errors
   = render 'shared/errors', resource: @answer
-.container-xl.answers.bg-light
+.container-xl.bg-light.answers
   = render partial: '/answers/answer', collection: @answers
 
 .container-xl.bg-secondary style="--bs-bg-opacity: .25"
   = form_with model: [@question, @answer], class: 'new-answer pb-2 mb-4', local: false do |f|
     div.pt-1.mt-2
       = f.label :body, 'Your answer', class: "form-label"
-      = f.text_area :body, rows: 6, cols: 120
+      = f.text_area :body, rows: 6, cols: 120 
     div.p-1.m-2
       = f.label :files, class: "form-label" 
       = f.file_field :files, multiple: true, class: "form-control form-control-sm m-2 answer-files"

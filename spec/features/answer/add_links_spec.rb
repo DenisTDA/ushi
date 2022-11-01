@@ -38,7 +38,6 @@ feature 'User can add links to answer', "
       all(:field, 'Url').last.fill_in with: another_link
 
       click_on 'Answer'
-      save_and_open_page
 
       within ".answers" do
         expect(page).to have_link 'Google', href: simple_link
@@ -53,7 +52,7 @@ feature 'User can add links to answer', "
     fill_in 'Url', with: 'wrongURL'
 
     click_on 'Answer'
-
+   
     within ".answer-errors" do
       expect(page).to have_text 'Links url is invalid'
     end
@@ -62,12 +61,12 @@ feature 'User can add links to answer', "
   scenario 'User adds link with gist when give an answer', js: true do
     fill_in 'Your answer', with: 'text text text'
     fill_in 'Link name', with: 'My Gist'
-    
     fill_in 'Url', with: 'https://gist.github.com/DenisTDA/e0ad7f91d05dcf4f0cce8abdf6880be0'
 
     click_on 'Answer'
+    visit question_path(question)
 
-    within '.new-answer' do
+    within '.answers' do
       expect(page).to have_content 'test gist for Ushi application'
     end
   end

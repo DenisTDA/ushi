@@ -4,11 +4,11 @@ span id="answer-block-#{answer.id}"
   -if answer.selected
     div.bg-success style="--bs-bg-opacity: .25"
       br= "Best answer"
-      =render 'answers/inner'
+      =render 'shared/inner'
       =render 'answers/nav'
   -else
     div.mt-4
-      =render 'answers/inner'  
+      =render 'shared/inner'  
       =render 'answers/nav'
 
   .container-xl.bg-secondary style="--bs-bg-opacity: .15"
