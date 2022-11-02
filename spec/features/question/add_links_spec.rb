@@ -8,7 +8,7 @@ feature 'User can add links to question', "
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
   
-  before do
+  background do
     sign_in(user)
     visit new_question_path
   end
@@ -17,7 +17,7 @@ feature 'User can add links to question', "
     given(:simple_link) { 'https://google.com' }
     given(:another_link) { 'https://yandex.ru' }
 
-    before do
+    background do
       fill_in 'Title', with: 'title text'
       fill_in 'Body', with: 'body text'
       fill_in 'Link name', with: 'Google'
