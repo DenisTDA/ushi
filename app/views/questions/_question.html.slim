@@ -19,7 +19,7 @@ span id="question-block-#{question.id}"
           =render 'shared/link_fields', f: link
       = link_to_add_association 'add link', f, :links, 
         class: 'btn btn-primary btm-3 m-2', partial: 'shared/link_fields', 
-        data: { association_insertion_node: '.links', association_insertion_method: :append } 
+          data: { association_insertion_node: '.links', association_insertion_method: :append } 
 
       =f.submit 'Save', class: 'btn btn-secondary'  
 

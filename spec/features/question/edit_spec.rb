@@ -49,8 +49,22 @@ feature 'User can edit question', "
       click_on 'Save'
 
       visit question_path(question)
+
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'add links' do
+      click_on 'add link'
+
+      fill_in 'Link name', with: 'Google' 
+      fill_in 'Url', with: 'http://google.com' 
+    
+      click_on 'Save'
+
+      visit question_path(question)
+      expect(page).to have_link 'Google', href: 'http://google.com' 
+#      expect(page).to have_link 'E1', href: 'http://e1.ru' 
     end
   end
 

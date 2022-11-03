@@ -23,8 +23,11 @@ class QuestionsController < ApplicationController
   end
 
   def update
+#    byebug
     if current_user.author?(@question)
-      @question.update(title: question_params[:title], body: question_params[:body])
+      @question.update(title: question_params[:title], 
+                        body: question_params[:body],
+                        links_attributes: question_params[:links_attributes])
       @question.files.attach(question_params[:files]) if question_params[:files]
     end
   end
