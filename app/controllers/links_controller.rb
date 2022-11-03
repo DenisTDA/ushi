@@ -7,7 +7,4 @@ class LinksController < ApplicationController
 
     @link.destroy if current_user.author?(holder)
   end
-
-  private
-
 end

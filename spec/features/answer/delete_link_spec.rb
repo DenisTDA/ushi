@@ -9,7 +9,7 @@ feature 'User can delete links of an answer', "
   given!(:friend) { create(:user) }
   given!(:question) { create(:question, author: user) }
   given!(:answer) { create(:answer, question: question, author: user) }
-  given!(:link1) { create(:link, name: 'Google', url: 'http://gogle.com',linkable: answer) }
+  given!(:link1) { create(:link, name: 'Google', url: 'http://gogle.com', linkable: answer) }
   given!(:link2) { create(:link, name: 'E1', linkable: answer) }
 
   describe 'Authenticated user-author', js: true do
@@ -17,12 +17,12 @@ feature 'User can delete links of an answer', "
       sign_in(user)
       visit question_path(question)
     end
-  
+
     scenario 'delete link' do
-      first(:link,'delete link').click
+      first(:link, 'delete link').click
       accept_alert
 
-      within ".links-block" do
+      within '.links-block' do
         expect(page).to_not have_link 'Google', href: link1.url
         expect(page).to_not have_link 'E1', href: link2.url
       end

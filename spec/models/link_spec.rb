@@ -20,13 +20,13 @@ RSpec.describe Link, type: :model do
     subject(:question) { create(:question) }
 
     it 'returns true when link is gist' do
-      expect( create(:link, url: 'https://gist.github.com/someuser/someid', 
-        linkable: question).gist? ).to be_truthy
+      expect(create(:link, url: 'https://gist.github.com/someuser/someid',
+                           linkable: question).gist?).to be_truthy
     end
 
     it 'returns false when link is not gist' do
-      expect( create(:link, url: 'https://google.com/someuser/someid', 
-        linkable: question).gist? ).to be_falsy
+      expect(create(:link, url: 'https://google.com/someuser/someid',
+                           linkable: question).gist?).to be_falsy
     end
   end
 end

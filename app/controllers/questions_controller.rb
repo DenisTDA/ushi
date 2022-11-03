@@ -1,6 +1,6 @@
 class QuestionsController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_question, only: %i[show destroy update unattach]
+  before_action :set_question, only: %i[show destroy update]
   before_action :set_user, only: %i[index destroy update show]
 
   def index
@@ -23,13 +23,12 @@ class QuestionsController < ApplicationController
   end
 
   def update
-#    byebug
-    if current_user.author?(@question)
-      @question.update(title: question_params[:title], 
-                        body: question_params[:body],
-                        links_attributes: question_params[:links_attributes])
-      @question.files.attach(question_params[:files]) if question_params[:files]
-    end
+    return unless current_user.author?(@question)
+
+    @question.update(title: question_params[:title],
+                     body: question_params[:body],
+                     links_attributes: question_params[:links_attributes] || [])
+    @question.files.attach(question_params[:files]) if question_params[:files]
   end
 
   def show

@@ -45,7 +45,7 @@ feature 'User can edit question', "
     end
 
     scenario 'add files' do
-      attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
+      attach_file 'Files', [Rails.root.join("spec/spec_helper.rb")]
       click_on 'Save'
 
       visit question_path(question)
@@ -57,14 +57,13 @@ feature 'User can edit question', "
     scenario 'add links' do
       click_on 'add link'
 
-      fill_in 'Link name', with: 'Google' 
-      fill_in 'Url', with: 'http://google.com' 
-    
+      fill_in 'Link name', with: 'Google'
+      fill_in 'Url', with: 'http://google.com'
+
       click_on 'Save'
 
       visit question_path(question)
-      expect(page).to have_link 'Google', href: 'http://google.com' 
-#      expect(page).to have_link 'E1', href: 'http://e1.ru' 
+      expect(page).to have_link 'Google', href: 'http://google.com'
     end
   end
 

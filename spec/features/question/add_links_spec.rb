@@ -7,7 +7,7 @@ feature 'User can add links to question', "
 " do
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
-  
+
   background do
     sign_in(user)
     visit new_question_path
@@ -27,7 +27,7 @@ feature 'User can add links to question', "
     scenario 'link when ask a question', js: true do
       click_on 'Publish'
 
-      within ".question-block" do
+      within '.question-block' do
         expect(page).to have_link 'Google', href: simple_link
       end
     end
@@ -40,7 +40,7 @@ feature 'User can add links to question', "
 
       click_on 'Publish'
 
-      within ".question-block" do
+      within '.question-block' do
         expect(page).to have_link 'Google', href: simple_link
         expect(page).to have_link 'Yandex', href: another_link
       end
@@ -54,7 +54,7 @@ feature 'User can add links to question', "
     fill_in 'Url', with: 'wrongURL'
 
     click_on 'Publish'
-   
+
     expect(page).to have_text 'Links url is invalid'
   end
 
@@ -66,7 +66,7 @@ feature 'User can add links to question', "
 
     click_on 'Publish'
 
-    within ".question-block" do
+    within '.question-block' do
       expect(page).to have_content 'test gist for Ushi application'
     end
   end

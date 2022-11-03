@@ -7,7 +7,7 @@ RSpec.describe LinksController, type: :controller do
   let!(:answer) { create(:answer, author: user) }
   let!(:link1) { create(:link, name: 'Google', linkable: question) }
   let!(:link2) { create(:link, name: 'E1', linkable: question) }
-  
+
   describe 'DELETE #destroy' do
     context 'link of a question by author' do
       before { login(user) }

@@ -19,4 +19,13 @@ span id="answer-block-#{answer.id}"
       div
         = f.label :files, class: "form-label"
         p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
+
+      div class="links-add"
+        =f.fields_for :links do |link| 
+          =render 'shared/link_fields', f: link
+      = link_to_add_association 'add link', f, :links, 
+        class: 'btn btn-primary m-2', partial: 'shared/link_fields',
+        data: { association_insertion_node: '.links-add', 
+        association_insertion_method: :append } 
+
       p= f.submit 'Save', class: 'btn btn-light'

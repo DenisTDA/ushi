@@ -1,6 +1,6 @@
 class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
-  before_action :set_answer, only: %i[update select destroy unattach]
+  before_action :set_answer, only: %i[update select destroy]
   before_action :set_question, only: %i[index create]
 
   def index
@@ -21,13 +21,12 @@ class AnswersController < ApplicationController
   def show; end
 
   def update
-    if current_user.author?(@answer)
-      @answer.update(body: answer_params[:body])
-      @answer.files.attach(answer_params[:files]) if answer_params[:files]
-      @question = @answer.question
-    else
-      flash[:alert] = "It's not your answer!"
-    end
+    return unless current_user.author?(@answer)
+
+    @answer.update(body: answer_params[:body],
+                   links_attributes: answer_params[:links_attributes] || [])
+    @answer.files.attach(answer_params[:files]) if answer_params[:files]
+    @question = @answer.question
   end
 
   def select

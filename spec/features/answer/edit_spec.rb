@@ -38,11 +38,25 @@ feature 'User can edit answer', "
 
     scenario 'add files', js: true do
       within '.answers' do
-        attach_file 'Files', ["#{Rails.root}/spec/spec_helper.rb"]
+        attach_file 'Files', [Rails.root.join("spec/spec_helper.rb")]
         click_on 'Save'
 
         expect(page).to have_link 'rails_helper.rb'
         expect(page).to have_link 'spec_helper.rb'
+      end
+    end
+
+    scenario 'add links' do
+      within '.answers' do
+        click_on 'add link'
+
+        fill_in 'Link name', with: 'Google'
+        fill_in 'Url', with: 'http://google.com'
+
+        click_on 'Save'
+
+        visit question_path(question)
+        expect(page).to have_link 'Google', href: 'http://google.com'
       end
     end
 

@@ -20,7 +20,7 @@ feature 'User can unattach file from question', "
     end
 
     scenario 'can unattach the file' do
-      first(:link, 'unattach').click     
+      first(:link, 'unattach').click
       accept_alert
 
       expect(page).to_not have_link 'rails_helper.rb'

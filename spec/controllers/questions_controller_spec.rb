@@ -96,6 +96,20 @@ RSpec.describe QuestionsController, type: :controller do
         end.to_not change(question.files, :count)
       end
 
+      it 'add link' do
+        expect do
+          link = Link.new(name: 'E1', url: 'http://e1.ru')
+          question.links << link
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        end.to change(question.links, :count).by(1)
+      end
+
+      it "don't add link" do
+        expect do
+          patch :update, params: { id: question, question: attributes_for(:question) }, format: :js
+        end.to_not change(question.links, :count)
+      end
+
       it 'renders update view' do
         patch :update, params: { id: question, question: { title: 'new title', body: 'new body' } }, format: :js
         expect(response).to render_template :update

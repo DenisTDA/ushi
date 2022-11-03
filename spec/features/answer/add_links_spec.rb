@@ -7,7 +7,7 @@ feature 'User can add links to answer', "
 " do
   given(:user) { create(:user) }
   given!(:question) { create(:question, author: user) }
-  
+
   before do
     sign_in(user)
     visit question_path(question)
@@ -26,7 +26,7 @@ feature 'User can add links to answer', "
     scenario 'link when give an answer', js: true do
       click_on 'Answer'
 
-      within ".answers" do
+      within '.answers' do
         expect(page).to have_link 'Google', href: simple_link
       end
     end
@@ -39,7 +39,7 @@ feature 'User can add links to answer', "
 
       click_on 'Answer'
 
-      within ".answers" do
+      within '.answers' do
         expect(page).to have_link 'Google', href: simple_link
         expect(page).to have_link 'Yandex', href: another_link
       end
@@ -52,8 +52,8 @@ feature 'User can add links to answer', "
     fill_in 'Url', with: 'wrongURL'
 
     click_on 'Answer'
-   
-    within ".answer-errors" do
+
+    within '.answer-errors' do
       expect(page).to have_text 'Links url is invalid'
     end
   end
