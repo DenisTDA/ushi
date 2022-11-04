@@ -6,6 +6,7 @@ feature 'User can create question', "
   I'd like to able to ask question
 " do
   given(:user) { create(:user) }
+  given(:friend) { create(:user) }
 
   describe 'Authenticated user' do
     background do
@@ -35,11 +36,22 @@ feature 'User can create question', "
       fill_in 'Title', with: 'Test question'
       fill_in 'Body', with: 'text text text'
 
-      attach_file 'Files', [Rails.root.join("spec/rails_helper.rb"), Rails.root.join("spec/spec_helper.rb")]
+      attach_file 'Files', [Rails.root.join('spec/rails_helper.rb'), Rails.root.join('spec/spec_helper.rb')]
       click_on 'Publish'
 
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
+    end
+
+    scenario 'asks a question & create meed' do
+      fill_in 'Title', with: 'Test question'
+      fill_in 'Body', with: 'text text text'
+      fill_in 'Meed', with: 'text text text'
+      attach_file 'Image', Rails.public_path.join('images/batfly1.png')
+
+      click_on 'Publish'
+
+      expect(page).to have_content 'Question successfully created'
     end
   end
 

@@ -1,0 +1,2 @@
+module MeedsHelper
+end

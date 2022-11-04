@@ -4,9 +4,11 @@ RSpec.describe Answer, type: :model do
   let!(:user) { create(:user) }
   let!(:question) { create(:question, author: user) }
   let!(:answer) { create(:answer, question: question) }
+  let!(:meed) { create(:meed, question: question) }
   let!(:answer_best) { create(:answer, question: question, selected: true) }
 
   it { should belong_to :question }
+  it { should have_one(:meed).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
 
   it { should validate_presence_of :body }
@@ -19,6 +21,7 @@ RSpec.describe Answer, type: :model do
     answer.select_best
     expect(answer.reload.selected).to eq true
     expect(answer_best.reload.selected).to eq false
+    expect(meed.reload.answer).to eq answer
   end
 
   it 'have many attached files' do

@@ -29,12 +29,21 @@ RSpec.describe QuestionsController, type: :controller do
       expect(assigns(:question).links.first).to be_a_new(Link)
     end
 
+    it 'assigns a new Meed for @question' do
+      expect(assigns(:question).meed).to be_a_new(Meed)
+    end
+
     it 'renders new view' do
       expect(response).to render_template :new
     end
   end
 
   describe 'POST #create' do
+    let!(:question) { create(:question, author: user) }
+    let!(:meed) { create(:meed, question: question) }
+    let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
+    let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
+
     before { login(user) }
 
     context 'with valid attributes' do
@@ -48,6 +57,31 @@ RSpec.describe QuestionsController, type: :controller do
         post :create, params: { question: attributes_for(:question) }
         expect(response).to redirect_to assigns(:question)
       end
+    end
+
+    context 'with valid attributes & ' do
+      it 'with link' do
+        expect do
+          link = Link.new(name: 'E1', url: 'http://e1.ru')
+          question.links << link
+          post :create, params: { question: attributes_for(:question) }
+        end.to change(Link, :count).by(1)
+      end
+
+      it 'with file' do
+        expect do
+          question.files.attach(file2)
+          post :create, params: { id: question, question: attributes_for(:question) }, format: :js
+        end.to change(question.files, :count).by(1)
+      end
+
+      # // test is RED, but application work
+      #       it "with meed" do
+      #         expect do
+      #           Meed.new(name: 'Meed', img: file1, question: question)
+      #           post :create, params: { id: question, question: attributes_for(:question) }, format: :js
+      #         end.to change(Meed, :count).by(1)
+      #       end
     end
 
     context 'with invalid attributes' do

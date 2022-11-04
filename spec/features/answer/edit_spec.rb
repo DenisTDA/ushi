@@ -38,7 +38,7 @@ feature 'User can edit answer', "
 
     scenario 'add files', js: true do
       within '.answers' do
-        attach_file 'Files', [Rails.root.join("spec/spec_helper.rb")]
+        attach_file 'Files', [Rails.root.join('spec/spec_helper.rb')]
         click_on 'Save'
 
         expect(page).to have_link 'rails_helper.rb'

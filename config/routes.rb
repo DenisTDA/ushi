@@ -10,4 +10,5 @@ Rails.application.routes.draw do
 
   resource :attachment, only: [:destroy]
   resource :link, only: [:destroy]
+  resources :meeds, only: [:index]
 end

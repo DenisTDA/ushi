@@ -45,7 +45,7 @@ feature 'User can edit question', "
     end
 
     scenario 'add files' do
-      attach_file 'Files', [Rails.root.join("spec/spec_helper.rb")]
+      attach_file 'Files', [Rails.root.join('spec/spec_helper.rb')]
       click_on 'Save'
 
       visit question_path(question)
