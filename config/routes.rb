@@ -8,7 +8,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resource :attachment, only: [:unattach] do
-    delete :unattach, on: :member
-  end
+  resource :attachment, only: [:destroy]
+  resource :link, only: [:destroy]
+  resources :meeds, only: [:index]
 end

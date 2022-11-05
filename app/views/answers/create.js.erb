@@ -1,6 +1,12 @@
 $('.flash').html('')
+$('.new-answer').find('input').each(function() {
+  $(this).val('');
+})
+
 $('.answer-errors').html("<%= j render 'shared/errors', resource: @answer %> ")
 <% if @answer.persisted? %>
   $('.answers').append('<%= j render @answer %>')
   $('.new-answer #answer_body').val('')
+  $(".flash").html("<div class='alert alert-info' role='alert'>Answer was created successfully</div>")
+  $('.answer-files').prop('value', null)
 <% end %>

@@ -1,0 +1,6 @@
+  nav class='nav'
+    - if user_signed_in? && current_user.author?(@inner)
+        = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: @inner.id } 
+        = link_to "Delete", @inner, method: 'delete', remote: true, class: 'delete-answer-link nav-link', data: { answer_id: @inner.id, confirm: "Are you shure?" }
+    - if user_signed_in? && current_user.author?(@question) && !@inner.is_best?
+        = link_to 'Mark as the best', select_answer_path(@inner), class: 'select-answer-link nav-link', method: 'patch', data: { answer_id: @inner.id } 

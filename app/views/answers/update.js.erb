@@ -2,4 +2,6 @@ $('.flash').html('')
 $("#answer-errors-<%= @answer.id %>").html("<%= j render 'shared/errors', resource: @answer %> ")
 <% if !@answer.errors.present? %>
   $("#answer-block-<%= @answer.id %>").html('<%= j render @answer %>');
+  $(".flash").html("")
+  $(".flash").html("<div class='alert alert-info' role='alert'>Answer was updated successfully</div>")
 <% end %>

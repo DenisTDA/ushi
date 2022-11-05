@@ -8,8 +8,7 @@ RSpec.describe AttachmentsController, type: :controller do
   let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
   let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
 
-  describe 'DELETE #unattach' do
-
+  describe 'DELETE #destroy' do
     before { question.files.attach(file1, file2) }
     before { answer.files.attach(file1, file2) }
 
@@ -18,13 +17,13 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'removes file from list' do
         expect do
-          delete :unattach, params: { id: question.files[0], holder: question }, format: :js
+          delete :destroy, params: { id: question.files[0], holder: question }, format: :js
         end.to change(question.files, :count).by(-1)
       end
 
       it 'render for deleted file of the question' do
-        delete :unattach, params: { id: question.files[0], holder: question }, format: :js
-        expect(response).to render_template :unattach
+        delete :destroy, params: { id: question.files[0], holder: question }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -33,13 +32,13 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'removes file from list' do
         expect do
-          delete :unattach, params: { id: answer.files[0], holder: answer }, format: :js
+          delete :destroy, params: { id: answer.files[0], holder: answer }, format: :js
         end.to change(answer.files, :count).by(-1)
       end
 
       it 'render for deleted file of the answer' do
-        delete :unattach, params: { id: answer.files[0], holder: answer }, format: :js
-        expect(response).to render_template :unattach
+        delete :destroy, params: { id: answer.files[0], holder: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -48,13 +47,13 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'cant removes file from attachments of answer' do
         expect do
-          delete :unattach, params: { id: answer.files[0], holder: answer }, format: :js
+          delete :destroy, params: { id: answer.files[0], holder: answer }, format: :js
         end.to_not change(answer.files, :count)
       end
 
       it 'render for deleted file of the answer' do
-        delete :unattach, params: { id: answer.files[0], holder: answer }, format: :js
-        expect(response).to render_template :unattach
+        delete :destroy, params: { id: answer.files[0], holder: answer }, format: :js
+        expect(response).to render_template :destroy
       end
     end
 
@@ -63,13 +62,13 @@ RSpec.describe AttachmentsController, type: :controller do
 
       it 'cant removes file from attachments of question' do
         expect do
-          delete :unattach, params: { id: question.files[0], holder: question }, format: :js
+          delete :destroy, params: { id: question.files[0], holder: question }, format: :js
         end.to_not change(question.files, :count)
       end
 
       it 'render for deleted file of the question' do
-        delete :unattach, params: { id: question.files[0], holder: question }, format: :js
-        expect(response).to render_template :unattach
+        delete :destroy, params: { id: question.files[0], holder: question }, format: :js
+        expect(response).to render_template :destroy
       end
     end
   end

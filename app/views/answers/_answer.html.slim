@@ -1,39 +1,31 @@
+-@inner = answer 
 span id="answer-block-#{answer.id}"
   span id="answer-errors-#{answer.id}"
   -if answer.selected
-    div class="bg-success" style="--bs-bg-opacity: .25"
+    div.bg-success style="--bs-bg-opacity: .25"
       br= "Best answer"
-      b= answer.body
-      - if answer.files.attached? 
-        ul
-          - answer.files.each do |file|
-            div.hstack.gap-3 id="file-block-#{ file.id }"
-              li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-              -if current_user.author?(answer)
-                =link_to  "unattach", unattach_attachment_path(id: file, holder: answer), id: "a-file-#{ file.id }", method: :delete, remote: true 
-
+      =render 'shared/inner'
+      =render 'answers/nav'
   -else
-    = answer.body
-    - if answer.files.attached? 
-      ul
-        - answer.files.each do |file|
-          div.hstack.gap-3 id="file-block-#{ file.id }"
-            li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-            -if current_user.author?(answer)
-              =link_to  "unattach", unattach_attachment_path(id: file, holder: answer), id: "a-file-#{ file.id }", method: :delete, remote: true 
+    div.mt-4
+      =render 'shared/inner'  
+      =render 'answers/nav'
 
-  = form_with model: answer, class: 'hidden', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-    div
-      = f.label :body, 'Your answer'
-      p= f.text_area :body
-    div
-      = f.label :files
-      p= f.file_field :files, multiple: true
-    = f.submit 'Save'
+  .container-xl.bg-secondary style="--bs-bg-opacity: .15"
+    = form_with model: answer, class: 'hidden pb-2 mb-4', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+      div
+        = f.label :body, 'Your answer', class: "form-label"
+        p= f.text_area :body, rows: 6, cols: 120, class: "form-control form-control-sm m-2"
+      div
+        = f.label :files, class: "form-label"
+        p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
 
-  nav class='nav'
-    - if user_signed_in? && current_user.author?(answer)
-        = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: answer.id } 
-        = link_to "Delete", answer, method: 'delete', remote: true, class: 'delete-answer-link nav-link', data: { answer_id: answer.id }
-    - if user_signed_in? && current_user.author?(@question) && !answer.is_best?
-        = link_to 'Mark as the best', select_answer_path(answer), class: 'select-answer-link nav-link', method: 'patch', data: { answer_id: answer.id } 
+      div class="links-add"
+        =f.fields_for :links do |link| 
+          =render 'shared/link_fields', f: link
+      = link_to_add_association 'add link', f, :links, 
+        class: 'btn btn-primary m-2', partial: 'shared/link_fields',
+        data: { association_insertion_node: '.links-add', 
+        association_insertion_method: :append } 
+
+      p= f.submit 'Save', class: 'btn btn-light'

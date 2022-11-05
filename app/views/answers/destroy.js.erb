@@ -1,3 +1,5 @@
+  $(".flash").html("")
 <% if !@answer.errors.present? %>
   $("#answer-block-<%= @answer.id %>").remove()
+  $(".flash").html("<div class='alert alert-info' role='alert'>Answer was deleted successfully</div>")
 <% end %>

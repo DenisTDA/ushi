@@ -26,6 +26,10 @@ RSpec.describe AnswersController, type: :controller do
       expect(assigns(:answer)).to be_a_new(Answer)
     end
 
+    it 'assigns a new Link for @answer' do
+      expect(assigns(:answer).links.first).to be_a_new(Link)
+    end
+
     it 'render new view' do
       expect(response).to render_template :new
     end
@@ -93,6 +97,20 @@ RSpec.describe AnswersController, type: :controller do
         expect do
           patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
         end.to_not change(answer.files, :count)
+      end
+
+      it 'add link' do
+        expect do
+          link = Link.new(name: 'E1', url: 'http://e1.ru')
+          answer.links << link
+          patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        end.to change(answer.links, :count).by(1)
+      end
+
+      it "don't add link" do
+        expect do
+          patch :update, params: { id: answer, answer: attributes_for(:answer) }, format: :js
+        end.to_not change(answer.links, :count)
       end
 
       it 'renders update view' do

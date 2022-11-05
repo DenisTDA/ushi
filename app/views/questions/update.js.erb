@@ -2,4 +2,6 @@
 $("#question-errors-<%= @question.id %>").html("<%= j render 'shared/errors', resource: @question %> ")
 <% if !@question.errors.present? %>
   $("#question-block-<%= @question.id %>").html('<%= j render @question %>')
+  $(".flash").html("")
+  $(".flash").html("<div class='alert alert-info' role='alert'>Question was updated successfully</div>")
 <% end %>
