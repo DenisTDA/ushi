@@ -4,8 +4,10 @@ Rails.application.routes.draw do
 
   resources :questions do
     resources :answers, shallow: true do
+      resources :votes, module: :answers, shallow: true
       patch :select, on: :member
     end
+    resources :votes, module: :questions, shallow: true
   end
 
   resource :attachment, only: [:destroy]
