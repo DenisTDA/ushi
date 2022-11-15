@@ -4,8 +4,10 @@
     h1.fw-light.fst-italic Question
     div.p-1.m-1.fw-bold = @question.title
     =render 'shared/inner'
-  .conteniar-sm.col-md-2.mx-auto  
-    =render partial: 'shared/vote', locals: { voteable: @question}
+  .conteniar-sm.col-md-2.mx-auto
+    = render partial: 'shared/rating', locals: { voteable: @question} 
+    -if !current_user.author?(@question) 
+      =render partial: 'shared/vote', locals: { voteable: @question}
 
 -if !@question.answers.empty?
   h1.fw-light.fst-italic Answers

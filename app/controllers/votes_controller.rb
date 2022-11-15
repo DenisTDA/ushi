@@ -1,25 +1,32 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
-  
+
   def create
     @vote = @voteable.votes.new vote_params
-    @vote.voter = current_user
+    @vote.voter = current_user unless current_user.author?(@voteable)
     respond_to do |format|
       if @vote.save
-        format.json {render json: @vote}
+        format.json { render json: [@vote, @voteable.rating, @voteable.all_votes] }
       else
         format.json do
           render json: @vote.errors.full_messages, status: :unprocessable_entity
         end
       end
     end
-    
-    
   end
 
   def destroy
     @vote = Vote.find(params[:id])
-    @vote.destroy
+    @voteable = @vote.voteable
+    respond_to do |format|
+      if @vote.destroy
+        format.json { render json: ['', @voteable.rating, @voteable.all_votes] }
+      else
+        format.json do
+          render json: @vote.errors.full_messages, status: :unprocessable_entity
+        end
+      end
+    end
   end
 
   private

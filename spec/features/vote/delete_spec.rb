@@ -1,15 +1,15 @@
 require 'rails_helper'
 
 feature 'User can create vote', "
-  In order to vote for intresting solutions 
+  In order to vote for intresting solutions
   As an authenticated user
   I'd like to able to vote for answer or for question
 " do
   given!(:user) { create(:user) }
   given(:friend) { create(:user) }
-  given!(:question) { create(:question, author: friend)  }
-  given!(:answer) { create(:answer, author: friend)  }
-  given!(:vote){ create(:vote, voteable_type: question, voteable_id: question, voter_id: user)}
+  given!(:question) { create(:question, author: friend) }
+  given!(:answer) { create(:answer, author: friend) }
+  given!(:vote) { create(:vote, voteable_type: question, voteable_id: question, voter_id: user) }
 
   describe 'Authenticated user have vote for a question and' do
     background do

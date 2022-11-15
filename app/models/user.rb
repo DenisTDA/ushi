@@ -18,9 +18,9 @@ class User < ApplicationRecord
   end
 
   def able_to_vote?(voteable)
-    select_vote(voteable).empty?    
+    select_vote(voteable).empty?
   end
-  
+
   def status_vote(voteable)
     select_vote(voteable).first.useful ? "\u2705" : "\u26D4"
   end
@@ -30,9 +30,8 @@ class User < ApplicationRecord
   end
 
   private
-  
+
   def select_vote(voteable)
     votes.where(voteable_type: voteable.class.name, voteable_id: voteable.id)
   end
-
 end
