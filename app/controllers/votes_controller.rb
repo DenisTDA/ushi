@@ -6,7 +6,7 @@ class VotesController < ApplicationController
     @vote.voter = current_user unless current_user.author?(@voteable)
     respond_to do |format|
       if @vote.save
-        format.json { render json: [@vote, @voteable.rating, @voteable.all_votes] }
+        format.json { render json: [@vote, @voteable.rating] }
       else
         format.json do
           render json: @vote.errors.full_messages, status: :unprocessable_entity
@@ -20,7 +20,7 @@ class VotesController < ApplicationController
     @voteable = @vote.voteable
     respond_to do |format|
       if @vote.destroy
-        format.json { render json: ['', @voteable.rating, @voteable.all_votes] }
+        format.json { render json: ['', @voteable.rating] }
       else
         format.json do
           render json: @vote.errors.full_messages, status: :unprocessable_entity

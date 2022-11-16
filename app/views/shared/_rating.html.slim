@@ -1,3 +1,2 @@
 .rating-block.col-8.mx-auto
-  = "👍 #{ voteable.rating } % | #{ voteable.all_votes } votes total"
-
+  = "👍 #{ voteable.rating[:useful] } | 👎 #{ voteable.rating[:useless] } "
