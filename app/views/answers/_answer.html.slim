@@ -12,7 +12,7 @@ span id="answer-block-#{answer.id}"
         =render 'shared/inner'
     .conteniar-sm.col-md-2.mx-auto 
       = render partial: 'shared/rating', locals: { voteable: answer} 
-      -if !current_user.author?(answer) 
+      -if user_signed_in? && !current_user.author?(answer) 
         =render partial: 'shared/vote', locals: { voteable: answer}
   .conteniar-sm.col-md-12.mx-auto    
     =render 'answers/nav'

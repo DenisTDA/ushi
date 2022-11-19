@@ -15,7 +15,11 @@ class AnswersController < ApplicationController
   def create
     @answer = @question.answers.build(answer_params)
     current_user.replies << @answer
-    @answer.save
+    if @answer.save
+      flash[:notice] = 'Good'
+    else
+      flash[:alert] = 'Bad'
+    end
   end
 
   def show; end

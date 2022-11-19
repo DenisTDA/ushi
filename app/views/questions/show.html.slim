@@ -8,7 +8,7 @@
     =render 'shared/inner'
   .conteniar-sm.col-md-2.mx-auto
     = render partial: 'shared/rating', locals: { voteable: @question} 
-    -if !current_user.author?(@question) 
+    -if user_signed_in? && !current_user.author?(@question) 
       =render partial: 'shared/vote', locals: { voteable: @question}
 
 -if !@question.answers.empty?
@@ -18,23 +18,23 @@
 .answers
   = render partial: '/answers/answer', collection: @answers
 
-- if user_signed_in?
-  .container-xl.bg-secondary style="--bs-bg-opacity: .25"
-    = form_with model: [@question, @answer], class: 'new-answer pb-2 mb-4', local: false do |f|
-      div.pt-1.mt-2
-        = f.label :body, 'Your answer', class: "form-label"
-        = f.text_area :body, rows: 6, cols: 120 
+-# if user_signed_in?
+.container-xl.bg-secondary style="--bs-bg-opacity: .25"
+  = form_with model: [@question, @answer], class: 'new-answer pb-2 mb-4', local: false do |f|
+    div.pt-1.mt-2
+      = f.label :body, 'Your answer', class: "form-label"
+      = f.text_area :body, rows: 6, cols: 120 
 
-      div.p-1.m-2
-        = f.label :files, class: "form-label" 
-        = f.file_field :files, multiple: true, class: "form-control form-control-sm m-2 answer-files"
+    div.p-1.m-2
+      = f.label :files, class: "form-label" 
+      = f.file_field :files, multiple: true, class: "form-control form-control-sm m-2 answer-files"
 
-      div.links-add
-        =f.fields_for :links do |link| 
-          =render 'shared/link_fields', f: link
-      = link_to_add_association 'add link', f, :links, 
-        class: 'btn btn-primary m-2', partial: 'shared/link_fields',
-        data: { association_insertion_node: '.links-add', 
-        association_insertion_method: :append } 
+    div.links-add
+      =f.fields_for :links do |link| 
+        =render 'shared/link_fields', f: link
+    = link_to_add_association 'add link', f, :links, 
+      class: 'btn btn-primary m-2', partial: 'shared/link_fields',
+      data: { association_insertion_node: '.links-add', 
+      association_insertion_method: :append } 
 
-      p= f.submit 'Answer', class: 'btn btn-success m-2'
+    p= f.submit 'Answer', class: 'btn btn-success m-2'
