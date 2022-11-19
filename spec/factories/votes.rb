@@ -10,8 +10,8 @@ FactoryBot.define do
 
     trait :for_answer do
       association :voteable, factory: :answer
-      useful { false }
-      voter  { nil }      
+      useful { true }
+      voter  { nil }
     end
   end
 end

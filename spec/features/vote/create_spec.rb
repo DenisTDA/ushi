@@ -23,7 +23,6 @@ feature 'User can create vote', "
 
         within '.vote-block' do
           expect(page).to have_link "\u274C reset"
-
           expect(page).to_not have_link "\u2705 useful"
           expect(page).to_not have_link "\u26D4 useless"
         end

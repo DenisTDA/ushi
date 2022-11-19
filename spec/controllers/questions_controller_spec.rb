@@ -42,10 +42,10 @@ RSpec.describe QuestionsController, type: :controller do
     let(:question_attr) { attributes_for(:question) }
     let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
     let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
-    let!(:file3) { Rack::Test::UploadedFile.new(Rails.root.join('public/images/batfly1.png')) }
+    let!(:file3) { Rack::Test::UploadedFile.new(Rails.public_path.join('images/batfly1.png')) }
 
     before { login(user) }
-    
+
     context 'with valid attributes' do
       it 'saves a new question in the database' do
         expect do
@@ -61,26 +61,26 @@ RSpec.describe QuestionsController, type: :controller do
 
     context 'with valid attributes & ' do
       it 'with link' do
-        params ={ title: 'Title', body: 'body', 
-                  author: user, 
-                  links_attributes: [name: 'google', 
-                                     url: 'http://google.com'] }
+        params = { title: 'Title', body: 'body',
+                   author: user,
+                   links_attributes: [name: 'google',
+                                      url: 'http://google.com'] }
         expect do
           post :create, params: { question: params }
         end.to change(Link, :count).by(1)
       end
 
       it 'with file' do
-        params = { title: 'Title', body: 'body', 
-                  author: user, files: [file1] }
+        params = { title: 'Title', body: 'body',
+                   author: user, files: [file1] }
         expect do
           post :create, params: { question: params }
         end.to change(ActiveStorage::Attachment, :count).by(1)
       end
 
-      it "with meed" do
-        params ={ title: 'Title', body: 'body', author: user, 
-                  meed_attributes:  { name: 'meed', img: file3 } }
+      it 'with meed' do
+        params = { title: 'Title', body: 'body', author: user,
+                   meed_attributes: { name: 'meed', img: file3 } }
 
         expect do
           post :create, params: { question: params }

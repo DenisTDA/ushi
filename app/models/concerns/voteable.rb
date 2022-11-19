@@ -6,8 +6,9 @@ module Voteable
 
     def rating
       if (count_votes = votes.count) == 0
-        count_useful, count_useless = 0, 0
-      else  
+        count_useful = 0
+        count_useless = 0
+      else
         count_useful = votes.where(useful: true).count
         count_useless = count_votes - count_useful
       end

@@ -9,10 +9,10 @@ export default class Vote {
   formatVote(block) {
     block.parent().find('.rating-block').html('')
     if (this.link === 'useful-link' || this.link === 'useless-link'){
-      block.find('.useful-link').addClass('visually-hidden')
-      block.find('.useless-link').addClass('visually-hidden')
+      block.find('.useful-div').addClass('hidden')
+      block.find('.useless-div').addClass('hidden')
       block.find('.reset-link').data('id', this.vote.voteable_id).prop('href', '/votes/' + this.vote.id)
-      block.find('.reset-link').removeClass('visually-hidden')
+      block.find('.reset-div').removeClass('hidden')
       block.parent().find('.rating-block').append('👍 '+ this.ratingPos + ' | 👎' + this.ratingNeg )
 
       if (this.vote.useful == true) {
@@ -22,10 +22,10 @@ export default class Vote {
       }
 
     } else if (this.link === 'reset-link'){
-      block.find('.useful-link').removeClass('visually-hidden')
-      block.find('.useless-link').removeClass('visually-hidden')
+      block.find('.useful-div').removeClass('hidden')
+      block.find('.useless-div').removeClass('hidden')
       block.find('.voted-sign').html("")
-      block.find('.reset-link').addClass('visually-hidden')      
+      block.find('.reset-div').addClass('hidden')      
       block.parent().find('.rating-block').html('👍 '+ this.ratingPos + ' | 👎' + this.ratingNeg)      
     }
   }

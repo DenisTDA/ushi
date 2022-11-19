@@ -45,7 +45,7 @@ feature 'User can create answer', "
     visit question_path(question)
     fill_in 'Your answer', with: 'Answer text'
     click_on 'Answer'
-    
+
     expect(page).to have_content 'You need to sign in or sign up before continuing.'
   end
 end

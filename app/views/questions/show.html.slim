@@ -18,7 +18,6 @@
 .answers
   = render partial: '/answers/answer', collection: @answers
 
--# if user_signed_in?
 .container-xl.bg-secondary style="--bs-bg-opacity: .25"
   = form_with model: [@question, @answer], class: 'new-answer pb-2 mb-4', local: false do |f|
     div.pt-1.mt-2

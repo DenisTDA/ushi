@@ -5,10 +5,10 @@ feature 'User can create vote', "
   As an authenticated user
   I'd like to able to vote for answer or for question
 " do
-given(:user) { create(:user) }
-given(:friend) { create(:user) }
-given!(:question) { create(:question, author: friend) }
-given!(:answer) { create(:answer, author: friend, question: question) }
+  given(:user) { create(:user) }
+  given(:friend) { create(:user) }
+  given!(:question) { create(:question, author: friend) }
+  given!(:answer) { create(:answer, author: friend, question: question) }
 
   describe 'Authenticated user have vote for a question and', js: true do
     background do
