@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :vote do
-    for_question # default to the :for_photo trait if none is specified
+    for_question
 
     trait :for_question do
       association :voteable, factory: :question

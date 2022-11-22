@@ -22,3 +22,4 @@ require("./votes")
 Rails.start()
 Turbolinks.start()
 ActiveStorage.start()
+

@@ -5,4 +5,15 @@ $(document).on('turbolinks:load', function() {
     const answerId = $(this).data('answerId')
     $('form#edit-answer-'+ answerId).removeClass('hidden')
   })
+
+  $(document).on('ajax:error', function(e) {
+
+    let xhr = e.detail[2]
+
+    $('.flash').html('<div class="alert alert-danger" role="alert">' + xhr.responseText + '</div>')
+  
+    setTimeout(() => {
+      window.location.href='/users/sign_in'
+    }, 3000);
+  })
 })
