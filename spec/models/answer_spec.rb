@@ -10,6 +10,7 @@ RSpec.describe Answer, type: :model do
   it { should belong_to :question }
   it { should have_one(:meed).dependent(:destroy) }
   it { should have_many(:links).dependent(:destroy) }
+  it { should have_many(:votes).dependent(:destroy) }
 
   it { should validate_presence_of :body }
   it { should validate_presence_of :question_id }

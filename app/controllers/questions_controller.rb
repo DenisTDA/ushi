@@ -15,7 +15,6 @@ class QuestionsController < ApplicationController
 
   def create
     @question = current_user.problems.build(question_params)
-
     if @question.save
       redirect_to @question, notice: 'Question successfully created'
     else

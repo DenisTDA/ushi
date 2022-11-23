@@ -39,49 +39,53 @@ RSpec.describe QuestionsController, type: :controller do
   end
 
   describe 'POST #create' do
-    let!(:question) { create(:question, author: user) }
-    let!(:meed) { create(:meed, question: question) }
+    let(:question_attr) { attributes_for(:question) }
     let!(:file1) { Rack::Test::UploadedFile.new(Rails.root.join('spec/rails_helper.rb')) }
     let!(:file2) { Rack::Test::UploadedFile.new(Rails.root.join('spec/spec_helper.rb')) }
+    let!(:file3) { Rack::Test::UploadedFile.new(Rails.public_path.join('images/batfly1.png')) }
 
     before { login(user) }
 
     context 'with valid attributes' do
       it 'saves a new question in the database' do
         expect do
-          post :create, params: { question: attributes_for(:question) }
+          post :create, params: { question: question_attr }
         end.to change(Question, :count).by(1)
       end
 
       it 'rederect to show view' do
-        post :create, params: { question: attributes_for(:question) }
+        post :create, params: { question: question_attr }
         expect(response).to redirect_to assigns(:question)
       end
     end
 
     context 'with valid attributes & ' do
       it 'with link' do
+        params = { title: 'Title', body: 'body',
+                   author: user,
+                   links_attributes: [name: 'google',
+                                      url: 'http://google.com'] }
         expect do
-          link = Link.new(name: 'E1', url: 'http://e1.ru')
-          question.links << link
-          post :create, params: { question: attributes_for(:question) }
+          post :create, params: { question: params }
         end.to change(Link, :count).by(1)
       end
 
       it 'with file' do
+        params = { title: 'Title', body: 'body',
+                   author: user, files: [file1] }
         expect do
-          question.files.attach(file2)
-          post :create, params: { id: question, question: attributes_for(:question) }, format: :js
-        end.to change(question.files, :count).by(1)
+          post :create, params: { question: params }
+        end.to change(ActiveStorage::Attachment, :count).by(1)
       end
 
-      # // test is RED, but application work
-      #       it "with meed" do
-      #         expect do
-      #           Meed.new(name: 'Meed', img: file1, question: question)
-      #           post :create, params: { id: question, question: attributes_for(:question) }, format: :js
-      #         end.to change(Meed, :count).by(1)
-      #       end
+      it 'with meed' do
+        params = { title: 'Title', body: 'body', author: user,
+                   meed_attributes: { name: 'meed', img: file3 } }
+
+        expect do
+          post :create, params: { question: params }
+        end.to change(Meed, :count).by(1)
+      end
     end
 
     context 'with invalid attributes' do

@@ -1,14 +1,21 @@
--@inner = @question 
-.question-block
-  h1.fw-light.fst-italic Question
-  div.p-1.m-1.fw-bold = @question.title
-  =render 'shared/inner'
+-@inner = @question
+.question-errors
+  = render 'shared/errors', resource: @question
+.question-block.hstack.gap-1 
+  .conteniar-lg.col-md-10.mx-auto
+    h1.fw-light.fst-italic Question
+    div.p-1.m-1.fw-bold = @question.title
+    =render 'shared/inner'
+  .conteniar-sm.col-md-2.mx-auto
+    = render partial: 'shared/rating', locals: { voteable: @question} 
+    -if user_signed_in? && !current_user.author?(@question) 
+      =render partial: 'shared/vote', locals: { voteable: @question}
 
 -if !@question.answers.empty?
   h1.fw-light.fst-italic Answers
 .answer-errors
   = render 'shared/errors', resource: @answer
-.container-xl.bg-light.answers
+.answers
   = render partial: '/answers/answer', collection: @answers
 
 .container-xl.bg-secondary style="--bs-bg-opacity: .25"
@@ -16,11 +23,12 @@
     div.pt-1.mt-2
       = f.label :body, 'Your answer', class: "form-label"
       = f.text_area :body, rows: 6, cols: 120 
+
     div.p-1.m-2
       = f.label :files, class: "form-label" 
       = f.file_field :files, multiple: true, class: "form-control form-control-sm m-2 answer-files"
 
-    div class="links-add"
+    div.links-add
       =f.fields_for :links do |link| 
         =render 'shared/link_fields', f: link
     = link_to_add_association 'add link', f, :links, 
