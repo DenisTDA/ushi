@@ -21,7 +21,7 @@ span id="answer-block-#{answer.id}"
     = form_with model: answer, class: 'hidden pb-2 mb-4', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
       div
         = f.label :body, 'Your answer', class: "form-label"
-        p= f.text_area :body, rows: 6, cols: 120, class: "form-control form-control-sm m-2"
+        p= f.text_area :body, class: "form-control form-control-sm m-2"
       div
         = f.label :files, class: "form-label"
         p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
