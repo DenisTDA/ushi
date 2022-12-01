@@ -32,6 +32,10 @@ gem 'cocoon'
 gem 'devise'
 gem 'jquery-rails'
 gem 'slim-rails'
+gem 'aws-sdk-s3', require: false
+gem 'hirb'
+gem 'gon'
+
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -66,6 +70,4 @@ group :test do
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
-gem 'aws-sdk-s3', require: false
-gem 'hirb'
 gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
