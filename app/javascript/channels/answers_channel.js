@@ -1,8 +1,11 @@
 import consumer from "./consumer"
 
 $(document).on('turbolinks:load', function() {
+  consumer.subscriptions.subscriptions.forEach(element => {
+    element.unsubscribe()
+  }); 
+
   const question_id = $('.question-block').data('question-id')
-  console.log('question-id in th question-block - '+ question_id)
 
   consumer.subscriptions.create({ channel: "AnswersChannel", question_id: question_id }, {
     connected() {
@@ -25,6 +28,6 @@ $(document).on('turbolinks:load', function() {
             + data.answer + "</i></div>")
       }
     }
-  });
+  })
 })
 
