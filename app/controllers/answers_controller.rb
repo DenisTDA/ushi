@@ -64,11 +64,10 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
-
+    
     ActionCable.server.broadcast "answers_channel_#{@answer.question_id}", 
                                   { answer: @answer.body,
                                   answerId: @answer.id,
-                                  questionId: @answer.question.id,
                                   answerAuthorId: @answer.author_id }
   end
   

@@ -1,13 +1,12 @@
 import consumer from "./consumer"
 
 $(document).on('turbolinks:load', function() {
-  consumer.subscriptions.subscriptions.forEach(element => {
-    element.unsubscribe()
-  }); 
+ // if(!document.querySelector('.questions')) { clearChannels() }
+  clearChannels(this.answer_subscription)
 
   const question_id = $('.question-block').data('question-id')
 
-  consumer.subscriptions.create({ channel: "AnswersChannel", question_id: question_id }, {
+  this.answer_subscription = consumer.subscriptions.create({ channel: "AnswersChannel", question_id: question_id }, {
     connected() {
       // Called when the subscription is ready for use on the server
       console.log('Connected to the answers channel of th question-'+ question_id)
@@ -20,14 +19,25 @@ $(document).on('turbolinks:load', function() {
 
     received(data) {
       // Called when there's incoming data on the websocket for this channel
-      console.log(data)
       if ( gon.user_id !== data.answerAuthorId){
-        $('.answers').append("<span id= 'answer-block-"+ data.answerId+ "'/>" )
-        $('#answer-block-'+ data.answerId)
-          .append("<div class= 'hstack.gap-2 border border-info m-1' > <i>" 
-            + data.answer + "</i></div>")
+        formatHtml(data.answerId, data.answer)
       }
     }
   })
+
+  function clearChannels(subscription) {
+    if (subscription){
+      consumer.subscriptions.remove(subscription)
+      console.log("unsubing")
+    }
+  }
+
+  function formatHtml(answerId, body){
+    $('.answers').append("<span id= 'answer-block-"+ answerId+ "'/>" )
+    $('#answer-block-'+ answerId)
+      .append("<div class= 'hstack.gap-2 border border-info m-1' > <i>" 
+        + body + "</i></div>")
+  }
+
 })
 
