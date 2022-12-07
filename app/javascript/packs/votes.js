@@ -1,5 +1,5 @@
 $(document).on('turbolinks:load', function() {
-  $('.question-block').on('click', function(e){
+  $('.vote-question').on('click', function(e){
     $blockQ = $('.question-block').find('.vote-block')
   })
 
@@ -8,7 +8,7 @@ $(document).on('turbolinks:load', function() {
     if ($.isNumeric($idElem)) { $blockA = $('#answer-block-'+ $idElem).find('.vote-block') }
   })
   
-  $('.question-block').on('ajax:success', function(e) {
+  $('.vote-question').on('ajax:success', function(e) {
     let voteQuestion = new Vote(e)
     voteQuestion.formatVote($blockQ) 
   })

@@ -6,8 +6,6 @@ $(document).on('turbolinks:load', function() {
     connected() {
       // Called when the subscription is ready for use on the server
       console.log('Connected with questions...')
-  //    this.perform("subscribed")
-
     },
 
     disconnected() {
@@ -24,10 +22,9 @@ $(document).on('turbolinks:load', function() {
   });
 
   function clearChannels(subscription) {
-        if (subscription){
-          consumer.subscriptions.remove(subscription)
-          console.log("unsubing")
-        }
-      }
-    
+    if (subscription){
+      consumer.subscriptions.remove(subscription)
+      console.log("unsubing")
+    }
+  }
 })

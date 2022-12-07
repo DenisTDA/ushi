@@ -38,6 +38,5 @@ $(document).on('turbolinks:load', function() {
       .append("<div class= 'hstack.gap-2 border border-info m-1' > <i>" 
         + body + "</i></div>")
   }
-
 })
 

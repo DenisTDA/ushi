@@ -1,15 +1,23 @@
 -@inner = @question
 .question-errors
   = render 'shared/errors', resource: @question
-.question-block.hstack.gap-1 data-question-id = @question.id id="question-#{@question.id}"
-  .conteniar-lg.col-md-10.mx-auto
-    h1.fw-light.fst-italic Question
-    div.p-1.m-1.fw-bold = @question.title
-    =render 'shared/inner'
-  .conteniar-sm.col-md-2.mx-auto
-    = render partial: 'shared/rating', locals: { voteable: @question} 
-    -if user_signed_in? && !current_user.author?(@question) 
-      =render partial: 'shared/vote', locals: { voteable: @question}
+.question-block data-question-id = @question.id id="question-#{@question.id}"
+  .row
+    .conteniar-lg.col-md-8.mx-auto
+      h1.fw-light.fst-italic Question
+      div.p-1.m-1.fw-bold = @question.title
+      =render 'shared/inner'
+    .vote-question.conteniar-sm.col-md-3.mx-auto
+      = render partial: 'shared/rating', locals: { voteable: @question} 
+      -if user_signed_in? && !current_user.author?(@question) 
+        =render partial: 'shared/vote', locals: { voteable: @question}
+  .row
+    .comments-question.col-md-12.row
+      h3 Comments
+      = render  "shared/comment_form"
+      .comments-slide.col-md-2
+      .comments.col-md-10.mx-auto
+        = render partial: "/questions/comment", collection: @question.comments
 
 -if !@question.answers.empty?
   h1.fw-light.fst-italic Answers

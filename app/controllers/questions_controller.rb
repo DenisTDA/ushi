@@ -1,4 +1,6 @@
 class QuestionsController < ApplicationController
+  include Commented
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show destroy update]
   before_action :set_user, only: %i[index destroy update show]
