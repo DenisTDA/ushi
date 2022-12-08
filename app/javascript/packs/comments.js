@@ -1,23 +1,22 @@
 $(document).on('turbolinks:load', function() {
-  let formEdit = $('.comments-question').on('click', '.new-comment-link', function(e) {
+
+  $('.new-comment-link').on('click', function(e) {
     e.preventDefault()
     $(this).addClass('hidden')
-    const questionId = $(this).data('commentableId')
-    
-    let form = $('form#new-comment-'+ questionId)
-    $('form#new-comment-'+ questionId).removeClass('hidden')
-    return form
+    const commentableType = $(this).data('block')
+    const commentableId = $(this).data('commentable-id')
+    const formComment = $('.comments-' + commentableType + '-' + commentableId).find('form#new-comment-'+ commentableId)
+    formComment.removeClass('hidden')
   })
 
-  formEdit.on('ajax:success', function(e) {
+  $('.comment-form-block').on('ajax:success', function(e) {
     const comment = e.detail[0][0].comment
-    $('textarea').val('')
-    $('form').attr('id', 'new-comment-'+ comment.commentable_id).addClass('hidden')
-    $('.new-comment-link').removeClass('hidden')
-
+    const elemClass = '.comments-' + comment.commentable_type.toLowerCase()+ '-' + comment.commentable_id 
+    $('form#new-comment-' + comment.id).find('textarea').val('')
+    $(elemClass).find('form').addClass('hidden')
+    $(elemClass).find('.new-comment-link').removeClass('hidden')
   })
     .on('ajax:error', function(e) {
-      console.log(e)
       let errors = e.detail[0][1].errors
       $.each(errors, function(index, value) {
         $('.question-errors').append('<p>' + value + '</p>')

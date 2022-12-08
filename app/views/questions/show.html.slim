@@ -12,12 +12,12 @@
       -if user_signed_in? && !current_user.author?(@question) 
         =render partial: 'shared/vote', locals: { voteable: @question}
   .row
-    .comments-question.col-md-12.row
+    div class ="comments-question-#{ @question.id } col-md-12 row"
       h3 Comments
-      = render  "shared/comment_form"
+      = render  "shared/comment_form", commentable: @question
       .comments-slide.col-md-2
       .comments.col-md-10.mx-auto
-        = render partial: "/questions/comment", collection: @question.comments
+        = render partial: "/shared/comment", collection: @question.comments
 
 -if !@question.answers.empty?
   h1.fw-light.fst-italic Answers

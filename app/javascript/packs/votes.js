@@ -3,9 +3,9 @@ $(document).on('turbolinks:load', function() {
     $blockQ = $('.question-block').find('.vote-block')
   })
 
-  $('.answers').on('click', function(e){
+  $('.answers').find('.vote-block').on('click', function(e){
     $idElem = $(e.target).attr('data-id')
-    if ($.isNumeric($idElem)) { $blockA = $('#answer-block-'+ $idElem).find('.vote-block') }
+    if ($idElem) { $blockA = $('#answer-block-'+ $idElem).find('.vote-block') }
   })
   
   $('.vote-question').on('ajax:success', function(e) {
@@ -19,7 +19,7 @@ $(document).on('turbolinks:load', function() {
       })
     })
 
-  $('.answers').on('ajax:success', function(e) {
+  $('.answers').find('.vote-block').on('ajax:success', function(e) {
     let voteAnswer = new Vote(e)
     voteAnswer.formatVote($blockA) 
   })
