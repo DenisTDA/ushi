@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe QuestionsController, type: :controller do
+  it_behaves_like 'commented'
+
   let(:user) { create(:user) }
 
   describe 'GET #index' do

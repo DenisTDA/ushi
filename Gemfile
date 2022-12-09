@@ -26,16 +26,15 @@ gem 'redis', '~> 4.0'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.2.0'
 gem 'cocoon'
 gem 'devise'
+gem 'gon'
+gem 'hirb'
 gem 'jquery-rails'
 gem 'slim-rails'
-gem 'aws-sdk-s3', require: false
-gem 'hirb'
-gem 'gon'
-
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

@@ -54,7 +54,7 @@ feature 'User can create question', "
       expect(page).to have_content 'Question successfully created'
     end
 
-    context "multiple sessions", js: true do
+    context 'multiple sessions', js: true do
       scenario "question appears on another user's page" do
         Capybara.using_session('user') do
           sign_in(user)

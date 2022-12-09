@@ -2,18 +2,19 @@
 span id="answer-block-#{answer.id}"
   span id="answer-errors-#{answer.id}"
   
-  .hstack.gap-2.border.border-info.m-1.row 
-    -if answer.selected
-      .bg-success.conteniar-lg.col-md-10.mx-auto style="--bs-bg-opacity: .25"
-        br= "Best answer"
-        =render 'shared/inner'        
-    -else
-      .mt-4.conteniar-sm.col-md-10.mx-auto  
-        =render 'shared/inner'
-    .conteniar-sm.col-md-2.mx-auto 
-      = render partial: 'shared/rating', locals: { voteable: answer} 
-      -if user_signed_in? && !current_user.author?(answer) 
-        =render partial: 'shared/vote', locals: { voteable: answer}
+  .row
+    .hstack.gap-2.border.border-info.m-1
+      -if answer.selected
+        .bg-success.conteniar-lg.col-md-10.mx-auto style="--bs-bg-opacity: .25"
+          br= "Best answer"
+          =render 'shared/inner'        
+      -else
+        .mt-4.conteniar-sm.col-md-10.mx-auto  
+          =render 'shared/inner'
+      .conteniar-sm.col-md-2.mx-auto 
+        = render partial: 'shared/rating', locals: { voteable: answer} 
+        -if user_signed_in? && !current_user.author?(answer) 
+          =render partial: 'shared/vote', locals: { voteable: answer}
   .row
     div class ="comments-answer-#{ answer.id } col-md-12 row"
       h3 Comments

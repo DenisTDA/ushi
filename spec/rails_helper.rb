@@ -101,5 +101,5 @@ RSpec.configure do |config|
 
   RSpec.configure do |config|
     config.include ActionCable::TestHelper
-   end
+  end
 end

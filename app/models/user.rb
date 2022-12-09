@@ -9,16 +9,16 @@ class User < ApplicationRecord
 
   has_many :replies, class_name: 'Answer', foreign_key: :author_id
   has_many :problems, class_name: 'Question', foreign_key: :author_id
-  
+
   has_many :votes, foreign_key: :voter_id
   has_many :questions, through: :votes, source: :voteable, source_type: 'Question'
   has_many :answers, through: :votes, source: :voteable, source_type: 'Answer'
 
   has_many :comments
-  has_many :inquiries, class_name: 'Question', through: :reviews, 
-            source: :commentable, source_type: :'Question'
-  has_many :responses, class_name: 'Answer', through: :reviews, 
-            source: :commentable, source_type: :'Answer'
+  has_many :inquiries, class_name: 'Question', through: :reviews,
+                       source: :commentable, source_type: :Question
+  has_many :responses, class_name: 'Answer', through: :reviews,
+                       source: :commentable, source_type: :Answer
 
   def author?(item)
     id.eql?(item.author_id)

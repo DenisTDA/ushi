@@ -4,7 +4,7 @@ class AnswersController < ApplicationController
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_answer, only: %i[update select destroy]
   before_action :set_question, only: %i[index create]
-  
+
   after_action :publish_answer, only: %i[create]
 
   def index
@@ -57,7 +57,7 @@ class AnswersController < ApplicationController
   def answer_params
     params.require(:answer).permit(:id, :body,
                                    :question_id, files: [],
-                                   links_attributes: %i[id name url _destroy])
+                                                 links_attributes: %i[id name url _destroy])
   end
 
   def set_answer
@@ -66,10 +66,10 @@ class AnswersController < ApplicationController
 
   def publish_answer
     return if @answer.errors.any?
-    
-    ActionCable.server.broadcast "answers_channel_#{@answer.question_id}", 
-                                  answer: @answer.body,
-                                  answerId: @answer.id,
-                                  answerAuthorId: @answer.author_id
+
+    ActionCable.server.broadcast "answers_channel_#{@answer.question_id}",
+                                 answer: @answer.body,
+                                 answerId: @answer.id,
+                                 answerAuthorId: @answer.author_id
   end
 end
