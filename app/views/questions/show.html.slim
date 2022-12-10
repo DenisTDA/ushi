@@ -11,7 +11,7 @@
       = render partial: 'shared/rating', locals: { voteable: @question} 
       -if user_signed_in? && !current_user.author?(@question) 
         =render partial: 'shared/vote', locals: { voteable: @question}
-  .row
+  .row.question-comments
     div class ="comments-question-#{ @question.id } col-md-12 row"
       h3 Comments
       = render  "shared/comment_form", commentable: @question

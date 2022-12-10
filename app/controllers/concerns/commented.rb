@@ -19,8 +19,7 @@ module Commented
         format.json do
           render json: [comment: @comment,
                         errors: @comment.errors.full_messages],
-                 status: :unprocessable_entity,
-                 status: :created
+                 status: :unprocessable_entity
         end
       end
     end

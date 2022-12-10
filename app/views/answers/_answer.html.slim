@@ -15,7 +15,7 @@ span id="answer-block-#{answer.id}"
         = render partial: 'shared/rating', locals: { voteable: answer} 
         -if user_signed_in? && !current_user.author?(answer) 
           =render partial: 'shared/vote', locals: { voteable: answer}
-  .row
+  .row.answer-comments
     div class ="comments-answer-#{ answer.id } col-md-12 row"
       h3 Comments
       = render  "shared/comment_form", commentable: answer
@@ -25,8 +25,6 @@ span id="answer-block-#{answer.id}"
 
   .conteniar-sm.col-md-12.mx-auto    
     =render 'answers/nav'
-
-
 
   .container-xl.bg-secondary style="--bs-bg-opacity: .15"
     = form_with model: answer, class: 'hidden pb-2 mb-4', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|

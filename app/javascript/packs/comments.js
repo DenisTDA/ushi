@@ -17,9 +17,9 @@ $(document).on('turbolinks:load', function() {
     $(elemClass).find('.new-comment-link').removeClass('hidden')
   })
     .on('ajax:error', function(e) {
-      let errors = e.detail[0][1].errors
+      let errors = e.detail[0][0].errors
       $.each(errors, function(index, value) {
-        $('.question-errors').append('<p>' + value + '</p>')
+        $('.question-errors').html('<div class="alert alert-danger" role="alert">' + value + '</div>')
       })
     })
 })
