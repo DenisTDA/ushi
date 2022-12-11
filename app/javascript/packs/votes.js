@@ -1,14 +1,14 @@
 $(document).on('turbolinks:load', function() {
-  $('.question-block').on('click', function(e){
+  $('.vote-question').on('click', function(e){
     $blockQ = $('.question-block').find('.vote-block')
   })
 
-  $('.answers').on('click', function(e){
+  $('.answers').find('.vote-block').on('click', function(e){
     $idElem = $(e.target).attr('data-id')
-    if ($.isNumeric($idElem)) { $blockA = $('#answer-block-'+ $idElem).find('.vote-block') }
+    if ($idElem) { $blockA = $('#answer-block-'+ $idElem).find('.vote-block') }
   })
   
-  $('.question-block').on('ajax:success', function(e) {
+  $('.vote-question').on('ajax:success', function(e) {
     let voteQuestion = new Vote(e)
     voteQuestion.formatVote($blockQ) 
   })
@@ -19,7 +19,7 @@ $(document).on('turbolinks:load', function() {
       })
     })
 
-  $('.answers').on('ajax:success', function(e) {
+  $('.answers').find('.vote-block').on('ajax:success', function(e) {
     let voteAnswer = new Vote(e)
     voteAnswer.formatVote($blockA) 
   })

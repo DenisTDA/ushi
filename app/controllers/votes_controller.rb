@@ -23,7 +23,8 @@ class VotesController < ApplicationController
         format.json { render json: ['', @voteable.rating] }
       else
         format.json do
-          render json: @vote.errors.full_messages, status: :unprocessable_entity
+          render  json: @vote.errors.full_messages,
+                  status: :unprocessable_entity
         end
       end
     end

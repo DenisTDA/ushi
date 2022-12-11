@@ -39,6 +39,62 @@ feature 'User can create answer', "
       expect(page).to have_link 'rails_helper.rb'
       expect(page).to have_link 'spec_helper.rb'
     end
+
+    context 'multiple sessions' do
+      given!(:question1) { create(:question) }
+
+      scenario "answer appears on another user's page" do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
+
+        Capybara.using_session('friend') do
+          visit question_path(question)
+        end
+
+        Capybara.using_session('user') do
+          fill_in 'Your answer', with: 'Answer text text text'
+          click_on 'Answer'
+
+          expect(current_path).to eq question_path(question)
+          within '.answers' do
+            expect(page).to have_content 'Answer text text text'
+          end
+        end
+
+        Capybara.using_session('friend') do
+          within '.answers' do
+            expect(page).to have_content 'Answer text text text'
+          end
+        end
+      end
+
+      scenario "answer don't appears on another user's page of another question" do
+        Capybara.using_session('user') do
+          sign_in(user)
+          visit question_path(question)
+        end
+
+        Capybara.using_session('friend') do
+          visit question_path(question1)
+        end
+
+        Capybara.using_session('user') do
+          fill_in 'Your answer', with: 'Answer text text text'
+          click_on 'Answer'
+
+          expect(current_path).to eq question_path(question)
+          within '.answers' do
+            expect(page).to have_content 'Answer text text text'
+          end
+        end
+
+        Capybara.using_session('friend') do
+          expect(page).to_not have_content 'Answer text text text'
+        end
+      end
+    end
   end
 
   scenario 'Unauthenticated user left an answer' do

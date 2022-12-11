@@ -2,18 +2,27 @@
 span id="answer-block-#{answer.id}"
   span id="answer-errors-#{answer.id}"
   
-  .hstack.gap-2.border.border-info.m-1 
-    -if answer.selected
-      .bg-success.conteniar-lg.col-md-10.mx-auto style="--bs-bg-opacity: .25"
-        br= "Best answer"
-        =render 'shared/inner'        
-    -else
-      .mt-4.conteniar-sm.col-md-10.mx-auto  
-        =render 'shared/inner'
-    .conteniar-sm.col-md-2.mx-auto 
-      = render partial: 'shared/rating', locals: { voteable: answer} 
-      -if user_signed_in? && !current_user.author?(answer) 
-        =render partial: 'shared/vote', locals: { voteable: answer}
+  .row
+    .hstack.gap-2.border.border-info.m-1
+      -if answer.selected
+        .bg-success.conteniar-lg.col-md-10.mx-auto style="--bs-bg-opacity: .25"
+          br= "Best answer"
+          =render 'shared/inner'        
+      -else
+        .mt-4.conteniar-sm.col-md-10.mx-auto  
+          =render 'shared/inner'
+      .conteniar-sm.col-md-2.mx-auto 
+        = render partial: 'shared/rating', locals: { voteable: answer} 
+        -if user_signed_in? && !current_user.author?(answer) 
+          =render partial: 'shared/vote', locals: { voteable: answer}
+  .row.answer-comments
+    div class ="comments-answer-#{ answer.id } col-md-12 row"
+      h3 Comments
+      = render  "shared/comment_form", commentable: answer
+      .comments-slide.col-md-2
+      .comments.col-md-10.mx-auto
+        = render partial: "/shared/comment", collection: answer.comments
+
   .conteniar-sm.col-md-12.mx-auto    
     =render 'answers/nav'
 
@@ -21,7 +30,7 @@ span id="answer-block-#{answer.id}"
     = form_with model: answer, class: 'hidden pb-2 mb-4', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
       div
         = f.label :body, 'Your answer', class: "form-label"
-        p= f.text_area :body, rows: 6, cols: 120, class: "form-control form-control-sm m-2"
+        p= f.text_area :body, class: "form-control form-control-sm m-2"
       div
         = f.label :files, class: "form-label"
         p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"

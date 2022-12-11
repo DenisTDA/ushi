@@ -1,7 +1,11 @@
 class AnswersController < ApplicationController
+  include Commented
+
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_answer, only: %i[update select destroy]
   before_action :set_question, only: %i[index create]
+
+  after_action :publish_answer, only: %i[create]
 
   def index
     @answers = @question.answers
@@ -58,5 +62,14 @@ class AnswersController < ApplicationController
 
   def set_answer
     @answer = Answer.with_attached_files.find(params[:id])
+  end
+
+  def publish_answer
+    return if @answer.errors.any?
+
+    ActionCable.server.broadcast "answers_channel_#{@answer.question_id}",
+                                 answer: @answer.body,
+                                 answerId: @answer.id,
+                                 answerAuthorId: @answer.author_id
   end
 end

@@ -98,4 +98,8 @@ RSpec.configure do |config|
   config.after(:all) do
     FileUtils.rm_rf("#{Rails.root}/tmp/storage")
   end
+
+  RSpec.configure do |config|
+    config.include ActionCable::TestHelper
+  end
 end

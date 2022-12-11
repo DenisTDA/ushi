@@ -1,0 +1,16 @@
+.comment-form-block.container-fluid.d-block
+  -if current_user
+    = link_to 'Leave comment', commentable, 
+      class: 'new-comment-link', 
+      data: { commentable_id: commentable.id,
+              block: commentable.class.name.downcase }
+    
+
+  = form_with scope: :comment, url: polymorphic_path(commentable, action: 'comment'), 
+    class: 'hidden', html: { id: "new-comment-#{commentable.id}" }, 
+    local: false, data: { type: :json }  do |f|
+    = f.label :body, 'Your comment'
+    = f.text_area :body
+
+    = f.submit 'Save Comment', class: 'btn btn-info btn-sm'
+

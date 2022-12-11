@@ -18,6 +18,7 @@ require("@popperjs/core")
 require("./answers")
 require("./questions")
 require("./votes")
+require("./comments")
 
 Rails.start()
 Turbolinks.start()

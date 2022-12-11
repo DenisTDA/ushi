@@ -2,8 +2,14 @@ Rails.application.routes.draw do
   devise_for :users
   root 'questions#index'
 
-  resources :questions do
-    resources :answers, shallow: true do
+  concern :commented do
+    member do
+      post :comment
+    end
+  end
+
+  resources :questions, concerns: %i[commented] do
+    resources :answers, concerns: %i[commented], shallow: true do
       resources :votes, module: :answers, shallow: true, only: %i[create destroy]
       patch :select, on: :member
     end
