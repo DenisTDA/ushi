@@ -29,7 +29,4 @@
       div class='reset-div'
         =link_to "\u274C reset", current_user.load_vote(voteable), method: :delete, 
           remote: true, data: {type: :json,  id: voteable.id }, class: 'reset-link col-8 btn btn-dark btn-sm'
-
-
-  
-  
+ 

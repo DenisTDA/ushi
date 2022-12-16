@@ -34,6 +34,9 @@ gem 'devise'
 gem 'gon'
 gem 'hirb'
 gem 'jquery-rails'
+gem 'omniauth'
+gem 'omniauth-github'
+gem 'omniauth-rails_csrf_protection'
 gem 'slim-rails'
 
 group :development, :test do
