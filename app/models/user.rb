@@ -6,7 +6,7 @@ class User < ApplicationRecord
           :recoverable,
           :rememberable,
           :validatable,
-          :omniauthable, omniauth_providers: [:github]
+          :omniauthable, omniauth_providers: [:github, :google_oauth2]
 
   has_many :replies, class_name: 'Answer', foreign_key: :author_id
   has_many :problems, class_name: 'Question', foreign_key: :author_id
