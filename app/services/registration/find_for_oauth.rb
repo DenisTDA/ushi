@@ -10,6 +10,7 @@ class Registration::FindForOauth < ApplicationService
     return authorization.user if authorization
 
     email = auth.info[:email]
+    
     user = User.where(email: email).first
     if user
       user.authorizations.create(provider: auth.provider, uid: auth.uid)

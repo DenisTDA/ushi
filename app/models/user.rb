@@ -6,7 +6,7 @@ class User < ApplicationRecord
           :recoverable,
           :rememberable,
           :validatable,
-          :omniauthable, omniauth_providers: [:github, :google_oauth2]
+          :omniauthable, omniauth_providers: [:github, :google_oauth2, :mailru_oauth2, :vkontakte]
 
   has_many :replies, class_name: 'Answer', foreign_key: :author_id
   has_many :problems, class_name: 'Question', foreign_key: :author_id
@@ -21,7 +21,7 @@ class User < ApplicationRecord
   has_many :authorizations, dependent: :destroy
 
   def self.find_for_oauth(auth)
-    Registration::FindForOauth.new(auth).call
+    Registration::FindForOauth.call(auth)
   end
 
   def author?(item)

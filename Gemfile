@@ -38,6 +38,9 @@ gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'
+gem 'omniauth-mailru-oauth2'
+gem 'omniauth-vkontakte'
+#gem 'omniauth-mail_ru'
 gem 'slim-rails'
 
 group :development, :test do
@@ -59,6 +62,7 @@ group :development do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'spring'
+  gem "letter_opener"
 end
 
 group :test do
