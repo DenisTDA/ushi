@@ -1,0 +1,7 @@
+h3 Please, enter your e-mail to continue
+p= render 'shared/errors', resource: @user
+
+= form_with model: @user, url: confirm_email_path, local: true do |f|
+  = f.label :email, "Enter your e-mail", class: "form-label"
+  = f.email_field :email, autofocus: true, autocomplete: 'email', class: "form-control"
+  = f.submit 'Send confirmation to email', class: 'btn btn-light'

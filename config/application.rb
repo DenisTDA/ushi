@@ -19,6 +19,12 @@ module Ushi
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
 
+    # config.autoload_paths +=  [config.root.join('app')]
+
+    # config.autoload_paths += %W(#{config.root}/app)
+    # Dir[Rails.root.join('app/services/**/*.rb')].each{|rb| require rb}
+    config.eager_load_paths << Rails.root.join('app/services')
+
     config.generators do |g|
       g.test_framework :rspec,
                        view_specs: false,
