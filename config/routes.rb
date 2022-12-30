@@ -2,6 +2,9 @@ Rails.application.routes.draw do
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   root 'questions#index'
 
+  get '/new_email', to: 'users#new_email'
+  post '/confirm_email', to: 'users#confirm_email'
+
   concern :commented do
     member do
       post :comment

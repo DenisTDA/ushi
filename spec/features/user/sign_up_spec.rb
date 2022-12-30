@@ -14,7 +14,18 @@ feature 'User can sign up', "
     fill_in 'Password confirmation', with: '12345678'
     click_on 'Sign up'
 
-    expect(page).to have_content 'Welcome! You have signed up successfully.'
+    if page.has_content?('Please follow the link to activate your account')
+      open_email('user@test.com')
+      current_email.click_link 'Confirm my account'
+
+      click_link 'Entry'
+
+      fill_in 'Email', with: 'user@test.com'
+      fill_in 'Password', with: '12345678'
+      click_on 'Log in'
+    end
+
+    expect(page).to have_content 'Signed in successfully'
   end
 
   scenario 'Unregistered user tries to sign up without email' do

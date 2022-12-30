@@ -36,11 +36,11 @@ gem 'hirb'
 gem 'jquery-rails'
 gem 'omniauth'
 gem 'omniauth-github'
-gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-google-oauth2'
 gem 'omniauth-mailru-oauth2'
+gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-vkontakte'
-#gem 'omniauth-mail_ru'
+# gem 'omniauth-mail_ru'
 gem 'slim-rails'
 
 group :development, :test do
@@ -58,16 +58,17 @@ group :development do
   gem 'listen', '~> 3.3'
   gem 'rack-mini-profiler', '~> 2.0'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
+  gem 'letter_opener'
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'spring'
-  gem "letter_opener"
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 3.26'
+  gem 'capybara-email'
   gem 'selenium-webdriver', '>= 4.0.0.rc1'
   # Easy installation and use of web drivers to run system tests with browsers
   gem 'launchy'

@@ -6,7 +6,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
   end
 
   describe 'Github' do
-    let(:oauth_data) { { 'provider' => 'github', 'uid' => 123 } }
+    let!(:oauth_data) { mock_auth_hash('github', email: 'user@test.com') } # { 'provider' => 'github', 'uid' => 123 } }
 
     it 'finds user fro auth data' do
       allow(request.env).to receive(:[]).and_call_original
