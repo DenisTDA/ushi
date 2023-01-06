@@ -7,6 +7,8 @@ class AnswersController < ApplicationController
 
   after_action :publish_answer, only: %i[create]
 
+  authorize_resource
+  
   def index
     @answers = @question.answers
   end
@@ -22,7 +24,8 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
-  def show; end
+  def show
+  end
 
   def update
     return unless current_user.author?(@answer)
@@ -55,9 +58,9 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:id, :body,
-                                   :question_id, files: [],
-                                                 links_attributes: %i[id name url _destroy])
+    params.require(:answer).permit(:id, :body, :question_id, 
+                                    files: [],
+                                    links_attributes: %i[id name url _destroy])
   end
 
   def set_answer

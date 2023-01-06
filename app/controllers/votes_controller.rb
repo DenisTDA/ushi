@@ -1,5 +1,7 @@
 class VotesController < ApplicationController
   before_action :authenticate_user!
+  
+  authorize_resource
 
   def create
     @vote = @voteable.votes.new vote_params
