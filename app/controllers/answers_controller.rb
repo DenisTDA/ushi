@@ -28,7 +28,6 @@ class AnswersController < ApplicationController
   end
 
   def update
-    return unless current_user.author?(@answer)
 
     @answer.update(body: answer_params[:body],
                    links_attributes: answer_params[:links_attributes] || [])
@@ -48,7 +47,7 @@ class AnswersController < ApplicationController
   end
 
   def destroy
-    @answer.destroy if current_user.author?(@answer)
+    @answer.destroy #if current_user.author?(@answer)
   end
 
   private

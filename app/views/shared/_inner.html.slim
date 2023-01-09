@@ -7,9 +7,11 @@ i= @inner.body
       div.hstack.gap-3 id="link-block-#{ link.id }"
         - if link.gist?
           script src="#{link.url}.js"
+          -if can?(:destroy, link)
+            =link_to "delete link", link_path(id: link, holder: @inner), id: "d-link-#{ link.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
         - else
           li= link_to link.name, link.url, rel: 'nofollow noopener', target: '_blank'
-          -if current_user&.author?(@inner)
+          -if can?(:destroy, link)
             =link_to "delete link", link_path(id: link, holder: @inner), id: "d-link-#{ link.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
 
 
