@@ -1,6 +1,6 @@
 class OauthCallbacksController < Devise::OmniauthCallbacksController
   skip_authorization_check
-  
+
   def github
     authenticate_with('GitHub')
   end
@@ -14,7 +14,6 @@ class OauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def vkontakte
-    # render json: request.env['omniauth.auth']
     authenticate_with('VK')
   end
 

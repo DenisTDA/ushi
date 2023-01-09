@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   skip_authorization_check
-  
+
   def new_email
     @user = User.new
   end

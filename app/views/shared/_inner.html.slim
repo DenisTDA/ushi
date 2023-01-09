@@ -21,5 +21,5 @@ i= @inner.body
     - @inner.files.each do |file|
       div.hstack.gap-3 id="file-block-#{ file.id }"
         li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-        -if current_user&.author?(@inner)
+        -if can? :destroy, @inner
           =link_to  "unattach", attachment_path(id: file, holder: @inner), id: "d-file-#{ file.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 

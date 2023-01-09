@@ -8,7 +8,7 @@ class AnswersController < ApplicationController
   after_action :publish_answer, only: %i[create]
 
   authorize_resource
-  
+
   def index
     @answers = @question.answers
   end
@@ -24,11 +24,9 @@ class AnswersController < ApplicationController
     @answer.save
   end
 
-  def show
-  end
+  def show; end
 
   def update
-
     @answer.update(body: answer_params[:body],
                    links_attributes: answer_params[:links_attributes] || [])
     @answer.files.attach(answer_params[:files]) if answer_params[:files]
@@ -37,17 +35,13 @@ class AnswersController < ApplicationController
 
   def select
     @question = @answer.question
-    if current_user.author?(@question)
-      @answer.select_best
-      flash[:notice] = 'New best answer is selected'
-    else
-      flash[:alert] = "It's not your answer!"
-    end
+    @answer.select_best
+    flash[:notice] = 'New best answer is selected'
     redirect_to @question
   end
 
   def destroy
-    @answer.destroy #if current_user.author?(@answer)
+    @answer.destroy
   end
 
   private
@@ -57,9 +51,9 @@ class AnswersController < ApplicationController
   end
 
   def answer_params
-    params.require(:answer).permit(:id, :body, :question_id, 
-                                    files: [],
-                                    links_attributes: %i[id name url _destroy])
+    params.require(:answer).permit(:id, :body, :question_id,
+                                   files: [],
+                                   links_attributes: %i[id name url _destroy])
   end
 
   def set_answer

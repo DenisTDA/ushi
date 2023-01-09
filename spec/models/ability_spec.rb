@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Ability do 
+describe Ability do
   subject(:ability) { Ability.new(user) }
 
   describe 'for guest' do
@@ -61,12 +61,12 @@ describe Ability do
     it { should be_able_to :comment, Question }
     it { should be_able_to :comment, Answer }
 
-    it { should be_able_to :select_best, create(:answer, question: question) }
-    it { should_not be_able_to :select_best, create(:answer, question: question1) }
+    it { should be_able_to :select, create(:answer, question: question) }
+    it { should_not be_able_to :select, create(:answer, question: question1) }
 
-    it { should be_able_to :destroy,  question.files.first }
+    it { should be_able_to :destroy, question.files.first }
     it { should_not be_able_to :destroy, question1.files.first }
-    it { should be_able_to :destroy,  answer.files.first }
+    it { should be_able_to :destroy, answer.files.first }
     it { should_not be_able_to :destroy, answer1.files.first }
 
     it { should be_able_to :vote, Vote.new(voteable: question1, voter: user) }

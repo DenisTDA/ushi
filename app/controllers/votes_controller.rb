@@ -3,7 +3,7 @@ class VotesController < ApplicationController
 
   def create
     @vote = @voteable.votes.new vote_params
-    @vote.voter = current_user #unless current_user.author?(@voteable)
+    @vote.voter = current_user
     authorize! :vote, @vote
     respond_to do |format|
       if @vote.save

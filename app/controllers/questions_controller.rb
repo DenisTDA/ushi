@@ -14,7 +14,7 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    authorize! :create, Question    
+    authorize! :create, Question
     @question = Question.new
     @question.links.new
     @question.build_meed
@@ -30,8 +30,6 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    return unless current_user.author?(@question)
-
     @question.update(title: question_params[:title],
                      body: question_params[:body],
                      links_attributes: question_params[:links_attributes] || [])
@@ -45,7 +43,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy if current_user.author?(@question)
+    @question.destroy
   end
 
   private
