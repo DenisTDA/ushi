@@ -3,7 +3,7 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show destroy update]
-  before_action :set_user, only: %i[index destroy update show]
+  # before_action :set_user, only: %i[index destroy update show]
 
   after_action :publish_question, only: %i[create]
 
@@ -14,7 +14,6 @@ class QuestionsController < ApplicationController
   end
 
   def new
-    authorize! :create, Question
     @question = Question.new
     @question.links.new
     @question.build_meed

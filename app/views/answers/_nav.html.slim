@@ -1,5 +1,5 @@
   nav class='nav'
-    - if can? :edit, @inner
+    - if can? :destroy, @inner
         = link_to 'Edit','', class: 'edit-answer-link nav-link', data: { answer_id: @inner.id } 
         = link_to "Delete", @inner, method: 'delete', remote: true, class: 'delete-answer-link nav-link', data: { answer_id: @inner.id, confirm: "Are you shure?" }
     - if can?(:select, @inner) && !@inner.is_best?

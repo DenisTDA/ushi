@@ -3,7 +3,6 @@ class AttachmentsController < ApplicationController
 
   def destroy
     @file = ActiveStorage::Attachment.find(params[:id])
-    holder = @file.record
     authorize! :destroy, @file
     @file.purge_later
   end
