@@ -3,7 +3,8 @@ class VotesController < ApplicationController
 
   def create
     @vote = @voteable.votes.new vote_params
-    @vote.voter = current_user unless current_user.author?(@voteable)
+    @vote.voter = current_user
+    authorize! :vote, @vote
     respond_to do |format|
       if @vote.save
         format.json { render json: [@vote, @voteable.rating] }
@@ -18,6 +19,7 @@ class VotesController < ApplicationController
   def destroy
     @vote = Vote.find(params[:id])
     @voteable = @vote.voteable
+    authorize! :destroy, @vote
     respond_to do |format|
       if @vote.destroy
         format.json { render json: ['', @voteable.rating] }

@@ -50,11 +50,6 @@ RSpec.describe AttachmentsController, type: :controller do
           delete :destroy, params: { id: answer.files[0], holder: answer }, format: :js
         end.to_not change(answer.files, :count)
       end
-
-      it 'render for deleted file of the answer' do
-        delete :destroy, params: { id: answer.files[0], holder: answer }, format: :js
-        expect(response).to render_template :destroy
-      end
     end
 
     context 'file as the attachment to question by another user' do
@@ -64,11 +59,6 @@ RSpec.describe AttachmentsController, type: :controller do
         expect do
           delete :destroy, params: { id: question.files[0], holder: question }, format: :js
         end.to_not change(question.files, :count)
-      end
-
-      it 'render for deleted file of the question' do
-        delete :destroy, params: { id: question.files[0], holder: question }, format: :js
-        expect(response).to render_template :destroy
       end
     end
   end

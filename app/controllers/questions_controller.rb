@@ -3,9 +3,11 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show destroy update]
-  before_action :set_user, only: %i[index destroy update show]
+  # before_action :set_user, only: %i[index destroy update show]
 
   after_action :publish_question, only: %i[create]
+
+  authorize_resource
 
   def index
     @questions = Question.all
@@ -27,8 +29,6 @@ class QuestionsController < ApplicationController
   end
 
   def update
-    return unless current_user.author?(@question)
-
     @question.update(title: question_params[:title],
                      body: question_params[:body],
                      links_attributes: question_params[:links_attributes] || [])
@@ -42,7 +42,7 @@ class QuestionsController < ApplicationController
   end
 
   def destroy
-    @question.destroy if current_user.author?(@question)
+    @question.destroy
   end
 
   private

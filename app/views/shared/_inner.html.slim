@@ -7,9 +7,11 @@ i= @inner.body
       div.hstack.gap-3 id="link-block-#{ link.id }"
         - if link.gist?
           script src="#{link.url}.js"
+          -if can?(:destroy, link)
+            =link_to "delete link", link_path(id: link, holder: @inner), id: "d-link-#{ link.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
         - else
           li= link_to link.name, link.url, rel: 'nofollow noopener', target: '_blank'
-          -if current_user&.author?(@inner)
+          -if can?(:destroy, link)
             =link_to "delete link", link_path(id: link, holder: @inner), id: "d-link-#{ link.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
 
 
@@ -19,5 +21,5 @@ i= @inner.body
     - @inner.files.each do |file|
       div.hstack.gap-3 id="file-block-#{ file.id }"
         li= link_to file.filename.to_s, url_for(file), rel: 'nofollow noopener', target: '_blank'
-        -if current_user&.author?(@inner)
+        -if can? :destroy, @inner
           =link_to  "unattach", attachment_path(id: file, holder: @inner), id: "d-file-#{ file.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 

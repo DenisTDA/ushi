@@ -29,6 +29,7 @@ gem 'redis', '~> 4.0'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.2.0'
+gem 'cancancan'
 gem 'cocoon'
 gem 'devise'
 gem 'gon'
@@ -40,7 +41,6 @@ gem 'omniauth-google-oauth2'
 gem 'omniauth-mailru-oauth2'
 gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-vkontakte'
-# gem 'omniauth-mail_ru'
 gem 'slim-rails'
 
 group :development, :test do
