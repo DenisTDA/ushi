@@ -11,7 +11,7 @@ i= @inner.body
             =link_to "delete link", link_path(id: link, holder: @inner), id: "d-link-#{ link.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
         - else
           li= link_to link.name, link.url, rel: 'nofollow noopener', target: '_blank'
-          -if can?(:destroy, link)
+          -if can? :destroy, link
             =link_to "delete link", link_path(id: link, holder: @inner), id: "d-link-#{ link.id }", data: { confirm: "Are you Shure?" }, method: :delete, remote: true 
 
 
