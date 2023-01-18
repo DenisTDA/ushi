@@ -1,15 +1,12 @@
-class Api::V1::ProfilesController < ApplicationController
-  before_action :doorkeeper_authorize!
-
-  skip_authorization_check
+class Api::V1::ProfilesController < Api::V1::BaseController
 
   def me
-    render json:   current_resource_owner 
+    render json: current_resource_owner, serializer: ProfileSerializer 
   end
 
-  private
-
-  def current_resource_owner
-    @current_resource_owner ||=User.find(doorkeeper_token.resource_owner_id ) if doorkeeper_token
+  def all
+    @profiles = User.where.not(id: current_resource_owner.id)
+    render json: @profiles, each_serializer: ProfileSerializer  
   end
+
 end

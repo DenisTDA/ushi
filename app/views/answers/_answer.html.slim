@@ -13,8 +13,7 @@ span id="answer-block-#{answer.id}"
           =render 'shared/inner'
       .conteniar-sm.col-md-2.mx-auto 
         = render partial: 'shared/rating', locals: { voteable: answer} 
-        -if can? :vote, Vote
-          =render partial: 'shared/vote', locals: { voteable: answer}
+        =render partial: 'shared/vote', locals: { voteable: answer}
   .row.answer-comments
     div class ="comments-answer-#{ answer.id } col-md-12 row"
       h3 Comments

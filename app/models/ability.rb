@@ -35,10 +35,10 @@ class Ability
       user.author?(attachment.record)
     end
     can :select, Answer, question: { author: user }
-
-    can :vote, Vote do |vote|
+    can :create, Vote do |vote|
+      byebug
       !user.author?(vote.voteable)
     end
-    can :destroy, Vote, voter: user
+    can :destroy, Vote, voter: user 
   end
 end
