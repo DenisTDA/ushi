@@ -26,15 +26,15 @@ describe 'Questions API', type: :request do
 
       before { get '/api/v1/questions', params: { access_token: access_token.token }, headers:headers }
 
-      it 'return 200 status' do
+      it 'returns 200 status' do
         expect(response).to be_successful 
       end
  
-      it 'return list of questions' do
+      it 'returns list of questions' do
         expect(json['questions'].size).to eq 2
       end
 
-      it 'retun all public fields' do
+      it 'retuns all public fields' do
         %w[id title body created_at updated_at].each do |attr|
           expect(question_response[attr]).to eq question.send(attr).as_json
         end
@@ -55,7 +55,7 @@ describe 'Questions API', type: :request do
         it 'returns list of answers' do
           expect(question_response['answers'].size).to eq 3
         end
-        it 'retun all public fields' do
+        it 'retuns all public fields' do
           %w[id body author_id created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json 
           end
@@ -94,25 +94,25 @@ describe 'Questions API', type: :request do
         get "/api/v1/questions/#{ question.id }", params: { access_token: access_token.token }, headers:headers 
       end
 
-      it 'return 200 status' do
+      it 'returns 200 status' do
         expect(response).to be_successful 
       end
  
-      it 'retun all public fields' do
+      it 'retuns all public fields' do
         %w[id title body created_at updated_at].each do |attr|
           expect(question_response[attr]).to eq question.send(attr).as_json
         end
       end
 
-      it 'return list of links' do
+      it 'returns list of links' do
         expect(question_response['links'].size).to eq 2
       end
 
-      it 'return list of comments' do
+      it 'returns list of comments' do
         expect(question_response['comments'].size).to eq 3
       end
 
-      it 'return list of attachments (files)' do
+      it 'returns list of attachments (files)' do
         expect(question_response['files'].size).to eq 2
       end
 
