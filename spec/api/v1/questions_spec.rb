@@ -1,20 +1,13 @@
 require 'rails_helper'
 
 describe 'Questions API', type: :request do
-  let(:headers) { { "CONTENT_TYPE" => "application/json", 
-                      "ACCEPT" => "application/json" } } 
+  let(:headers) { { "ACCEPT" => "application/json" } } 
 
   describe 'GET /api/v1/questions' do
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get '/api/v1/questions', headers:headers
-        expect(response.status).to eq 401 
-      end
+    let(:api_path) { '/api/v1/questions' }
 
-      it 'returns 401 status if access_token is invalid' do
-        get '/api/v1/questions', params: { access_token: '1234' }, headers:headers
-        expect(response.status).to eq 401 
-      end
+    it_behaves_like 'API authorizable' do
+      let(:method) { :get }
     end
 
     context 'authorized' do
@@ -24,7 +17,7 @@ describe 'Questions API', type: :request do
       let(:question_response) { json['questions'].first }
       let!(:answers) { create_list(:answer, 3, question: question) }
 
-      before { get '/api/v1/questions', params: { access_token: access_token.token }, headers:headers }
+      before { get '/api/v1/questions', params: { access_token: access_token.token }, headers: headers }
 
       it 'returns 200 status' do
         expect(response).to be_successful 
@@ -50,11 +43,12 @@ describe 'Questions API', type: :request do
 
       describe 'answers' do
         let(:answer) { answers.first }
-        let(:answer_response) { question_response['answers'] .first} 
+        let(:answer_response) { question_response['answers'].first} 
 
         it 'returns list of answers' do
           expect(question_response['answers'].size).to eq 3
         end
+
         it 'retuns all public fields' do
           %w[id body author_id created_at updated_at].each do |attr|
             expect(answer_response[attr]).to eq answer.send(attr).as_json 
@@ -67,16 +61,10 @@ describe 'Questions API', type: :request do
 
   describe 'GET /api/v1/question/id' do
     let!(:question) { create(:question) }
-    context 'unauthorized' do
-      it 'returns 401 status if there is no access_token' do
-        get "/api/v1/questions/#{question.id}", headers:headers
-        expect(response.status).to eq 401 
-      end
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
 
-      it 'returns 401 status if access_token is invalid' do
-        get "/api/v1/questions/#{question.id}", params: { access_token: '1234' }, headers:headers
-        expect(response.status).to eq 401 
-      end
+    it_behaves_like 'API authorizable' do
+      let(:method) { :get }
     end
 
     context 'authorized' do
@@ -91,7 +79,7 @@ describe 'Questions API', type: :request do
       before do
         question.files.attach(file1)
         question.files.attach(file2)
-        get "/api/v1/questions/#{ question.id }", params: { access_token: access_token.token }, headers:headers 
+        get api_path, params: { access_token: access_token.token }, headers: headers 
       end
 
       it 'returns 200 status' do
@@ -132,7 +120,138 @@ describe 'Questions API', type: :request do
         expect(question_response['files'].first['url_path'])
           .to eq Rails.application.routes.url_helpers.rails_blob_path(question.files.first, only_path: true)
       end
-
     end
   end
+
+  describe 'POST /api/v1/questions' do
+    let(:question) { create(:question) }
+    let(:question_attr) { attributes_for(:question) }
+    let(:question_attr_invalid) { attributes_for(:question, :invalid) }
+    let(:api_path) { "/api/v1/questions" }
+   
+    it_behaves_like 'API authorizable' do
+      let(:method) { :post }
+    end
+
+    context 'authorized & with valid attributes' do
+      let(:access_token) { create(:access_token) }
+      let(:question_json) { json['question'] }
+
+      before do
+        post api_path, params: { question: question_attr, access_token: access_token.token }, headers: headers 
+      end
+
+      it 'returns status created' do
+        expect(response).to be_created
+      end
+
+      it 'saves a new question in the database' do
+        expect do
+          post api_path, params: { question: question_attr, access_token: access_token.token }, headers: headers 
+        end.to change(Question, :count).by(1)
+      end
+
+      it 'returns values which was sent in parameters' do
+        %w[title body].each do |attr|
+          expect(question_json[attr]).to eq question_attr[attr.to_sym]
+        end
+      end
+    end
+
+    context 'authorized & with invalid attributes' do
+      let(:access_token) { create(:access_token) }
+      let(:question_json) { json['question'] }
+
+      before do
+        post api_path, params: { question: question_attr_invalid, 
+                                            access_token: access_token.token }, headers: headers 
+      end
+
+      it 'returns errors with invalid attributes' do
+        expect(response).to be_bad_request 
+      end
+
+      it 'does not save the question' do
+        expect { post "/api/v1/questions", params: { access_token: access_token.token, 
+                    question: question_attr_invalid }, headers: headers }.
+          to_not change(Question, :count)
+      end
+
+      it 'should contain key errors' do
+        post api_path, params: { access_token: access_token.token, 
+                                            question: question_attr_invalid }, headers: headers
+
+        expect(json).to have_key('errors')
+      end
+    end
+  end
+
+  describe 'PATCH /api/v1/questions' do
+    let(:question) { create(:question) }
+    let(:question_attr) { {title: 'new title', body: 'new body'} }
+    let(:question_attr_invalid) { {title: 'new title', body: ''} }
+    let(:api_path) { "/api/v1/questions/#{question.id}" }
+    
+
+    it_behaves_like 'API authorizable' do
+      let(:method) { :patch }
+    end
+
+    context 'authorized & with valid attributes' do
+      let(:access_token) { create(:access_token) }
+      let(:question_json) { json['question'] }
+
+      before do
+        patch api_path, params: { id: question, question: question_attr, 
+          access_token: access_token.token }, headers: headers 
+      end
+
+      it 'returns status created' do
+        expect(response).to be_successful
+      end
+
+      it 'update a new data of question in the database' do
+        question.reload
+        expect(question.title).to eq 'new title'
+        expect(question.body).to eq 'new body'
+      end
+
+      it 'returns values which was sent in parameters' do
+        question.reload
+        %w[title body].each do |attr|
+          expect(question_json[attr]).to eq question_attr[attr.to_sym]
+        end
+      end
+    end
+
+    context 'authorized & with invalid attributes' do
+      let(:access_token) { create(:access_token) }
+      let(:question_json) { json['question'] }
+      let(:old_title) { question.title }
+      let(:old_body) { question.body }
+
+      before do
+        patch api_path, params: { id: question, question: question_attr_invalid, 
+                                  access_token: access_token.token }, headers: headers 
+      end
+
+      it 'returns errors with invalid attributes' do
+        expect(response).to be_bad_request 
+      end
+
+      it 'does not update the question' do
+        question.reload
+        expect(question.title).to eq old_title
+        expect(question.body).to eq old_body
+     end
+
+      it 'should contain key errors' do
+        patch api_path, params: { access_token: access_token.token, 
+                                            question: question_attr_invalid }, headers: headers
+        expect(json).to have_key('errors')
+      end
+    end
+  end
+
+
 end

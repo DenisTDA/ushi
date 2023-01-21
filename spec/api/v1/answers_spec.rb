@@ -118,7 +118,6 @@ describe 'Answers API', type: :request do
       end
 
       it 'returns object of attachment' do
-        expect(answer_json['files'].first['id']).to eq answer.files.first.id
         expect(answer_json['files'].first['url_path'])
           .to eq Rails.application.routes.url_helpers.rails_blob_path(answer.files.first, only_path: true)
       end

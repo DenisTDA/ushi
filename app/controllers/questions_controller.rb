@@ -3,7 +3,6 @@ class QuestionsController < ApplicationController
 
   before_action :authenticate_user!, except: %i[index show]
   before_action :set_question, only: %i[show destroy update]
-  # before_action :set_user, only: %i[index destroy update show]
 
   after_action :publish_question, only: %i[create]
 
@@ -49,10 +48,6 @@ class QuestionsController < ApplicationController
 
   def set_question
     @question = Question.with_attached_files.find(params[:id])
-  end
-
-  def set_user
-    @user = current_user
   end
 
   def question_params
