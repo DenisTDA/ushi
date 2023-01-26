@@ -5,7 +5,7 @@ class VotesController < ApplicationController
   def create
     @vote = @voteable.votes.new vote_params
     @vote.voter = current_user
-    authorize! :create, Vote
+    authorize! :create, @vote
     respond_to do |format|
       if @vote.save
         format.json { render json: [@vote, @voteable.rating] }

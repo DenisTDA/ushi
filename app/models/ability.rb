@@ -26,7 +26,7 @@ class Ability
   def user_abilities
     can :read, :all
     can :create, [Question, Answer, Comment]
-    can :update, [Question, Answer], author: user
+    can :update, [Question, Answer], author: user 
     can :destroy, [Question, Answer], author: user
     can :destroy, Link, linkable: { author: user }
     can :comment, [Question, Answer]
@@ -39,6 +39,13 @@ class Ability
       byebug
       !user.author?(vote.voteable)
     end
-    can :destroy, Vote, voter: user 
+    can :destroy, Vote, voter: user
+    can :me, User do |profile|
+      profile.id.eql?(user.id)
+    end
+    can :all, User
+    can :me, User do |profile|
+      profile.id.eql?(user.id)
+    end
   end
 end

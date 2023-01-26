@@ -1,7 +1,7 @@
 class Api::V1::QuestionsController < Api::V1::BaseController
-  before_action :set_question, only: %i[show update]
+  before_action :set_question, only: %i[show update destroy]
   skip_before_action :verify_authenticity_token
-
+  authorize_resource
 
   def index
     @questions = Question.all
@@ -29,6 +29,11 @@ class Api::V1::QuestionsController < Api::V1::BaseController
     end 
   end
 
+  def destroy
+    @question.destroy
+    head :no_content
+  end
+
   private
 
   def set_question
@@ -38,5 +43,4 @@ class Api::V1::QuestionsController < Api::V1::BaseController
   def question_params
     params.require(:question).permit(:title, :body)
   end
-
 end
