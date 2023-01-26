@@ -41,13 +41,13 @@ module Commented
   end
 
   def publish_comment
-    if @comment.errors.empty?
-      commentable_id = @comment.commentable_type.eql?('Answer') ? @commentable.question_id : @commentable.id
-      ActionCable.server.broadcast("comment_channel_#{commentable_id}",
-                                   comment: @comment.body,
-                                   commentableType: @comment.commentable_type.downcase,
-                                   commentableId: @comment.commentable_id,
-                                   email: current_user.email)
-    end
+    return unless @comment.errors.empty?
+
+    commentable_id = @comment.commentable_type.eql?('Answer') ? @commentable.question_id : @commentable.id
+    ActionCable.server.broadcast("comment_channel_#{commentable_id}",
+                                 comment: @comment.body,
+                                 commentableType: @comment.commentable_type.downcase,
+                                 commentableId: @comment.commentable_id,
+                                 email: current_user.email)
   end
 end

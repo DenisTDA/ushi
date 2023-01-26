@@ -5,7 +5,7 @@ module Voteable
     has_many :voters, class_name: 'User', foreign_key: :voter_id
 
     def rating
-      if (count_votes = votes.count) == 0
+      if (count_votes = votes.count).zero?
         count_useful = 0
         count_useless = 0
       else

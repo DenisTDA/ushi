@@ -32,8 +32,8 @@ Rails.application.routes.draw do
       end
 
       resources :questions, except: %i[new edit] do
-        resources :answers, shallow: true, only: %i[index show]
+        resources :answers, shallow: true, except: %i[new edit]
       end
     end
-  end 
+  end
 end

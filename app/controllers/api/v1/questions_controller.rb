@@ -23,15 +23,15 @@ class Api::V1::QuestionsController < Api::V1::BaseController
 
   def update
     if @question.update(question_params)
-      render json: @question, status: :ok
-    else   
+      render json: @question, status: :accepted
+    else
       render json: { errors: @question.errors }, status: :bad_request
-    end 
+    end
   end
 
   def destroy
     @question.destroy
-    head :no_content
+    head :accepted
   end
 
   private
