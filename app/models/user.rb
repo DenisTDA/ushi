@@ -34,6 +34,8 @@ class User < ApplicationRecord
   end
 
   def status_vote(voteable)
+    return if select_vote(voteable).first
+
     select_vote(voteable).first.useful ? "\u2705" : "\u26D4"
   end
 

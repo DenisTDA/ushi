@@ -26,15 +26,18 @@ gem 'redis', '~> 4.0'
 # gem 'image_processing', '~> 1.2'
 
 # Reduces boot times through caching; required in config/boot.rb
+gem 'active_model_serializers', '~> 0.10'
 gem 'aws-sdk-s3', require: false
 gem 'bootsnap', '>= 1.4.4', require: false
 gem 'bootstrap', '~> 5.2.0'
 gem 'cancancan'
 gem 'cocoon'
 gem 'devise'
+gem 'doorkeeper'
 gem 'gon'
 gem 'hirb'
 gem 'jquery-rails'
+gem 'oj'
 gem 'omniauth'
 gem 'omniauth-github'
 gem 'omniauth-google-oauth2'

@@ -69,10 +69,10 @@ describe Ability do
     it { should be_able_to :destroy, answer.files.first }
     it { should_not be_able_to :destroy, answer1.files.first }
 
-    it { should be_able_to :vote, Vote.new(voteable: question1, voter: user) }
-    it { should be_able_to :vote, Vote.new(voteable: answer1, voter: user) }
-    it { should_not be_able_to :vote, Vote.new(voteable: question, voter: user) }
-    it { should_not be_able_to :vote, Vote.new(voteable: answer, voter: user) }
+    it { should be_able_to :create, Vote.new(voteable: question1, voter: user) }
+    it { should be_able_to :create, Vote.new(voteable: answer1, voter: user) }
+    it { should_not be_able_to :create, Vote.new(voteable: question, voter: user) }
+    it { should_not be_able_to :create, Vote.new(voteable: answer, voter: user) }
 
     it { should be_able_to :destroy, create(:vote, voteable: question1, voter: user) }
     it { should_not be_able_to :destroy, create(:vote, voteable: question, voter: friend) }

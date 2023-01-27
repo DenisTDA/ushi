@@ -24,7 +24,7 @@ class Answer < ApplicationRecord
     transaction do
       self.class.where(question_id: question_id).update_all(selected: false)
       update(selected: true)
-      question.meed.update(answer: self) unless question.meed.nil?
+      question.meed&.update(answer: self)
     end
   end
 end

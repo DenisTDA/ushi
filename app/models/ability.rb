@@ -35,10 +35,16 @@ class Ability
       user.author?(attachment.record)
     end
     can :select, Answer, question: { author: user }
-
-    can :vote, Vote do |vote|
+    can :create, Vote do |vote|
       !user.author?(vote.voteable)
     end
     can :destroy, Vote, voter: user
+    can :me, User do |profile|
+      profile.id.eql?(user.id)
+    end
+    can :all, User
+    can :me, User do |profile|
+      profile.id.eql?(user.id)
+    end
   end
 end

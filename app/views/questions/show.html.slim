@@ -9,8 +9,7 @@
       =render 'shared/inner'
     .vote-question.conteniar-sm.col-md-3.mx-auto
       = render partial: 'shared/rating', locals: { voteable: @question} 
-      -if can? :vote, Vote 
-        =render partial: 'shared/vote', locals: { voteable: @question}
+      =render partial: 'shared/vote', locals: { voteable: @question}
   .row.question-comments
     div class ="comments-question-#{ @question.id } col-md-12 row"
       h3 Comments
