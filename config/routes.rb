@@ -5,7 +5,6 @@ Rails.application.routes.draw do
     mount Sidekiq::Web => '/sidekiq'
   end
 
-
   use_doorkeeper
   devise_for :users, controllers: { omniauth_callbacks: 'oauth_callbacks' }
   root 'questions#index'
