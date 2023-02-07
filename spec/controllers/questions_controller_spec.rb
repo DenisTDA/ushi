@@ -155,7 +155,6 @@ RSpec.describe QuestionsController, type: :controller do
         expect(response).to render_template :update
       end
     end
-
     context 'with invalid attributes' do
       it 'das not change question attributes' do
         expect do

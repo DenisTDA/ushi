@@ -1,7 +1,7 @@
 require 'sidekiq/web'
 
 Rails.application.routes.draw do
-  authenticate :user, lambda { |u| u.admin? } do
+  authenticate :user, ->(u) { u.admin? } do
     mount Sidekiq::Web => '/sidekiq'
   end
 
@@ -24,6 +24,7 @@ Rails.application.routes.draw do
       patch :select, on: :member
     end
     resources :votes, module: :questions, shallow: true, only: %i[create destroy]
+    resources :subscriptions, shallow: true, only: %i[create destroy]
   end
 
   resource :attachment, only: [:destroy]

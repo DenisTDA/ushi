@@ -14,7 +14,7 @@ class Answer < ApplicationRecord
 
   validates :body, :question_id, presence: true
 
-  after_commit :notify_questioner, on: :create
+  after_create_commit :notify_subscribers
 
   scope :sort_by_best, -> { order(selected: :desc) }
 
@@ -32,7 +32,7 @@ class Answer < ApplicationRecord
 
   private
 
-  def notify_questioner
-    NotifyAuthorQuestionJob.perform_later(self)
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self)
   end
 end

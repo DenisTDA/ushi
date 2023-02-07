@@ -28,12 +28,12 @@ RSpec.describe Answer, type: :model do
     expect(Answer.new.files).to be_an_instance_of(ActiveStorage::Attached::Many)
   end
 
-  describe 'notify_questioner' do
+  describe 'notify_subscribers' do
     let(:question) { create(:question) }
     let(:answer) { build(:answer, question: question) }
 
     it 'calls NotifyAuthorQuestionJob' do
-      expect(NotifyAuthorQuestionJob).to receive(:perform_later).with(answer)
+      expect(NotifySubscribersJob).to receive(:perform_later).with(answer)
       answer.save!
     end
   end

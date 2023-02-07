@@ -46,5 +46,7 @@ class Ability
     can :me, User do |profile|
       profile.id.eql?(user.id)
     end
+    can :create, Subscription
+    can :destroy, Subscription, user: user
   end
 end

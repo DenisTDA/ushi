@@ -20,7 +20,6 @@ span id="question-block-#{question.id}"
       = link_to_add_association 'add link', f, :links, 
         class: 'btn btn-primary btm-3 m-2', partial: 'shared/link_fields', 
           data: { association_insertion_node: '.links', association_insertion_method: :append } 
-
       =f.submit 'Save', class: 'btn btn-secondary'  
 
   span id="question-title-#{question.id}"
@@ -28,6 +27,9 @@ span id="question-block-#{question.id}"
 
   nav class='nav'
     = link_to 'View', question_path(question), class: 'nav-link'
+    - if current_user
+      .subscription
+        = render 'shared/subscription', question: question, subscription: question.subscriptions.find_by(user: current_user)
     .qs-links
     - if current_user&.author?(question)#can?(:destroy, question)
       = link_to 'Edit', '', class: 'edit-question-link nav-link', data: { question_id: question.id }  

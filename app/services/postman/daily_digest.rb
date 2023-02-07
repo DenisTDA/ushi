@@ -1,6 +1,6 @@
 class Postman::DailyDigest < ApplicationService
   def send_digest
-    User.find_each(batch_size:500) do |user|
+    User.find_each(batch_size: 500) do |user|
       DailyDigestMailer.digest(user).deliver_later
     end
   end
