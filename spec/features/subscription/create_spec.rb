@@ -13,7 +13,7 @@ feature 'User can create subscription', "
 
   describe 'Unauthenticated user', js: true do
     scenario 'try to subscribe' do
-      visit questions_path
+      visit question_path(question)
 
       expect(page).to_not have_link 'Subscribe'
       expect(page).to_not have_link 'Unsubscribe'
@@ -23,7 +23,7 @@ feature 'User can create subscription', "
   describe 'Authenticated user', js: true do
     scenario 'try to subscribe' do
       sign_in(user)
-      visit questions_path
+      visit question_path(question)
       click_on 'Subscribe'
 
       expect(page).to have_link 'Unsubscribe'

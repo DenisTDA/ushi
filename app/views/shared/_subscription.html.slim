@@ -1,6 +1,7 @@
-- unless subscription
+- if !subscription
   = link_to 'Subscribe', question_subscriptions_path(question), method: :post, remote: true,
           data: { type: :js }, class: 'nav-link'
 - else
   = link_to 'Unsubscribe', subscription_path(subscription), method: :delete, remote: true,
           data: { type: :js }, class: 'nav-link'
+  

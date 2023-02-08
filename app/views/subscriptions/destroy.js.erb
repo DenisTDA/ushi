@@ -1,4 +1,4 @@
 <% if !@subscription.errors.present? %>
-    $("#question-block-<%= @subscription.question.id %>").find('.subscription')
+    $("#question-<%= @subscription.question.id %>").find('.subscription')
         .html('<%= j render 'shared/subscription', question: @subscription.question, subscription: nil %>')
 <% end %>

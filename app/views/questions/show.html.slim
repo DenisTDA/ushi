@@ -2,11 +2,16 @@
 .question-errors
   = render 'shared/errors', resource: @question
 .question-block data-question-id = @question.id id="question-#{@question.id}"
+  - if current_user
+    .subscription.nav
+      = render 'shared/subscription', question: @question, subscription: @question.subscriptions.find_by(user: current_user)
+
   .row
     .conteniar-lg.col-md-8.mx-auto
       h1.fw-light.fst-italic Question
       div.p-1.m-1.fw-bold = @question.title
       =render 'shared/inner'
+
     .vote-question.conteniar-sm.col-md-3.mx-auto
       = render partial: 'shared/rating', locals: { voteable: @question} 
       =render partial: 'shared/vote', locals: { voteable: @question}

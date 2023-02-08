@@ -11,7 +11,7 @@ feature 'User can delete subscription', "
 
   describe 'Unauthenticated user', js: true do
     scenario 'try to unsubscribe' do
-      visit questions_path
+      visit question_path(question)
 
       expect(page).to_not have_link 'Subscribe'
       expect(page).to_not have_link 'Unsubscribe'
@@ -21,7 +21,7 @@ feature 'User can delete subscription', "
   describe 'Authenticated user', js: true do
     scenario 'try to unsubscribe' do
       sign_in(friend)
-      visit questions_path
+      visit question_path(question)
       click_on 'Unsubscribe'
 
       expect(page).to have_link 'Subscribe'

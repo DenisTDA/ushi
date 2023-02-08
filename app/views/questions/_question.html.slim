@@ -27,9 +27,6 @@ span id="question-block-#{question.id}"
 
   nav class='nav'
     = link_to 'View', question_path(question), class: 'nav-link'
-    - if current_user
-      .subscription
-        = render 'shared/subscription', question: question, subscription: question.subscriptions.find_by(user: current_user)
     .qs-links
     - if current_user&.author?(question)#can?(:destroy, question)
       = link_to 'Edit', '', class: 'edit-question-link nav-link', data: { question_id: question.id }  
