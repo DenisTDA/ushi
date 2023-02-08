@@ -1,0 +1,10 @@
+h1 DailyDidest#digest
+p = "#{@greeting}, find me in app/views/daily_didest_mailer/digest.html.slim"
+
+-if @list_questions.empty?
+  p= "Nothing has been added"
+-else 
+  h2 List of last question
+  ul
+    - @list_questions.each do |question|
+      li = question.title

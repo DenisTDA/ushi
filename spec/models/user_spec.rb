@@ -7,6 +7,7 @@ RSpec.describe User, type: :model do
   it { should have_many(:problems).class_name 'Question' }
   it { should have_many(:replies).class_name 'Answer' }
   it { should have_many(:authorizations).dependent(:destroy) }
+  it { should have_many(:subscriptions).dependent(:destroy) }
 
   it { should validate_presence_of :email }
 

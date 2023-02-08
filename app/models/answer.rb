@@ -14,6 +14,8 @@ class Answer < ApplicationRecord
 
   validates :body, :question_id, presence: true
 
+  after_create_commit :notify_subscribers
+
   scope :sort_by_best, -> { order(selected: :desc) }
 
   def is_best?
@@ -26,5 +28,11 @@ class Answer < ApplicationRecord
       update(selected: true)
       question.meed&.update(answer: self)
     end
+  end
+
+  private
+
+  def notify_subscribers
+    NotifySubscribersJob.perform_later(self)
   end
 end

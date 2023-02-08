@@ -20,6 +20,7 @@ class User < ApplicationRecord
   has_many :responses, class_name: 'Answer', through: :reviews,
                        source: :commentable, source_type: :Answer
   has_many :authorizations, dependent: :destroy
+  has_many :subscriptions, dependent: :destroy
 
   def self.find_for_oauth(auth)
     Registration::FindForOauth.call(auth)
