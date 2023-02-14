@@ -1,0 +1,10 @@
+div class="row" style="background:white; margin-top:5px; border-radius:10px"
+  div class="col-md-2 bg-success" style="--bs-bg-opacity: .15"
+    span Comment 
+    = comment.id
+  div class="col-md-1"
+  div class="col-md-5 bg-warning" style="--bs-bg-opacity: .15"
+    =comment.body
+  div class="col-md-1"
+  div class="col-md-3 bg-secondary" style="--bs-bg-opacity: .15"
+    =comment.user.email

@@ -1,0 +1,9 @@
+- @results.each do |result| 
+  - if result.class.eql?(Question)
+    = render 'question', question: result
+  - if result.class.eql?(Answer)
+    = render 'answer', answer: result
+  - if result.class.eql?(Comment)
+    = render 'comment', comment: result
+  - if result.class.eql?(User)
+    = render 'user', user: result

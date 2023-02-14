@@ -1,0 +1,6 @@
+$('.result_search').html('')
+<% if @results.empty? %>
+  $('.result_search').html('Nothing found')
+<% else %>
+  $('.result_search').html(" <%= j will_paginate @results %> <%= j render 'result' %>")
+<% end %>
