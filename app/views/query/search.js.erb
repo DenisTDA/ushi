@@ -2,5 +2,7 @@ $('.result_search').html('')
 <% if @results.empty? %>
   $('.result_search').html('Nothing found')
 <% else %>
-  $('.result_search').html(" <%= j will_paginate @results %> <%= j render 'result' %>")
+  $('.pagination').html("<%= j js_will_paginate @results %>")
+  $('.pagination').children('*').addClass('page-link d-inline')
+  $('.result_search').html("<%= j render 'result' %>")
 <% end %>

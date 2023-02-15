@@ -7,9 +7,9 @@ class QueryController < ApplicationController
   def search
     @results = ThinkingSphinx.search(params[:search],
       :page => params[:page],
-      :per_page => 100,
+      :per_page => 10,
       classes: klasses)
-end
+  end
 
   private
 
