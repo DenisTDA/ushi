@@ -15,7 +15,7 @@ RSpec.describe OauthCallbacksController, type: :controller do
       get :github
     end
 
-    context 'user exist' do
+    context 'user1 exist' do
       let!(:user) { create(:user) }
 
       before do

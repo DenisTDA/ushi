@@ -1,5 +1,5 @@
 $('.result_search').html('')
-<% if @results.empty? %>
+<% if @results.nil? || @results.empty?%>
   $('.result_search').html('Nothing found')
 <% else %>
   $('.pagination').html("<%= j js_will_paginate @results %>")

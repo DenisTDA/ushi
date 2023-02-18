@@ -35,7 +35,6 @@ gem 'cocoon'
 gem 'devise'
 gem 'doorkeeper'
 gem 'gon'
-gem 'hirb'
 gem 'jquery-rails'
 gem 'oj'
 gem 'omniauth'
@@ -57,6 +56,7 @@ group :development, :test do
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
   gem 'factory_bot_rails'
   gem 'rspec-rails', '~> 4.1'
+  gem 'hirb'
 end
 
 group :development do
@@ -84,6 +84,7 @@ group :test do
   gem 'rails-controller-testing'
   gem 'shoulda-matchers', '~> 5.0'
   gem 'webdrivers'
+  gem 'database_cleaner-active_record'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

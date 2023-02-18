@@ -13,7 +13,7 @@ Rails.application.routes.draw do
   post '/confirm_email', to: 'users#confirm_email'
 
   get 'query/new'=> 'query#new'
-  get '/query/search' => 'query#search', :as => 'search', as: :js
+  get '/query/search' => 'query#search', :as => 'search'
 
   concern :commented do
     member do

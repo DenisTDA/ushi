@@ -1,13 +1,14 @@
 class QueryController < ApplicationController
-  before_action :authenticate_user!, only: %i[search]
-  skip_authorization_check
+  authorize_resource :class => false
 
   def new; end
 
   def search
+    return if (params[:all].nil? && params[:subjects].nil?) || params[:search].empty?
+
     @results = ThinkingSphinx.search(params[:search],
       :page => params[:page],
-      :per_page => 10,
+      :per_page => 15,
       classes: klasses)
   end
 
