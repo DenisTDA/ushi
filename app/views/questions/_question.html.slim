@@ -1,33 +1,38 @@
-span id="question-block-#{question.id}"
-  span id="question-errors-#{question.id}"
-    = render 'shared/errors', resource: @question
-  div.form-edit.bg-warning style="--bs-bg-opacity: .25"
-    = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
-      div.input-group.mb-3
-        =f.label :title, 'Title', class: 'form-label'
-        =f.text_field :title, class: "form-control"
-      div.input-group.mb-3  
-        =f.label :body, 'Body question', class: 'form-label' 
-        =f.text_area :body, class: "form-control"
+span id="question-block-#{question.id}" 
+  .container
+    .row.border.border-info.my-1.bg-success style="--bs-bg-opacity: .08"
+      .col-8 
+        span id="question-errors-#{question.id}"
+          = render 'shared/errors', resource: @question
+          
+        div.form-edit.bg-warning style="--bs-bg-opacity: .25"
+          = form_with model: question, class: 'hidden', html: { id: "edit-question-#{question.id}" }, local: false do |f|
+            div.input-group.mb-3
+              =f.label :title, 'Title', class: 'form-label'
+              =f.text_field :title, class: "form-control"
+            div.input-group.mb-3  
+              =f.label :body, 'Body question', class: 'form-label' 
+              =f.text_area :body, class: "form-control"
 
-      div.input-group.mb-3
-        =f.label :files, class: 'form-label'
-        =f.file_field :files, multiple: true, class: "form-control"
+            div.input-group.mb-3
+              =f.label :files, class: 'form-label'
+              =f.file_field :files, multiple: true, class: "form-control"
 
-      div class="links"
-        =f.fields_for :links do |link| 
-          =render 'shared/link_fields', f: link
-      = link_to_add_association 'add link', f, :links, 
-        class: 'btn btn-primary btm-3 m-2', partial: 'shared/link_fields', 
-          data: { association_insertion_node: '.links', association_insertion_method: :append } 
-      =f.submit 'Save', class: 'btn btn-secondary'  
+            div class="links"
+              =f.fields_for :links do |link| 
+                =render 'shared/link_fields', f: link
+            = link_to_add_association 'add link', f, :links, 
+              class: 'btn btn-primary btm-3 m-2', partial: 'shared/link_fields', 
+                data: { association_insertion_node: '.links', association_insertion_method: :append } 
+            =f.submit 'Save', class: 'btn btn-secondary'
 
-  span id="question-title-#{question.id}"
-    = question.title
-
-  nav class='nav'
-    = link_to 'View', question_path(question), class: 'nav-link'
-    .qs-links
-    - if current_user&.author?(question)#can?(:destroy, question)
-      = link_to 'Edit', '', class: 'edit-question-link nav-link', data: { question_id: question.id }  
-      = link_to "Delete", question, method: 'delete', remote: true, class: 'delete-question-link nav-link', data: { question_id: question.id, confirm: "Are you shure?" }
+        span id="question-title-#{question.id}"
+          = question.title
+      .col-1      
+      .col-3
+        nav class='nav'
+          = link_to 'View', question_path(question), class: 'nav-link'
+          .qs-links
+          - if current_user&.author?(question)#can?(:destroy, question)
+            = link_to 'Edit', '', class: 'edit-question-link nav-link', data: { question_id: question.id }  
+            = link_to "Delete", question, method: 'delete', remote: true, class: 'delete-question-link nav-link', data: { question_id: question.id, confirm: "Are you shure?" }

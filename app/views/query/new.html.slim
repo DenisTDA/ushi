@@ -1,0 +1,26 @@
+
+.container.bg-success.text-dark.bg-opacity-10.my-5.p-3
+  strong Search
+  = form_with(url: '/query/search', method: 'get', local: false) do |f| 
+    = f.text_field :search 
+    p
+    .form-check.form-check-inline
+      = f.check_box :subjects, { multiple: true },'question', nil
+      = f.label :quetion, 'Questions'
+    .form-check.form-check-inline    
+      = f.check_box :subjects, { multiple: true },'answer', nil
+      = f.label :answer, 'Answers'
+    .form-check.form-check-inline
+      = f.check_box :subjects, { multiple: true }, 'comment', nil
+      = f.label :comments, 'Comments'
+    .form-check.form-check-inline
+      = f.check_box :subjects, { multiple: true }, 'user', nil
+      = f.label :comments, 'Users'
+    .form-check.form-check-inline
+      = f.check_box :all, {}, 'all', nil 
+      = f.label :all, 'Full search'
+    p
+    = f.submit "Search" 
+.pagination
+.result_search
+  

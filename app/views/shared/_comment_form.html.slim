@@ -1,5 +1,5 @@
-.comment-form-block.container-fluid.d-block
-  -if can?(:comment, commentable) #current_user
+.comment-form-block
+  -if can?(:comment, commentable)   
     = link_to 'Leave comment', commentable, 
       class: 'new-comment-link', 
       data: { commentable_id: commentable.id,

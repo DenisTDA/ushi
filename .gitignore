@@ -37,3 +37,7 @@ yarn-debug.log*
 /config/database.yml
 .rubocop.yml
 .env
+
+#ignore sphinx's files 
+config/*.sphinx.conf
+db/sphinx

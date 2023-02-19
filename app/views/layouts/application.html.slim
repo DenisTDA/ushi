@@ -9,17 +9,16 @@ html
     = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'    
     = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
     = stylesheet_pack_tag 'application', 'data-turbolinks-track': 'reload'
-  
+    = favicon_link_tag asset_path('android-chrome-192x192.png')
   body
-    div.container
+    .container
       = render 'shared/menu'
-    .conteniar   
-    .conteniar-lg.col-md-8.mx-auto.main-body
+    .conteniar-md.mx-auto.main-body
       .flash-alert
         = show_flash(:alert) 
         = show_flash(:danger)
         = show_flash(:warning)
-      
+
       = yield
 
       .flash

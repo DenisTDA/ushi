@@ -1,5 +1,5 @@
-h1 List of questions
+h4.text-center List of questions
 - if can?(:create, Question)  
-  p= link_to 'Ask question', new_question_path
+  p.text-center= link_to 'Ask question', new_question_path
 .questions
   = render @questions

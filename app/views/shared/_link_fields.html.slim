@@ -1,7 +1,10 @@
-.nested-fields.input-group.mb-3
-  =f.label :name, 'Link name'
-  =f.text_field :name, class: "form-control" 
-  =f.label :url
-  =f.text_field :url, class: "form-control"  
-  = link_to_remove_association "remove link", f, 
-    partial: 'shared/link_filelds'
+.nested-fields.input-group.mb-1.position-relative
+  .col-5.m-1
+    =f.label :name, 'Link name'
+    =f.text_field :name, class: "form-control" 
+  .col-5.m-1  
+    =f.label :url
+    =f.text_field :url, class: "form-control"  
+  .col-2
+    = link_to_remove_association "remove link", f, 
+      partial: 'shared/link_filelds', class:'btn btn-danger mt-3 position-absolute top-50 end-0 translate-middle-y'

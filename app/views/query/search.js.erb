@@ -1,0 +1,8 @@
+$('.result_search').html('')
+<% if @results.nil? || @results.empty?%>
+  $('.result_search').html('Nothing found')
+<% else %>
+  $('.pagination').html("<%= j js_will_paginate @results %>")
+  $('.pagination').children('*').addClass('page-link d-inline')
+  $('.result_search').html("<%= j render 'result' %>")
+<% end %>
