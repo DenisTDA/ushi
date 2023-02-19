@@ -30,7 +30,8 @@ $(document).on('turbolinks:load', function() {
   }
 
   function formatHtml(comment, email, type, id){
-    let commentBlock = $('<div>').attr({ 'class': 'comment-block m-2 col-md-10 border border-secondary' })
+    let commentBlock = $('<div>').attr({ 
+      'class': 'comment-block m-2 border border-info border-start-0 rounded-end bg-secondary bg-opacity-10' })
     let time = new Date()
     commentBlock.append('<i>' + email + ' : ' + time + '</i>' )
     commentBlock.append('<p>' + comment + '</p>')

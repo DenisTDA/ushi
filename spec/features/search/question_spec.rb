@@ -5,25 +5,29 @@ feature 'User can search for question', "
   As a User
   I'd like to be able to search for the question
 " do
-
   describe 'User searches for the question', js: true do
-    
     given(:user) { create(:user) }
     given(:author) { create(:user, email: 'question@mail.com') }
-    given!(:question1) { create(:question, title: 'title question', 
-                                          body: '123') }
-    given!(:question2) { create(:question, title: '123', 
-                                          body: 'body question') }
-    given!(:question3) { create(:question, title: '123', 
-                                            body: '456',
-                                            author: author) }
+    given!(:question1) do
+      create(:question, title: 'title question',
+                        body: '123')
+    end
+    given!(:question2) do
+      create(:question, title: '123',
+                        body: 'body question')
+    end
+    given!(:question3) do
+      create(:question, title: '123',
+                        body: '456',
+                        author: author)
+    end
 
     scenario 'keyword into the title', sphinx: true do
       ThinkingSphinx::Test.run do
         visit query_new_path
-        
+
         fill_in 'search', with: 'question'
-        check 'subjects_question' 
+        check 'subjects_question'
         click_button 'Search'
 
         within '.result_search' do
@@ -35,9 +39,9 @@ feature 'User can search for question', "
     scenario 'keyword into the body', sphinx: true do
       ThinkingSphinx::Test.run do
         visit query_new_path
-        
+
         fill_in 'search', with: 'question'
-        check 'subjects_question' 
+        check 'subjects_question'
         click_button 'Search'
 
         within '.result_search' do
@@ -49,9 +53,9 @@ feature 'User can search for question', "
     scenario "keyword into the email's author", sphinx: true do
       ThinkingSphinx::Test.run do
         visit query_new_path
-        
+
         fill_in 'search', with: 'question'
-        check 'subjects_question' 
+        check 'subjects_question'
         click_button 'Search'
 
         within '.result_search' do
@@ -65,17 +69,19 @@ feature 'User can search for question', "
     given(:author) { create(:user, email: 'question@mail.com') }
 
     describe 'check invalid resources of a search' do
-      given!(:question) { create(:question, title: 'question title', 
-        body: 'question body',
-        author: author) }
+      given!(:question) do
+        create(:question, title: 'question title',
+                          body: 'question body',
+                          author: author)
+      end
 
       scenario 'returns emty list', sphinx: true do
         ThinkingSphinx::Test.run do
           visit query_new_path
-          
+
           fill_in 'search', with: 'question'
-          check 'subjects_answer' 
-          check 'subjects_comment' 
+          check 'subjects_answer'
+          check 'subjects_comment'
           click_button 'Search'
 
           within '.result_search' do
@@ -85,20 +91,22 @@ feature 'User can search for question', "
         end
       end
     end
-    
+
     describe 'not have questions in database with keyword' do
       given(:question) { create(:question) }
-      given!(:answer) { create(:answer, body: 'question body',author: author) }
-      given!(:comment) { create(:comment, body: 'question comment', 
-                                          user: author,
-                                          commentable: answer) }
+      given!(:answer) { create(:answer, body: 'question body', author: author) }
+      given!(:comment) do
+        create(:comment, body: 'question comment',
+                         user: author,
+                         commentable: answer)
+      end
 
       scenario 'returns empty list', sphinx: true do
         ThinkingSphinx::Test.run do
           visit query_new_path
-          
+
           fill_in 'search', with: 'question'
-          check 'subjects_question' 
+          check 'subjects_question'
           click_button 'Search'
 
           within '.result_search' do

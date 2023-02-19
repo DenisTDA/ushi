@@ -1,7 +1,7 @@
 ThinkingSphinx::Index.define :user, with: :active_record do
-  #fields
+  # fields
   indexes email, sortable: true
-  
-  #attributes
+
+  # attributes
   has admin, created_at, updated_at
-end 
+end

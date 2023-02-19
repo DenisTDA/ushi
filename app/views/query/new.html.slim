@@ -1,5 +1,6 @@
-strong Search
-.contener.border-bottom.bg-success.p-2.text-dark.bg-opacity-25
+
+.container.bg-success.text-dark.bg-opacity-10.my-5.p-3
+  strong Search
   = form_with(url: '/query/search', method: 'get', local: false) do |f| 
     = f.text_field :search 
     p

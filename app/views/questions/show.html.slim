@@ -1,50 +1,44 @@
--@inner = @question
-.question-errors
-  = render 'shared/errors', resource: @question
-.question-block data-question-id = @question.id id="question-#{@question.id}"
-  - if current_user
-    .subscription.nav
-      = render 'shared/subscription', question: @question, subscription: @question.subscriptions.find_by(user: current_user)
+.container.my-4
+  -@inner = @question
+  .question-errors
+    = render 'shared/errors', resource: @question
+  .question-block data-question-id = @question.id id="question-#{@question.id}"  
+    h4.fw-light.fst-italic Question
+    .row
+      .container.mx-auto.col-9.bg-info.bg-opacity-10.border.border-info.border-end-0.rounded-start
+        .row.m-1  
+          .p-1.m-1.fw-bold = @question.title
+        .row.m-1
+          =render 'shared/inner'
+      .container.col-1
+      .container.mx-auto.col-2
+        .row 
+          .vote-question.container.mx-auto.mt-3
+            = render partial: 'shared/rating', locals: { voteable: @question} 
+            =render partial: 'shared/vote', locals: { voteable: @question}
 
-  .row
-    .conteniar-lg.col-md-8.mx-auto
-      h1.fw-light.fst-italic Question
-      div.p-1.m-1.fw-bold = @question.title
-      =render 'shared/inner'
+        .row.mx-auto
+          .container.m-3
+          - if current_user
+            .subscription.d-grid.gap-2.mx-auto
+              = render 'shared/subscription', question: @question, subscription: @question.subscriptions.find_by(user: current_user)
 
-    .vote-question.conteniar-sm.col-md-3.mx-auto
-      = render partial: 'shared/rating', locals: { voteable: @question} 
-      =render partial: 'shared/vote', locals: { voteable: @question}
-  .row.question-comments
-    div class ="comments-question-#{ @question.id } col-md-12 row"
-      h3 Comments
-      = render  "shared/comment_form", commentable: @question
-      .comments-slide.col-md-2
-      .comments.col-md-10.mx-auto
-        = render partial: "/shared/comment", collection: @question.comments
+    .row.question-comments.m-2
+      .container.col-2
+      .container.mx-auto.col-10.py-2
+        div class ="comments-question-#{ @question.id }"
+          h6 Comments
+          = render  "shared/comment_form", commentable: @question
+          .comments.mx-auto
+            = render partial: "/shared/comment", collection: @question.comments
 
--if !@question.answers.empty?
-  h1.fw-light.fst-italic Answers
-.answer-errors
-  = render 'shared/errors', resource: @answer
-.answers
-  = render partial: '/answers/answer', collection: @answers
+    .container.mx-auto.m-2.p-2
+      -if !@question.answers.empty?
+        h4.fw-light.fst-italic Answers
+      .answer-errors
+        = render 'shared/errors', resource: @answer
+      .answers
+        = render partial: '/answers/answer', collection: @answers
 
-.container-xl.bg-secondary style="--bs-bg-opacity: .25"
-  = form_with model: [@question, @answer], class: 'new-answer pb-2 mb-4', local: false do |f|
-    div.pt-1.mt-2.input-group.mb-3
-      = f.label :body, 'Your answer', class: "form-label"
-      = f.text_area :body , class: "form-control"
-    div.p-1.m-2.input-group.mb-3
-      = f.label :files, class: "form-label" 
-      = f.file_field :files, multiple: true, class: "form-control form-control-sm m-2 answer-files"
-
-    div.links-add.input-group.mb-3
-      =f.fields_for :links do |link| 
-        =render 'shared/link_fields', f: link
-    = link_to_add_association 'add link', f, :links, 
-      class: 'btn btn-primary m-2', partial: 'shared/link_fields',
-      data: { association_insertion_node: '.links-add', 
-      association_insertion_method: :append } 
-
-    p= f.submit 'Answer', class: 'btn btn-success m-2'
+    .container.bg-secondary.p-2 style="--bs-bg-opacity: .15"
+      = render 'form_answer'

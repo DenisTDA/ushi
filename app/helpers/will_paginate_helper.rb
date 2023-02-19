@@ -7,8 +7,9 @@ module WillPaginateHelper
     end
 
     protected
+
     def link(text, target, attributes = {})
-      if target.is_a? Fixnum
+      if target.is_a? Integer
         attributes[:rel] = rel_value(target)
         target = url(target)
       end
@@ -20,6 +21,6 @@ module WillPaginateHelper
   end
 
   def js_will_paginate(collection, options = {})
-    will_paginate(collection, options.merge(:renderer => WillPaginateHelper::WillPaginateJSLinkRenderer))
+    will_paginate(collection, options.merge(renderer: WillPaginateHelper::WillPaginateJSLinkRenderer))
   end
 end

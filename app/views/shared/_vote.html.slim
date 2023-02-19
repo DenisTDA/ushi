@@ -1,9 +1,9 @@
 .vote-block.mx-auto
   - if current_user && !current_user&.author?(voteable)
-    .voted-sign.gap-1.col-1.mx-auto
+    .voted-sign.gap-1.col-2.mx-auto
       = current_user.status_vote(voteable) if !current_user.able_to_vote?(voteable) 
 
-    .links-vote.d-grid.gap-1.col-8.mx-auto
+    .links-vote.d-grid.gap-1.col-10.mx-auto
       -if current_user&.able_to_vote?(voteable)
         div class='useful-div'
           =link_to "\u2705 useful", [voteable, vote_new(voteable), vote: {useful: true}], method: :post, 

@@ -1,8 +1,8 @@
 ThinkingSphinx::Index.define :answer, with: :active_record do
-  #fields
+  # fields
   indexes body
   indexes author.email, as: :author, sortable: true
 
-  #attributes
+  # attributes
   has author_id, created_at, updated_at
-end 
+end

@@ -9,16 +9,16 @@ feature 'User can search for comment', "
 
   describe 'User searches for the comment', js: true do
     given(:author) { create(:user, email: 'comment@mail.com') }
-    given(:question){ create(:question) }
+    given(:question) { create(:question) }
     given!(:comment2) { create(:comment, body: 'body comment', commentable: question, user: user) }
     given!(:comment3) { create(:comment, body: '456', commentable: question, user: author) }
 
     scenario 'keyword into the body', sphinx: true do
       ThinkingSphinx::Test.run do
         visit query_new_path
-        
+
         fill_in 'search', with: 'comment'
-        check 'subjects_comment' 
+        check 'subjects_comment'
         click_button 'Search'
 
         within '.result_search' do
@@ -30,9 +30,9 @@ feature 'User can search for comment', "
     scenario "keyword into the email's author", sphinx: true do
       ThinkingSphinx::Test.run do
         visit query_new_path
-        
+
         fill_in 'search', with: 'comment'
-        check 'subjects_comment' 
+        check 'subjects_comment'
         click_button 'Search'
 
         within '.result_search' do
@@ -47,18 +47,20 @@ feature 'User can search for comment', "
     given(:question) { create(:question) }
 
     describe 'check invalid resources of a search' do
-      given!(:comment) { create(:comment,
-                                body: 'comment body',
-                                commentable: question,
-                                user: author) }
+      given!(:comment) do
+        create(:comment,
+               body: 'comment body',
+               commentable: question,
+               user: author)
+      end
 
       scenario 'returns emty list', sphinx: true do
         ThinkingSphinx::Test.run do
           visit query_new_path
-          
+
           fill_in 'search', with: 'comment'
-          check 'subjects_question' 
-          check 'subjects_answer' 
+          check 'subjects_question'
+          check 'subjects_answer'
           click_button 'Search'
 
           within '.result_search' do
@@ -68,19 +70,21 @@ feature 'User can search for comment', "
         end
       end
     end
-    
+
     describe 'not have comments in database with keyword' do
       given!(:answer) { create(:answer) }
       given!(:comment) { create(:comment, commentable: answer, user: user) }
-      given!(:question) { create(:question, title: 'question title comment', 
-                                            body: 'question body comment',  
-                                            author: author) }
-      given!(:answer1) { create(:answer, body: 'answer comment', author: author ) }
+      given!(:question) do
+        create(:question, title: 'question title comment',
+                          body: 'question body comment',
+                          author: author)
+      end
+      given!(:answer1) { create(:answer, body: 'answer comment', author: author) }
 
       scenario 'returns empty list', sphinx: true do
         ThinkingSphinx::Test.run do
           visit query_new_path
-          
+
           fill_in 'search', with: 'comment'
           check 'subjects_comment'
           click_button 'Search'
