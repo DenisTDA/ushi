@@ -50,6 +50,7 @@ gem 'slim-rails'
 gem 'thinking-sphinx'
 gem 'whenever', require: false
 gem 'will_paginate', '~> 3.3'
+gem 'mini_racer'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -72,6 +73,12 @@ group :development do
   gem 'rubocop-rails'
   gem 'rubocop-rspec'
   gem 'spring'
+
+  gem 'capistrano', require: false
+  gem 'capistrano-bundler', require: false
+  gem 'capistrano-rails', require: false
+  gem 'capistrano-rvm', require: false
+  gem 'capistrano-passenger', require: false
 end
 
 group :test do
