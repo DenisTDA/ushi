@@ -8,7 +8,7 @@ $(document).on('turbolinks:load', function() {
     if ($idElem) { $blockA = $('#answer-block-'+ $idElem).find('.vote-block') }
   })
   
-  $('.vote-question').on('ajax:success', function(e) {
+  $('.vote-question').find('.vote-block').on('ajax:success', function(e) {
     let voteQuestion = new Vote(e)
     voteQuestion.formatVote($blockQ) 
   })

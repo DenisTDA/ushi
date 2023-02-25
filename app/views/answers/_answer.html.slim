@@ -13,7 +13,7 @@ span id="answer-block-#{answer.id}"
         .container.col-8.mx-auto.bg-warning.bg-opacity-10.border.border-info.border-end-0.rounded-start  
           =render 'shared/inner'
       .container.col-1
-      .container.col-2.mx-auto 
+      .container.col-2.mx-auto.vote-block 
         = render partial: 'shared/rating', locals: { voteable: answer} 
         = render partial: 'shared/vote', locals: { voteable: answer}
 

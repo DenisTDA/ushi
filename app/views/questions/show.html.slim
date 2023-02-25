@@ -13,7 +13,7 @@
       .container.col-1
       .container.mx-auto.col-2
         .row 
-          .vote-question.container.mx-auto.mt-3
+          .container.vote-question.mx-auto.mt-3
             = render partial: 'shared/rating', locals: { voteable: @question} 
             =render partial: 'shared/vote', locals: { voteable: @question}
 
@@ -32,13 +32,13 @@
           .comments.mx-auto
             = render partial: "/shared/comment", collection: @question.comments
 
-    .container.mx-auto.m-2.p-2
-      -if !@question.answers.empty?
-        h4.fw-light.fst-italic Answers
-      .answer-errors
-        = render 'shared/errors', resource: @answer
-      .answers
-        = render partial: '/answers/answer', collection: @answers
+  .container.mx-auto.m-2.p-2
+    -if !@question.answers.empty?
+      h4.fw-light.fst-italic Answers
+    .answer-errors
+      = render 'shared/errors', resource: @answer
+    .answers
+      = render partial: '/answers/answer', collection: @answers
 
-    .container.bg-secondary.p-2 style="--bs-bg-opacity: .15"
-      = render 'form_answer'
+  .container.bg-secondary.p-2 style="--bs-bg-opacity: .15"
+    = render 'form_answer'
