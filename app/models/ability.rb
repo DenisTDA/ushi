@@ -50,5 +50,7 @@ class Ability
     end
     can :create, Subscription
     can :destroy, Subscription, user: user
+    can :new, :query
+    can :search, :query
   end
 end
