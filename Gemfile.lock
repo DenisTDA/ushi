@@ -118,6 +118,8 @@ GEM
       capistrano (>= 3.9.0)
       capistrano-bundler
       sidekiq (>= 6.0)
+    capistrano3-unicorn (0.2.1)
+      capistrano (~> 3.1, >= 3.1.0)
     capybara (3.37.1)
       addressable
       matrix
@@ -461,6 +463,7 @@ DEPENDENCIES
   capistrano-rails
   capistrano-rvm
   capistrano-sidekiq
+  capistrano3-unicorn
   capybara (>= 3.26)
   capybara-email
   cocoon
