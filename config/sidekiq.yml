@@ -1,3 +1,0 @@
-production:
-  pidfile: ~/ushi/shared/tmp/pids/sidekiq-0.pid
-  concurrency: 50
