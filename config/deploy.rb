@@ -10,6 +10,7 @@ set :branch, "main"
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/home/deployer/ushi"
 set :deploy_user, 'deployer'
+set :pty, false
 # Default value for :format is :airbrussh.
 # set :format, :airbrussh
 
@@ -47,16 +48,6 @@ namespace :deploy do
       within release_path do
         execute("cd #{release_path} && yarn install --silent --no-progress --no-audit --no-optional")
       end
-    end
-  end
-end
-
-after :deploy, "deploy:sidekiq_restart"
-namespace :deploy do
-  desc 'Sidekiq restart'
-  task :sidekiq_restart do
-    on roles(:app) do
-      execute :sudo, :systemctl, :restart, :sidekiq
     end
   end
 end
