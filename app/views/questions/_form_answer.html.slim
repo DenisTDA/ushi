@@ -1,22 +1,22 @@
-      = form_with model: [@question, @answer], class: 'new-answer pb-2 my-3', local: false do |f|
-        .container
-          .row.m-1
-            .container.col-7
-              = f.label :body, 'Your answer', class: "form-label m-2"
-              = f.text_area :body , class: "form-control"
-            .container.col-5.position-relative
-              = f.label :files, class: "form-label"
-              = f.file_field :files, multiple: true, class: "form-control answer-files position-absolute bottom-0 end-0"
-          .row.m-1
-            .container.col-2
-            .container.col-8
-              .links-add.input-group
-                =f.fields_for :links do |link| 
-                  =render 'shared/link_fields', f: link
-              = link_to_add_association 'add link', f, :links, 
-                class: 'btn btn-primary', partial: 'shared/link_fields',
-                data: { association_insertion_node: '.links-add', 
-                association_insertion_method: :append } 
-            .container.col-2
+= form_with model: [@question, @answer], class: 'new-answer pb-2 my-3', local: false do |f|
+  .container
+    .row.m-1
+      .container.col-7
+        = f.label :body, 'Your answer', class: "form-label m-2"
+        = f.text_area :body , class: "form-control"
+      .container.col-5.position-relative
+        = f.label :files, class: "form-label"
+        = f.file_field :files, multiple: true, class: "form-control answer-files position-absolute bottom-0 end-0"
+    .row.m-1
+      .container.col-2
+      .container.col-8
+        .links-add.input-group
+          =f.fields_for :links do |link| 
+            =render 'shared/link_fields', f: link
+        = link_to_add_association 'add link', f, :links, 
+          class: 'btn btn-primary', partial: 'shared/link_fields',
+          data: { association_insertion_node: '.links-add', 
+          association_insertion_method: :append } 
+      .container.col-2
 
-        p= f.submit 'Answer', class: 'btn btn-success m-2'
+  p= f.submit 'Answer', class: 'btn btn-success m-2'

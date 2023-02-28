@@ -1,25 +1,20 @@
-div class="new-form"
+.containe.col-8.new-form.mx-auto.bg-primary.bg-opacity-10.p-2
   p.question-errors
     = render 'shared/errors', resource: @question
   div class="mb-5"
     =form_with model: @question, local: true do |f|
-      p class="form-label"
-        = f.label :title
-      p class="form-control"
-        = f.text_field :title
+      .container.my-3
+        = f.label :title, class: 'form-label'
+        = f.text_field :title, class: 'form-control'
  
-      p class="form-label"      
-        = f.label :body
-      p class="form-control"
-        = f.text_area :body
+        = f.label :body, class: 'form-label'
+        = f.text_area :body, class: 'form-control'
 
-      .files-block
-        p class="form-label"      
-          = f.label :files
-        p class="form-control"
-          = f.file_field :files, multiple: true
+      .container.files-block.my-3
+          = f.label :files, class: 'form-label'
+          = f.file_field :files, multiple: true, class: 'form-control'
 
-      .links-block  
+      .container.links-block  
         div class="links"
           =f.fields_for :links do |link| 
             =render 'shared/link_fields', f: link
@@ -27,12 +22,14 @@ div class="new-form"
           class: 'btn btn-primary btm-3 m-2', partial: 'shared/link_fields', 
           data: { association_insertion_node: '.links', association_insertion_method: :append } 
 
-      .meed-block.m-3
+      .container.meed-block.m-3
         = f.fields_for :meed do |m|
-          = m.label :name, 'Meed name'
-          = m.text_field :name
+          .row.col-8
+            .container.col-6
+              = m.label :name, 'Meed name'
+              = m.text_field :name
+            .container.col-6
+              = m.label :img, 'Image'
+              = m.file_field :img, accept: 'image/png,image/gif,image/jpeg'
 
-          = m.label :img, 'Image'
-          = m.file_field :img, accept: 'image/png,image/gif,image/jpeg'
-
-      p= f.submit 'Publish', class: 'btn btn-success m-2'
+      p= f.submit 'Publish', class: 'btn btn-success m-4 '
