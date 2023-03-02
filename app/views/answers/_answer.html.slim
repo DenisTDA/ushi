@@ -2,50 +2,50 @@ span id="answer-block-#{answer.id}"
   -@inner = answer 
   .border.border-primary.border-start-0.rounded-end.p-2.m-2    
     span id="answer-errors-#{answer.id}"
-    
-    .row
-      .container.col-1
-      -if answer.selected
-        .container.col-8.mx-auto.bg-success.bg-opacity-10.border.border-info.border-end-0.rounded-start
-          br <b>Best answer</b>
-          =render 'shared/inner'        
-      -else
-        .container.col-8.mx-auto.bg-warning.bg-opacity-10.border.border-info.border-end-0.rounded-start  
-          =render 'shared/inner'
-      .container.col-1
-      .container.col-2.mx-auto.vote-block 
-        = render partial: 'shared/rating', locals: { voteable: answer} 
-        = render partial: 'shared/vote', locals: { voteable: answer}
+    - cache answer do
+      .row
+        .container.col-1
+        -if answer.selected
+          .container.col-8.mx-auto.bg-success.bg-opacity-10.border.border-info.border-end-0.rounded-start
+            br <b>Best answer</b>
+            =render 'shared/inner'        
+        -else
+          .container.col-8.mx-auto.bg-warning.bg-opacity-10.border.border-info.border-end-0.rounded-start  
+            =render 'shared/inner'
+        .container.col-1
+        .container.col-2.mx-auto.vote-block 
+          = render partial: 'shared/rating', locals: { voteable: answer} 
+          = render partial: 'shared/vote', locals: { voteable: answer}
 
-    .container.form-edit.bg-secondary style="--bs-bg-opacity: .15"
-      = form_with model: answer, class: 'hidden p-2 m-2', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
-        div
-          = f.label :body, 'Your answer', class: "form-label"
-          p= f.text_area :body, class: "form-control form-control-sm m-2"
-        div
-          = f.label :files, class: "form-label"
-          p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
+      .container.form-edit.bg-secondary style="--bs-bg-opacity: .15"
+        = form_with model: answer, class: 'hidden p-2 m-2', html: { id: "edit-answer-#{answer.id}" }, local: false do |f|
+          div
+            = f.label :body, 'Your answer', class: "form-label"
+            p= f.text_area :body, class: "form-control form-control-sm m-2"
+          div
+            = f.label :files, class: "form-label"
+            p= f.file_field :files, multiple: true, class: "form-control form-control-sm m-2"
 
-        div class="links-add"
-          =f.fields_for :links do |link| 
-            =render 'shared/link_fields', f: link
-        = link_to_add_association 'add link', f, :links, 
-          class: 'btn btn-primary m-2', partial: 'shared/link_fields',
-          data: { association_insertion_node: '.links-add', 
-          association_insertion_method: :append } 
-        p= f.submit 'Save', class: 'btn btn-light'
+          div class="links-add"
+            =f.fields_for :links do |link| 
+              =render 'shared/link_fields', f: link
+          = link_to_add_association 'add link', f, :links, 
+            class: 'btn btn-primary m-2', partial: 'shared/link_fields',
+            data: { association_insertion_node: '.links-add', 
+            association_insertion_method: :append } 
+          p= f.submit 'Save', class: 'btn btn-light'
 
-    .row
-      .container.col-1
-      .container.col-11.mx-auto    
-        =render 'answers/nav'
+      .row
+        .container.col-1
+        .container.col-11.mx-auto    
+          =render 'answers/nav'
 
-    .row.answer-comments.m-2
-      .container.col-2
-      .container.mx-auto.col-7.py-2
-        div class ="comments-answer-#{ answer.id }"
-          h6 Comments
-          = render  "shared/comment_form", commentable: answer
-          .comments.mx-auto
-            = render partial: "/shared/comment", collection: answer.comments
+      .row.answer-comments.m-2
+        .container.col-2
+        .container.mx-auto.col-7.py-2
+          div class ="comments-answer-#{ answer.id }"
+            h6 Comments
+            = render  "shared/comment_form", commentable: answer
+            .comments.mx-auto
+              = render partial: "/shared/comment", collection: answer.comments
 

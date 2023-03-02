@@ -1,33 +1,33 @@
-.vote-block.mx-auto
-  - if current_user && !current_user&.author?(voteable)
-    .voted-sign.gap-1.col-2.mx-auto
-      = current_user.status_vote(voteable) if !current_user.able_to_vote?(voteable) 
+  .vote-block.mx-auto
+    - if current_user && !current_user&.author?(voteable)
+      .voted-sign.gap-1.col-2.mx-auto
+        = current_user.status_vote(voteable) if !current_user.able_to_vote?(voteable) 
 
-    .links-vote.d-grid.gap-1.col-10.mx-auto
-      -if current_user&.able_to_vote?(voteable)
-        div class='useful-div'
-          =link_to "\u2705 useful", [voteable, vote_new(voteable), vote: {useful: true}], method: :post, 
-            remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useful-link col-8 btn btn-dark btn-sm'
-      -else
-        div class='useful-div hidden'
-          =link_to "\u2705 useful", [voteable, vote_new(voteable), vote: {useful: true}], method: :post, 
-            remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useful-link col-8 btn btn-dark btn-sm'
+      .links-vote.d-grid.gap-1.col-10.mx-auto
+        -if current_user&.able_to_vote?(voteable)
+          div class='useful-div'
+            =link_to "\u2705 useful", [voteable, vote_new(voteable), vote: {useful: true}], method: :post, 
+              remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useful-link col-8 btn btn-dark btn-sm'
+        -else
+          div class='useful-div hidden'
+            =link_to "\u2705 useful", [voteable, vote_new(voteable), vote: {useful: true}], method: :post, 
+              remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useful-link col-8 btn btn-dark btn-sm'
 
-      -if current_user&.able_to_vote?(voteable)
-        div class='useless-div'
-          =link_to "\u26D4 useless", [voteable, vote_new(voteable), vote: {useful: false}], method: :post, 
-            remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useless-link col-8 btn btn-dark btn-sm'
-      -else
-        div class='useless-div hidden'
-          =link_to "\u26D4 useless", [voteable, vote_new(voteable), vote: {useful: false}], method: :post, 
-            remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useless-link col-8 btn btn-dark btn-sm'
+        -if current_user&.able_to_vote?(voteable)
+          div class='useless-div'
+            =link_to "\u26D4 useless", [voteable, vote_new(voteable), vote: {useful: false}], method: :post, 
+              remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useless-link col-8 btn btn-dark btn-sm'
+        -else
+          div class='useless-div hidden'
+            =link_to "\u26D4 useless", [voteable, vote_new(voteable), vote: {useful: false}], method: :post, 
+              remote: true, form: { data: :json }, data: { id: voteable.id }, class: 'useless-link col-8 btn btn-dark btn-sm'
 
-      -if current_user&.able_to_vote?(voteable)
-        div class='reset-div hidden'
-          =link_to "\u274C reset", current_user.load_vote(voteable), method: :delete, 
-            remote: true, data: {type: :json,  id: voteable.id }, class: 'reset-link col-8 btn btn-dark btn-sm'
-      -else
-        div class='reset-div'
-          =link_to "\u274C reset", current_user.load_vote(voteable), method: :delete, 
-            remote: true, data: {type: :json,  id: voteable.id }, class: 'reset-link col-8 btn btn-dark btn-sm'
-  
+        -if current_user&.able_to_vote?(voteable)
+          div class='reset-div hidden'
+            =link_to "\u274C reset", current_user.load_vote(voteable), method: :delete, 
+              remote: true, data: {type: :json,  id: voteable.id }, class: 'reset-link col-8 btn btn-dark btn-sm'
+        -else
+          div class='reset-div'
+            =link_to "\u274C reset", current_user.load_vote(voteable), method: :delete, 
+              remote: true, data: {type: :json,  id: voteable.id }, class: 'reset-link col-8 btn btn-dark btn-sm'
+    
